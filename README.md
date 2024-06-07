@@ -14,7 +14,7 @@ Requirements
 Ensure you have the following prerequisites installed:
 
 Python 3.8.0 (64-bit)
-Required libraries: see document req_lib
+Required libraries: see requirements.txt
 
 You can install the required libraries using pip:
 pip install yfinance pandas numpy matplotlib scikit-learn tensorflow scikeras ta skopt

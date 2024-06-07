@@ -1,4 +1,4 @@
-#READ ME: This one is nutty and crashes
+#READ ME: This one not compiling
 
 import yfinance as yf
 import pandas as pd

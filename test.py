@@ -1,3 +1,6 @@
+# Runs, slow but finished. speed can be imporved by reducing the number of epochs and the number of features. But
+# this has the capacity to reduce accuracy.
+
 import yfinance as yf
 import pandas as pd
 import numpy as np

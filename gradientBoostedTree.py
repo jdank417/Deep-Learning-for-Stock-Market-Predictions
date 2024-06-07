@@ -1,3 +1,6 @@
+# It runs but the preiction is not accurate. The model needs to be improved.
+
+
 import yfinance as yf
 import pandas as pd
 import numpy as np

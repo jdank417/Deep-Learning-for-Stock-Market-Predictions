@@ -1,3 +1,5 @@
+#Implmentation of Gradient Boosted Trees for Stock Price Prediction
+
 import yfinance as yf
 import pandas as pd
 import numpy as np
@@ -13,7 +15,6 @@ from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
 from ta.momentum import RSIIndicator
 from ta.trend import MACD
 from ta.volatility import BollingerBands
-import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 import pandas_datareader.data as web
 import requests
@@ -159,7 +160,7 @@ def stock_market_analysis(stock_ticker, start_date="2010-01-01", end_date=None, 
 
     # Splitting data into train and test sets
     train_size = int(len(X_imputed) * (1 - test_ratio))
-    X_train, X_test = X_imputed[:train_size], X_imputed[train_size:]
+    x_train, x_test = X_imputed[:train_size], X_imputed[train_size:]
     y_train, y_test = y[:train_size], y[train_size:]
 
     # Step 5: Model Selection and Hyperparameter Tuning
@@ -192,9 +193,9 @@ def stock_market_analysis(stock_ticker, start_date="2010-01-01", end_date=None, 
         model = model_params['model']
         params = model_params['params']
         grid_search = GridSearchCV(estimator=model, param_grid=params, cv=5, n_jobs=-1)
-        grid_search.fit(X_train, y_train)
+        grid_search.fit(x_train, y_train)
         best_model = grid_search.best_estimator_
-        scores[name] = cross_val_score(best_model, X_train, y_train, cv=5, scoring='neg_mean_squared_error')
+        scores[name] = cross_val_score(best_model, x_train, y_train, cv=5, scoring='neg_mean_squared_error')
 
     best_model_name = min(scores, key=lambda k: scores[k].mean())
     best_model = models[best_model_name]['model']
@@ -217,16 +218,16 @@ def stock_market_analysis(stock_ticker, start_date="2010-01-01", end_date=None, 
     best_model.set_params(**best_params)
     print("Parameters set successfully.")
 
-    best_model.fit(X_train, y_train)
+    best_model.fit(x_train, y_train)
 
     # Cross-validation
-    cv_scores = cross_val_score(best_model, X_train, y_train, cv=5, scoring='neg_mean_squared_error')
+    cv_scores = cross_val_score(best_model, x_train, y_train, cv=5, scoring='neg_mean_squared_error')
     print(f"Cross-Validation Scores: {cv_scores}")
     print(f"Mean Cross-Validation Score: {cv_scores.mean()}")
 
     # Step 7: Make Predictions
-    y_pred_train = best_model.predict(X_train)
-    y_pred_test = best_model.predict(X_test)
+    y_pred_train = best_model.predict(x_train)
+    y_pred_test = best_model.predict(x_test)
 
     # Calculate evaluation metrics
     train_mse = mean_squared_error(y_train, y_pred_train)

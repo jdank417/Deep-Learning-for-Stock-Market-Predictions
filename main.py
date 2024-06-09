@@ -1,3 +1,5 @@
+# "Simple" Implementation of Stock Market Analysis using LSTM Neural Networks
+
 import yfinance as yf
 import pandas as pd
 import numpy as np

@@ -7,7 +7,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM, Dropout, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
-
 def create_model(lstm_units=100, conv_filters=64, conv_kernel_size=3, dropout_rate=0.3, time_steps=60, num_features=4):
     model = Sequential()
     model.add(Conv1D(filters=conv_filters, kernel_size=conv_kernel_size, activation='relu',
@@ -21,15 +20,12 @@ def create_model(lstm_units=100, conv_filters=64, conv_kernel_size=3, dropout_ra
     model.compile(optimizer='adam', loss='mean_squared_error')
     return model
 
-
 def add_technical_indicators(data):
-    data = data.copy()  # Make an explicit copy of the DataFrame slice
+    data = data.copy()
     data['MA20'] = data['Close'].rolling(window=20).mean()
     data['MA50'] = data['Close'].rolling(window=50).mean()
-    data['Volume'] = data['Volume'].astype(float)  # Ensure volume is float
     data.dropna(inplace=True)
     return data
-
 
 def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio=0.2, future_days=30):
     # Download stock data
@@ -45,6 +41,10 @@ def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio=0.2, future_day
     # Scale the data
     scaler = MinMaxScaler(feature_range=(0, 1))
     scaled_data = scaler.fit_transform(stock_data)
+
+    # Print the scaled data shape and a sample
+    print("Scaled data shape:", scaled_data.shape)
+    print("Scaled data sample:", scaled_data[:5])
 
     # Prepare the dataset
     time_steps = 60
@@ -114,6 +114,11 @@ def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio=0.2, future_day
 
     # Predict future stock prices
     last_sequence = scaled_data[-time_steps:]
+
+    # Print initial last_sequence
+    print("Initial last_sequence shape:", last_sequence.shape)
+    print("Initial last_sequence sample:", last_sequence[:5])
+
     future_predictions = []
 
     for _ in range(future_days):
@@ -122,33 +127,46 @@ def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio=0.2, future_day
         next_prediction_full = np.concatenate((next_prediction, np.zeros((1, num_features - 1))), axis=1)
         last_sequence = np.append(last_sequence[1:], next_prediction_full, axis=0)
 
+        # Print updated last_sequence during each iteration
+        print("Updated last_sequence shape during iteration:", last_sequence.shape)
+        print("Updated last_sequence sample during iteration:", last_sequence[-5:])
+
     # Convert future_predictions to a NumPy array
     future_predictions = np.array(future_predictions)
+
+    # Print future_predictions before rescaling
+    print("Future predictions before rescaling:", future_predictions)
 
     # Rescale future predictions
     future_predictions = scaler.inverse_transform(
         np.concatenate((future_predictions.reshape(-1, 1), np.zeros((future_predictions.shape[0], num_features - 1))),
                        axis=1))[:, 0]
 
+    # Print future_predictions after rescaling
+    print("Future predictions after rescaling:", future_predictions)
+
     # Extend the stock_data index for future dates
     last_date = stock_data.index[-1]
     future_dates = pd.date_range(last_date, periods=future_days + 1)[1:]
+
+    # Create a DataFrame for the future predictions
+    future_predictions_df = pd.DataFrame(future_predictions, index=future_dates, columns=['Future Predictions'])
 
     # Plot the results
     plt.figure(figsize=(12, 6))
     plt.plot(stock_data['Close'], color='blue', label='Actual Stock Price')
     plt.plot(pd.DataFrame(predictions_full, index=stock_data.index), color='orange', label='Predicted Stock Price')
+    plt.plot(future_predictions_df.index, future_predictions_df['Future Predictions'], color='red', linestyle='--',
+             label='Future Predictions')
     plt.fill_between(stock_data.index[train_size + time_steps:],
                      stock_data['Close'].values[train_size + time_steps:].flatten(),
-                     predictions.flatten(), color='orange', alpha=0.3)
-    plt.plot(future_dates, future_predictions, color='red', linestyle='--', label='Future Predictions')
+                     predictions_full[train_size + time_steps:].flatten(), color='orange', alpha=0.3)
     plt.title(f'{stock_symbol} Stock Price Prediction with CNN-LSTM')
     plt.xlabel('Time')
     plt.ylabel('Stock Price')
     plt.legend()
     plt.grid(True)
     plt.show()
-
 
 # Call the function with the stock symbol, desired test ratio, and future days to predict
 stock_market_analysis_with_cnn_lstm('NVDA', test_ratio=0.3, future_days=30)

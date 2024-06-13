@@ -1,57 +1,60 @@
-**Stock Market Prediction Program**
-Welcome to the Stock Market Prediction Program!
+**Deep Learning Analysis with CNN-LSTM for Stock Market Predictions**
 
-This project leverages machine learning techniques to predict stock market movements using tools and libraries including TensorFlow, Scikit-learn, and various technical analysis indicators. The program retrieves historical stock data, preprocesses it, and applies an LSTM neural network for predictions.
+This project implements a Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM) model to predict stock prices. The model uses historical stock data, along with technical indicators, to forecast future stock prices.
 
-Features
-Stock Data Retrieval: Downloads historical stock data using the yfinance library.
-Technical Indicators: Calculates RSI, MACD, Bollinger Bands, and moving averages.
-Data Visualization: Plots historical closing prices and predictions.
-Risk Analysis: Computes annualized volatility and Sharpe ratio.
-LSTM Model: Implements an LSTM neural network with hyperparameter tuning using Bayesian optimization.
-Model Persistence: Saves the best model and predictions for future use.
-Requirements
-Ensure you have the following prerequisites installed:
-
-Python 3.8.0 (64-bit)
-Required libraries: see requirements.txt
-
-You can install the required libraries using pip:
-pip install yfinance pandas numpy matplotlib scikit-learn tensorflow scikeras ta skopt
-
-**Implementation Details**
-The script performs the following steps:
-
-Data Retrieval:
-
-Downloads historical stock data and benchmark data.
-Fills missing values and calculates additional features like rate of return, RSI, MACD, Bollinger Bands, and moving averages.
-Data Visualization:
-
-Plots historical closing prices.
-Risk Analysis:
-
-Calculates annualized volatility and Sharpe ratio.
-Data Preparation:
-
-Scales the data using MinMaxScaler.
-Splits the data into training and testing sets.
-Model Definition:
-
-Defines an LSTM neural network model using TensorFlow and Keras.
-Hyperparameter Tuning:
-
-It uses Bayesian optimization to tune hyperparameters.
-Model Training:
-
-Trains the final model with the best hyperparameters.
-Saves the model architecture and weights.
-Predictions:
-
-Makes predictions on the test set.
-Plots the predicted vs. actual prices.
-Notes
-It is recommended to use the 64-bit version of Python 3.8.0 to avoid potential compatibility issues.
-The hyperparameter tuning process can be time-consuming and may require significant computational resources.
+**Features:**
+Data Retrieval: Fetches historical stock data using the yfinance library.
+Technical Indicators: Adds moving averages (MA20, MA50) as features to the dataset.
+Data Preprocessing: Scales the data using MinMaxScaler and creates datasets for model training.
+Model Architecture: Combines CNN and LSTM layers to capture the data's spatial and temporal dependencies.
 
 
+
+**Training Strategy:**
+Interpolation: Pre-trains the model for predicting within the known historical data.
+Extrapolation: Fine-tunes the model for predicting future stock prices.
+Predictions: Predict both historical and future stock prices.
+
+
+**Installation:**
+Clone the Repository
+Clone the repository from GitHub and navigate into the project directory:
+Ensure Python is installed on your system. Install the required packages using pip:
+**pip install -r requirements.txt**
+
+
+**Usage:**
+Import Required Modules
+Import libraries such as yfinance for data retrieval, numpy and pandas for data manipulation, matplotlib for plotting, scikit-learn for data preprocessing, and tensorflow for building and training the model.
+
+**Define Model Architecture:**
+Create a model that integrates CNN and LSTM layers to capture spatial features from the convolutional layers and temporal dependencies from the LSTM layers.
+
+**Add Technical Indicators:**
+Enhance the dataset by adding moving averages (MA20 and MA50) to provide additional features that help the model understand market trends.
+
+**Data Preprocessing:**
+Scale the data using MinMaxScaler to normalize the feature values. Create datasets for model training, including input sequences and corresponding target values.
+
+
+**Training Strategy:**
+Interpolation: Pre-train the model to predict within the known historical data.
+Split the data into training and validation sets for this purpose.
+Use callbacks for early stopping and model checkpointing to optimize training.
+Extrapolation: Fine-tune the model to predict future values.
+Load pre-trained weights from the interpolation step.
+Train the model on a dataset split into training and test sets.
+
+
+**Predictions:**
+Make predictions on the test dataset to evaluate the model's performance on historical data.
+Generate future stock price predictions using the trained model.
+
+
+**Plotting Results:**
+Visualize the actual and predicted stock prices using line plots. Highlight future predictions to differentiate them from historical predictions.
+
+
+**Example Use Case:**
+To run the stock market analysis, specify the stock symbol, the ratio of test data, and the number of future days to predict. The function will download the stock data, preprocess it, train the model, and generate predictions. The results will be plotted for easy visualization.
+**run_stock_analysis(stock_symbol='AAPL', test_ratio=0.2, future_days=30)**

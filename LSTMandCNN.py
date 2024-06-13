@@ -92,7 +92,7 @@ def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio, future_days):
 
     # Define callbacks for interpolation
     model_checkpoint_callback_interp = ModelCheckpoint(
-        filepath='interpolation_model_weights.h5',
+        filepath='Utils/interpolation_model_weights.h5',
         save_best_only=True,
         monitor='val_loss',
         mode='min'
@@ -117,7 +117,7 @@ def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio, future_days):
 
     # Define callbacks for extrapolation
     model_checkpoint_callback_extrap = ModelCheckpoint(
-        filepath='extrapolation_model_weights.h5',
+        filepath='Utils/extrapolation_model_weights.h5',
         save_best_only=True,
         monitor='val_loss',
         mode='min'

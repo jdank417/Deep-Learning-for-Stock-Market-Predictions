@@ -1,3 +1,10 @@
+# This script provides a comprehensive pipeline for stock price prediction,
+# integrating CNN for feature extraction and LSTM for sequence modeling,
+# demonstrating a hybrid approach to capture both spatial and temporal patterns in stock data.
+# Adjustments can be made to hyperparameters, model architecture, or data preprocessing steps
+# based on specific requirements or performance evaluations.
+
+
 import os
 import yfinance as yf
 import numpy as np
@@ -45,7 +52,7 @@ def create_dataset(data, time_steps):
         y.append(data[i, 0])  # Predict 'Close' price
     return np.array(X), np.array(y)
 
-def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio=0.2, future_days=30):
+def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio, future_days):
     logger.info(f"Starting analysis for stock symbol: {stock_symbol}")
     logger.info(f"Test ratio: {test_ratio}, Future days: {future_days}")
 
@@ -200,4 +207,4 @@ def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio=0.2, future_day
     plt.show()
 
 # Call the function with the stock symbol, desired test ratio, and future days to predict
-stock_market_analysis_with_cnn_lstm('NVDA', test_ratio=0.3, future_days=30)
+stock_market_analysis_with_cnn_lstm('NVDA', test_ratio=0.2, future_days=30)

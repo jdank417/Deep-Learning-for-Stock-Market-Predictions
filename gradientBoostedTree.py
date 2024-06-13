@@ -1,4 +1,6 @@
-#Implmentation of Gradient Boosted Trees for Stock Price Prediction
+# Implmentation of Gradient Boosted Trees for Stock Price Prediction,
+# this implementation has many other features and can be used as inspiration
+# for future platform elements
 
 import yfinance as yf
 import pandas as pd

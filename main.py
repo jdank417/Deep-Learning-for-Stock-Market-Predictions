@@ -1,4 +1,4 @@
-# "Simple" Implementation of Stock Market Analysis using LSTM Neural Networks
+# "Simple" Implementation of Stock Market Analysis using LSTM Neural Networks. Used for reference in the main.py file.
 
 import yfinance as yf
 import pandas as pd
@@ -117,4 +117,4 @@ def stock_market_analysis(stock_ticker, start_date="2010-01-01", end_date="2024-
     plt.show()
 
 # Example usage:
-stock_market_analysis('NVDA', test_ratio=0.05)
+stock_market_analysis('NVDA', test_ratio=0.5)

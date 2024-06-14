@@ -1,0 +1,348 @@
+2024-06-14 08:37:55,441 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 08:37:55,441 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 08:37:55,441 - INFO - Downloading stock data for AAPL
+2024-06-14 08:37:55,900 - INFO - Downloaded data shape: (3522, 6)
+2024-06-14 08:37:55,901 - INFO - Adding technical indicators
+2024-06-14 08:37:55,904 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-14 08:37:55,904 - INFO - Scaling the data
+2024-06-14 08:37:55,906 - INFO - Data scaled successfully
+2024-06-14 08:37:55,906 - INFO - Preparing dataset
+2024-06-14 08:37:55,913 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-14 08:37:55,915 - INFO - Fitting Gaussian Process Regression
+2024-06-14 08:37:55,924 - INFO - initializing Y
+2024-06-14 08:37:55,924 - INFO - initializing inference method
+2024-06-14 08:37:55,924 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:39:24,874 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 08:39:24,874 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 08:39:24,874 - INFO - Downloading stock data for AAPL
+2024-06-14 08:39:25,419 - INFO - Downloaded data shape: (3522, 6)
+2024-06-14 08:39:25,421 - INFO - Adding technical indicators
+2024-06-14 08:39:25,423 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-14 08:39:25,423 - INFO - Scaling the data
+2024-06-14 08:39:25,428 - INFO - Data scaled successfully
+2024-06-14 08:39:25,428 - INFO - Preparing dataset
+2024-06-14 08:39:25,438 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-14 08:39:25,438 - INFO - Fitting Gaussian Process Regression
+2024-06-14 08:39:25,444 - INFO - initializing Y
+2024-06-14 08:39:25,444 - INFO - initializing inference method
+2024-06-14 08:39:25,444 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:53:23,513 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 08:53:23,514 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 08:53:23,514 - INFO - Downloading stock data for AAPL
+2024-06-14 08:53:24,058 - INFO - Downloaded data shape: (3522, 6)
+2024-06-14 08:53:24,059 - INFO - Adding technical indicators
+2024-06-14 08:53:24,063 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-14 08:53:24,063 - INFO - Scaling the data
+2024-06-14 08:53:24,066 - INFO - Data scaled successfully
+2024-06-14 08:53:24,066 - INFO - Preparing dataset
+2024-06-14 08:53:24,074 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-14 08:53:24,074 - INFO - Fitting Gaussian Process Regression in batches
+2024-06-14 08:53:24,074 - INFO - Fitting batch 1
+2024-06-14 08:53:24,085 - INFO - initializing Y
+2024-06-14 08:53:24,085 - INFO - initializing inference method
+2024-06-14 08:53:24,085 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:53:32,792 - INFO - Fitting batch 2
+2024-06-14 08:53:32,801 - INFO - initializing Y
+2024-06-14 08:53:32,801 - INFO - initializing inference method
+2024-06-14 08:53:32,801 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:53:42,799 - INFO - Fitting batch 3
+2024-06-14 08:53:42,805 - INFO - initializing Y
+2024-06-14 08:53:42,805 - INFO - initializing inference method
+2024-06-14 08:53:42,805 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:53:57,712 - INFO - Fitting batch 4
+2024-06-14 08:53:57,718 - INFO - initializing Y
+2024-06-14 08:53:57,718 - INFO - initializing inference method
+2024-06-14 08:53:57,718 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:54:12,684 - INFO - Fitting batch 5
+2024-06-14 08:54:12,692 - INFO - initializing Y
+2024-06-14 08:54:12,692 - INFO - initializing inference method
+2024-06-14 08:54:12,692 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:54:25,127 - INFO - Fitting batch 6
+2024-06-14 08:54:25,130 - INFO - initializing Y
+2024-06-14 08:54:25,131 - INFO - initializing inference method
+2024-06-14 08:54:25,131 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:54:40,501 - INFO - Fitting batch 7
+2024-06-14 08:54:40,507 - INFO - initializing Y
+2024-06-14 08:54:40,508 - INFO - initializing inference method
+2024-06-14 08:54:40,508 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:54:56,117 - INFO - Fitting batch 8
+2024-06-14 08:54:56,121 - INFO - initializing Y
+2024-06-14 08:54:56,121 - INFO - initializing inference method
+2024-06-14 08:54:56,121 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:55:11,712 - INFO - Fitting batch 9
+2024-06-14 08:55:11,716 - INFO - initializing Y
+2024-06-14 08:55:11,716 - INFO - initializing inference method
+2024-06-14 08:55:11,716 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:55:27,116 - INFO - Fitting batch 10
+2024-06-14 08:55:27,120 - INFO - initializing Y
+2024-06-14 08:55:27,120 - INFO - initializing inference method
+2024-06-14 08:55:27,120 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:55:42,922 - INFO - Fitting batch 11
+2024-06-14 08:55:42,927 - INFO - initializing Y
+2024-06-14 08:55:42,927 - INFO - initializing inference method
+2024-06-14 08:55:42,927 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:55:58,314 - INFO - Fitting batch 12
+2024-06-14 08:55:58,319 - INFO - initializing Y
+2024-06-14 08:55:58,319 - INFO - initializing inference method
+2024-06-14 08:55:58,319 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:56:13,819 - INFO - Fitting batch 13
+2024-06-14 08:56:13,824 - INFO - initializing Y
+2024-06-14 08:56:13,824 - INFO - initializing inference method
+2024-06-14 08:56:13,824 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:56:21,987 - INFO - Fitting batch 14
+2024-06-14 08:56:21,992 - INFO - initializing Y
+2024-06-14 08:56:21,993 - INFO - initializing inference method
+2024-06-14 08:56:21,993 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:56:32,376 - INFO - Fitting batch 15
+2024-06-14 08:56:32,380 - INFO - initializing Y
+2024-06-14 08:56:32,380 - INFO - initializing inference method
+2024-06-14 08:56:32,380 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:56:47,912 - INFO - Fitting batch 16
+2024-06-14 08:56:47,915 - INFO - initializing Y
+2024-06-14 08:56:47,916 - INFO - initializing inference method
+2024-06-14 08:56:47,916 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:57:03,484 - INFO - Fitting batch 17
+2024-06-14 08:57:03,488 - INFO - initializing Y
+2024-06-14 08:57:03,488 - INFO - initializing inference method
+2024-06-14 08:57:03,488 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:57:19,077 - INFO - Fitting batch 18
+2024-06-14 08:57:19,081 - INFO - initializing Y
+2024-06-14 08:57:19,081 - INFO - initializing inference method
+2024-06-14 08:57:19,081 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:57:34,548 - INFO - Fitting batch 19
+2024-06-14 08:57:34,552 - INFO - initializing Y
+2024-06-14 08:57:34,552 - INFO - initializing inference method
+2024-06-14 08:57:34,552 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:57:49,939 - INFO - Fitting batch 20
+2024-06-14 08:57:49,944 - INFO - initializing Y
+2024-06-14 08:57:49,944 - INFO - initializing inference method
+2024-06-14 08:57:49,944 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:57:57,509 - INFO - Fitting batch 21
+2024-06-14 08:57:57,513 - INFO - initializing Y
+2024-06-14 08:57:57,513 - INFO - initializing inference method
+2024-06-14 08:57:57,514 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:58:13,085 - INFO - Fitting batch 22
+2024-06-14 08:58:13,090 - INFO - initializing Y
+2024-06-14 08:58:13,090 - INFO - initializing inference method
+2024-06-14 08:58:13,090 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:58:26,039 - INFO - Fitting batch 23
+2024-06-14 08:58:26,043 - INFO - initializing Y
+2024-06-14 08:58:26,043 - INFO - initializing inference method
+2024-06-14 08:58:26,043 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:58:41,692 - INFO - Fitting batch 24
+2024-06-14 08:58:41,696 - INFO - initializing Y
+2024-06-14 08:58:41,697 - INFO - initializing inference method
+2024-06-14 08:58:41,697 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:58:57,241 - INFO - Fitting batch 25
+2024-06-14 08:58:57,244 - INFO - initializing Y
+2024-06-14 08:58:57,244 - INFO - initializing inference method
+2024-06-14 08:58:57,244 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:59:03,825 - INFO - Fitting batch 26
+2024-06-14 08:59:03,829 - INFO - initializing Y
+2024-06-14 08:59:03,829 - INFO - initializing inference method
+2024-06-14 08:59:03,829 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:59:19,357 - INFO - Fitting batch 27
+2024-06-14 08:59:19,362 - INFO - initializing Y
+2024-06-14 08:59:19,362 - INFO - initializing inference method
+2024-06-14 08:59:19,362 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:59:29,973 - INFO - Fitting batch 28
+2024-06-14 08:59:29,977 - INFO - initializing Y
+2024-06-14 08:59:29,977 - INFO - initializing inference method
+2024-06-14 08:59:29,978 - INFO - adding kernel and likelihood as parameters
+2024-06-14 08:59:31,019 - INFO - Making predictions with Gaussian Process Regression
+2024-06-14 08:59:31,342 - INFO - Gaussian Process Regression MSE: 0.6397661923602611
+2024-06-14 08:59:31,343 - INFO - Predicting future stock prices
+2024-06-14 09:07:06,544 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 09:07:06,544 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 09:07:06,544 - INFO - Downloading stock data for AAPL
+2024-06-14 09:07:06,999 - INFO - Downloaded data shape: (3522, 6)
+2024-06-14 09:07:07,001 - INFO - Adding technical indicators
+2024-06-14 09:07:07,004 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-14 09:07:07,004 - INFO - Scaling the data
+2024-06-14 09:07:07,006 - INFO - Data scaled successfully
+2024-06-14 09:07:07,006 - INFO - Preparing dataset
+2024-06-14 09:07:07,012 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-14 09:07:07,012 - INFO - Fitting Gaussian Process Regression
+2024-06-14 09:07:07,017 - INFO - initializing Y
+2024-06-14 09:07:07,018 - INFO - initializing inference method
+2024-06-14 09:07:07,018 - INFO - adding kernel and likelihood as parameters
+2024-06-14 09:18:44,902 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 09:18:44,902 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 09:18:44,903 - INFO - Downloading stock data for AAPL
+2024-06-14 09:18:45,406 - INFO - Downloaded data shape: (3522, 6)
+2024-06-14 09:18:45,407 - INFO - Adding technical indicators
+2024-06-14 09:18:45,409 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-14 09:18:45,409 - INFO - Scaling the data
+2024-06-14 09:18:45,411 - INFO - Data scaled successfully
+2024-06-14 09:18:45,412 - INFO - Preparing dataset
+2024-06-14 09:18:45,418 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-14 09:18:45,418 - INFO - Fitting Gaussian Process Regression
+2024-06-14 09:18:45,424 - INFO - initializing Y
+2024-06-14 09:18:45,424 - INFO - initializing inference method
+2024-06-14 09:18:45,424 - INFO - adding kernel and likelihood as parameters
+2024-06-14 09:29:54,076 - INFO - Making predictions with Gaussian Process Regression
+2024-06-14 09:29:54,421 - INFO - Gaussian Process Regression MSE: 0.6345875207033808
+2024-06-14 09:29:54,421 - INFO - Predicting future stock prices
+2024-06-14 09:29:54,430 - ERROR - An error occurred during Gaussian Process Regression: setting an array element with a sequence. The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (1, 2) + inhomogeneous part.
+2024-06-14 09:39:57,676 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 09:39:57,677 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 09:39:57,677 - INFO - Downloading stock data for AAPL
+2024-06-14 09:39:58,166 - INFO - Downloaded data shape: (3522, 6)
+2024-06-14 09:39:58,168 - INFO - Adding technical indicators
+2024-06-14 09:39:58,171 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-14 09:39:58,171 - INFO - Scaling the data
+2024-06-14 09:39:58,174 - INFO - Data scaled successfully
+2024-06-14 09:39:58,174 - INFO - Preparing dataset
+2024-06-14 09:39:58,182 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-14 09:39:58,182 - INFO - Fitting Gaussian Process Regression
+2024-06-14 09:39:58,189 - INFO - initializing Y
+2024-06-14 09:39:58,190 - INFO - initializing inference method
+2024-06-14 09:39:58,190 - INFO - adding kernel and likelihood as parameters
+2024-06-14 09:51:03,491 - INFO - Making predictions with Gaussian Process Regression
+2024-06-14 09:51:03,773 - INFO - Gaussian Process Regression MSE: 0.6345875207033808
+2024-06-14 09:51:03,773 - INFO - Predicting future stock prices
+2024-06-14 09:51:03,785 - ERROR - An error occurred during Gaussian Process Regression: setting an array element with a sequence. The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (1, 2) + inhomogeneous part.
+2024-06-14 10:42:14,884 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 10:42:14,885 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 10:42:14,885 - INFO - Downloading stock data for AAPL
+2024-06-14 10:42:15,376 - INFO - Downloaded data shape: (1006, 6)
+2024-06-14 10:42:15,378 - INFO - Adding technical indicators
+2024-06-14 10:42:15,381 - INFO - Technical indicators added. Updated data shape: (957, 4)
+2024-06-14 10:42:15,381 - INFO - Scaling the data
+2024-06-14 10:42:15,383 - INFO - Data scaled successfully
+2024-06-14 10:42:15,383 - INFO - Preparing dataset
+2024-06-14 10:42:15,385 - INFO - Dataset prepared. X shape: (897, 60, 4), y shape: (897,)
+2024-06-14 10:42:15,385 - INFO - Fitting Gaussian Process Regression
+2024-06-14 10:42:15,393 - INFO - initializing Y
+2024-06-14 10:42:15,393 - INFO - initializing inference method
+2024-06-14 10:42:15,393 - INFO - adding kernel and likelihood as parameters
+2024-06-14 10:42:52,967 - INFO - Making predictions with Gaussian Process Regression
+2024-06-14 10:42:52,982 - INFO - Gaussian Process Regression MSE: 0.41808669986333397
+2024-06-14 10:42:52,982 - INFO - Predicting future stock prices
+2024-06-14 10:42:52,986 - ERROR - An error occurred during Gaussian Process Regression: setting an array element with a sequence. The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (1, 2) + inhomogeneous part.
+2024-06-14 10:44:23,346 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 10:44:23,347 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 10:44:23,347 - INFO - Downloading stock data for AAPL
+2024-06-14 10:44:23,738 - INFO - Downloaded data shape: (1006, 6)
+2024-06-14 10:44:23,739 - INFO - Adding technical indicators
+2024-06-14 10:44:23,741 - INFO - Technical indicators added. Updated data shape: (957, 4)
+2024-06-14 10:44:23,741 - INFO - Scaling the data
+2024-06-14 10:44:23,745 - INFO - Data scaled successfully
+2024-06-14 10:44:23,745 - INFO - Preparing dataset
+2024-06-14 10:44:23,749 - INFO - Dataset prepared. X shape: (897, 60, 4), y shape: (897,)
+2024-06-14 10:44:23,749 - INFO - Fitting Gaussian Process Regression
+2024-06-14 10:44:23,757 - INFO - initializing Y
+2024-06-14 10:44:23,757 - INFO - initializing inference method
+2024-06-14 10:44:23,757 - INFO - adding kernel and likelihood as parameters
+2024-06-14 10:45:01,197 - INFO - Making predictions with Gaussian Process Regression
+2024-06-14 10:45:01,213 - INFO - Gaussian Process Regression MSE: 0.41808669986333397
+2024-06-14 10:45:01,213 - INFO - Predicting future stock prices
+2024-06-14 10:45:01,217 - ERROR - An error occurred during Gaussian Process Regression: setting an array element with a sequence. The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (1, 2) + inhomogeneous part.
+2024-06-14 10:45:59,014 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 10:45:59,014 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 10:45:59,015 - INFO - Downloading stock data for AAPL
+2024-06-14 10:45:59,456 - INFO - Downloaded data shape: (1006, 6)
+2024-06-14 10:45:59,457 - INFO - Adding technical indicators
+2024-06-14 10:45:59,460 - INFO - Technical indicators added. Updated data shape: (957, 4)
+2024-06-14 10:45:59,460 - INFO - Scaling the data
+2024-06-14 10:45:59,464 - INFO - Data scaled successfully
+2024-06-14 10:45:59,464 - INFO - Preparing dataset
+2024-06-14 10:45:59,465 - INFO - Dataset prepared. X shape: (897, 60, 4), y shape: (897,)
+2024-06-14 10:45:59,465 - INFO - Fitting Gaussian Process Regression
+2024-06-14 10:45:59,474 - INFO - initializing Y
+2024-06-14 10:45:59,474 - INFO - initializing inference method
+2024-06-14 10:45:59,474 - INFO - adding kernel and likelihood as parameters
+2024-06-14 10:46:37,649 - INFO - Making predictions with Gaussian Process Regression
+2024-06-14 10:46:37,668 - INFO - Gaussian Process Regression MSE: 0.41808669986333397
+2024-06-14 10:46:37,668 - INFO - Predicting future stock prices
+2024-06-14 10:46:37,671 - ERROR - An error occurred during Gaussian Process Regression: setting an array element with a sequence. The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (1, 2) + inhomogeneous part.
+2024-06-14 10:47:34,598 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 10:47:34,599 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 10:47:34,599 - INFO - Downloading stock data for AAPL
+2024-06-14 10:47:34,972 - INFO - Downloaded data shape: (1006, 6)
+2024-06-14 10:47:34,973 - INFO - Adding technical indicators
+2024-06-14 10:47:34,976 - INFO - Technical indicators added. Updated data shape: (957, 4)
+2024-06-14 10:47:34,976 - INFO - Scaling the data
+2024-06-14 10:47:34,980 - INFO - Data scaled successfully
+2024-06-14 10:47:34,980 - INFO - Preparing dataset
+2024-06-14 10:47:34,981 - INFO - Dataset prepared. X shape: (897, 60, 4), y shape: (897,)
+2024-06-14 10:47:34,981 - INFO - Fitting Gaussian Process Regression
+2024-06-14 10:47:34,987 - INFO - initializing Y
+2024-06-14 10:47:34,987 - INFO - initializing inference method
+2024-06-14 10:47:34,987 - INFO - adding kernel and likelihood as parameters
+2024-06-14 10:48:12,898 - INFO - Making predictions with Gaussian Process Regression
+2024-06-14 10:48:12,919 - INFO - Gaussian Process Regression MSE: 0.41808669986333397
+2024-06-14 10:48:12,919 - INFO - Predicting future stock prices
+2024-06-14 10:48:12,922 - ERROR - An error occurred during Gaussian Process Regression: setting an array element with a sequence. The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (1, 2) + inhomogeneous part.
+2024-06-14 10:49:49,390 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 10:49:49,390 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 10:49:49,390 - INFO - Downloading stock data for AAPL
+2024-06-14 10:49:49,834 - INFO - Downloaded data shape: (1006, 6)
+2024-06-14 10:49:49,836 - INFO - Adding technical indicators
+2024-06-14 10:49:49,839 - INFO - Technical indicators added. Updated data shape: (957, 4)
+2024-06-14 10:49:49,839 - INFO - Scaling the data
+2024-06-14 10:49:49,845 - INFO - Data scaled successfully
+2024-06-14 10:49:49,846 - INFO - Preparing dataset
+2024-06-14 10:49:49,851 - INFO - Dataset prepared. X shape: (897, 60, 4), y shape: (897,)
+2024-06-14 10:49:49,851 - INFO - Fitting Gaussian Process Regression
+2024-06-14 10:49:49,862 - INFO - initializing Y
+2024-06-14 10:49:49,862 - INFO - initializing inference method
+2024-06-14 10:49:49,863 - INFO - adding kernel and likelihood as parameters
+2024-06-14 10:50:28,160 - INFO - Making predictions with Gaussian Process Regression
+2024-06-14 10:50:28,177 - INFO - Gaussian Process Regression MSE: 0.41808669986333397
+2024-06-14 10:50:28,177 - INFO - Predicting future stock prices
+2024-06-14 10:50:28,181 - ERROR - An error occurred during Gaussian Process Regression: setting an array element with a sequence. The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (1, 2) + inhomogeneous part.
+2024-06-14 10:52:07,507 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 10:52:07,507 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 10:52:07,507 - INFO - Downloading stock data for AAPL
+2024-06-14 10:52:07,919 - INFO - Downloaded data shape: (1006, 6)
+2024-06-14 10:52:07,920 - INFO - Adding technical indicators
+2024-06-14 10:52:07,926 - INFO - Technical indicators added. Updated data shape: (957, 4)
+2024-06-14 10:52:07,927 - INFO - Scaling the data
+2024-06-14 10:52:07,932 - INFO - Data scaled successfully
+2024-06-14 10:52:07,932 - INFO - Preparing dataset
+2024-06-14 10:52:07,935 - INFO - Dataset prepared. X shape: (897, 60, 4), y shape: (897,)
+2024-06-14 10:52:07,936 - INFO - Fitting Gaussian Process Regression
+2024-06-14 10:52:07,942 - INFO - initializing Y
+2024-06-14 10:52:07,942 - INFO - initializing inference method
+2024-06-14 10:52:07,942 - INFO - adding kernel and likelihood as parameters
+2024-06-14 10:52:45,847 - INFO - Making predictions with Gaussian Process Regression
+2024-06-14 10:52:45,868 - INFO - Gaussian Process Regression MSE: 0.41808669986333397
+2024-06-14 10:52:45,868 - INFO - Predicting future stock prices
+2024-06-14 10:52:45,873 - ERROR - An error occurred during Gaussian Process Regression: setting an array element with a sequence. The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (1, 2) + inhomogeneous part.
+2024-06-14 10:53:56,669 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 10:53:56,670 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 10:53:56,670 - INFO - Downloading stock data for AAPL
+2024-06-14 10:54:00,488 - INFO - Downloaded data shape: (1006, 6)
+2024-06-14 10:54:00,488 - INFO - Adding technical indicators
+2024-06-14 10:54:00,491 - INFO - Technical indicators added. Updated data shape: (957, 4)
+2024-06-14 10:54:00,491 - INFO - Scaling the data
+2024-06-14 10:54:00,493 - INFO - Data scaled successfully
+2024-06-14 10:54:00,493 - INFO - Preparing dataset
+2024-06-14 10:54:00,495 - INFO - Dataset prepared. X shape: (897, 60, 4), y shape: (897,)
+2024-06-14 10:54:00,495 - INFO - Fitting Gaussian Process Regression
+2024-06-14 10:54:00,502 - INFO - initializing Y
+2024-06-14 10:54:00,502 - INFO - initializing inference method
+2024-06-14 10:54:00,502 - INFO - adding kernel and likelihood as parameters
+2024-06-14 10:54:38,491 - INFO - Making predictions with Gaussian Process Regression
+2024-06-14 10:54:38,509 - INFO - Gaussian Process Regression MSE: 0.41808669986333397
+2024-06-14 10:54:38,509 - INFO - Predicting future stock prices
+2024-06-14 10:54:38,512 - ERROR - An error occurred during Gaussian Process Regression: index 238 is out of bounds for axis 1 with size 238
+2024-06-14 10:55:43,818 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-14 10:55:43,818 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-14 10:55:43,818 - INFO - Downloading stock data for AAPL
+2024-06-14 10:55:44,305 - INFO - Downloaded data shape: (1006, 6)
+2024-06-14 10:55:44,306 - INFO - Adding technical indicators
+2024-06-14 10:55:44,308 - INFO - Technical indicators added. Updated data shape: (957, 4)
+2024-06-14 10:55:44,308 - INFO - Scaling the data
+2024-06-14 10:55:44,311 - INFO - Data scaled successfully
+2024-06-14 10:55:44,311 - INFO - Preparing dataset
+2024-06-14 10:55:44,313 - INFO - Dataset prepared. X shape: (897, 60, 4), y shape: (897,)
+2024-06-14 10:55:44,313 - INFO - Fitting Gaussian Process Regression
+2024-06-14 10:55:44,318 - INFO - initializing Y
+2024-06-14 10:55:44,318 - INFO - initializing inference method
+2024-06-14 10:55:44,318 - INFO - adding kernel and likelihood as parameters
+2024-06-14 10:56:22,523 - INFO - Making predictions with Gaussian Process Regression
+2024-06-14 10:56:22,542 - INFO - Gaussian Process Regression MSE: 0.41808669986333397
+2024-06-14 10:56:22,543 - INFO - Predicting future stock prices
+2024-06-14 10:56:22,546 - ERROR - An error occurred during Gaussian Process Regression: index 238 is out of bounds for axis 1 with size 238

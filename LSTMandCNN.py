@@ -113,7 +113,7 @@ def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio, future_days):
     # Load the pre-trained weights from the interpolation task
     logger.info("Loading pre-trained weights for extrapolation task")
     model = create_model(time_steps=time_steps, num_features=num_features)
-    model.load_weights('interpolation_model_weights.h5')
+    model.load_weights('Utils/interpolation_model_weights.h5')
 
     # Define callbacks for extrapolation
     model_checkpoint_callback_extrap = ModelCheckpoint(
@@ -152,6 +152,10 @@ def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio, future_days):
 
     future_predictions = []
 
+    # Print last_sequence before making future predictions
+    logger.info(f"Last sequence before making future predictions: {last_sequence}")
+
+    # Make future predictions
     for _ in range(future_days):
         next_prediction = model.predict(last_sequence.reshape(1, time_steps, num_features))
         future_predictions.append(next_prediction[0, 0])

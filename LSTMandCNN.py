@@ -211,4 +211,4 @@ def stock_market_analysis_with_cnn_lstm(stock_symbol, test_ratio, future_days):
     plt.show()
 
 # Call the function with the stock symbol, desired test ratio, and future days to predict
-stock_market_analysis_with_cnn_lstm('NVDA', test_ratio=0.2, future_days=30)
+stock_market_analysis_with_cnn_lstm('NVDA', test_ratio=0.2, future_days=90)

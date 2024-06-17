@@ -1603,3 +1603,662 @@
 2024-01-02           47.630973
 2024-01-03           44.494770
 2024-06-14 08:20:48,489 - INFO - Plotting results
+2024-06-17 16:42:11,731 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-17 16:42:11,732 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-17 16:42:11,732 - INFO - Downloading stock data for NVDA
+2024-06-17 16:42:12,187 - INFO - Downloaded data shape: (3522, 6)
+2024-06-17 16:42:12,188 - INFO - Adding technical indicators
+2024-06-17 16:42:12,191 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-17 16:42:12,191 - INFO - Scaling the data
+2024-06-17 16:42:12,194 - INFO - Data scaled successfully
+2024-06-17 16:42:12,194 - INFO - Preparing dataset
+2024-06-17 16:42:12,201 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-17 16:42:12,201 - INFO - Pre-training model on interpolation task
+2024-06-17 16:43:23,449 - INFO - Loading pre-trained weights for extrapolation task
+2024-06-17 16:43:23,963 - INFO - Fine-tuning model on extrapolation task
+2024-06-17 16:44:42,248 - INFO - Making predictions
+2024-06-17 16:44:43,289 - INFO - Rescaling predictions
+2024-06-17 16:44:43,290 - INFO - Initial last_sequence shape: (60, 4)
+2024-06-17 16:44:43,291 - INFO - Initial last_sequence sample: [[0.88600632 0.09536932 0.90775178 0.96101883]
+ [0.90740631 0.10659768 0.90795038 0.96095939]
+ [0.89766271 0.09980879 0.90804968 0.96032327]
+ [0.90812362 0.08854205 0.90901967 0.9599223 ]
+ [0.92820849 0.09116181 0.91040044 0.96005107]]
+2024-06-17 16:44:43,295 - INFO - Last sequence before making future predictions: [[0.88600632 0.09536932 0.90775178 0.96101883]
+ [0.90740631 0.10659768 0.90795038 0.96095939]
+ [0.89766271 0.09980879 0.90804968 0.96032327]
+ [0.90812362 0.08854205 0.90901967 0.9599223 ]
+ [0.92820849 0.09116181 0.91040044 0.96005107]
+ [0.93097813 0.11945354 0.91182615 0.96120359]
+ [0.9014087  0.11747673 0.91345778 0.96161102]
+ [0.9140415  0.09032886 0.91568311 0.96222045]
+ [0.87106221 0.2102082  0.91612002 0.96158346]
+ [0.83635202 0.15947483 0.91607508 0.96052052]
+ [0.83445915 0.12491185 0.91720813 0.96032542]
+ [0.82023235 0.11834066 0.91697504 0.9598943 ]
+ [0.85187395 0.11868722 0.91776211 0.96080736]
+ [0.86558268 0.09755725 0.91959338 0.9607686 ]
+ [0.8280431  0.09671169 0.9188732  0.95983788]
+ [0.7990914  0.13581531 0.91598519 0.9584769 ]
+ [0.80255843 0.10175791 0.91285049 0.95725203]
+ [0.81572915 0.09387369 0.90906565 0.95633121]
+ [0.80813753 0.12950047 0.90620481 0.95366654]
+ [0.83892244 0.10746325 0.90441117 0.95222675]
+ [0.86245442 0.09967088 0.90317569 0.95067197]
+ [0.89232273 0.10390362 0.90238444 0.94974254]
+ [0.9071871  0.0973571  0.90288407 0.94962755]
+ [0.91125195 0.0815733  0.90304817 0.94924855]
+ [0.92358581 0.08254773 0.90280568 0.94829672]
+ [0.93107778 0.13567685 0.9028109  0.94730011]
+ [0.95867453 0.10298101 0.90581494 0.94686081]
+ [0.96435329 0.09280659 0.90845419 0.94690862]
+ [0.98499607 0.10180452 0.9144309  0.94738582]
+ [0.96969335 0.11785564 0.92142569 0.94817269]
+ [0.98148921 0.08063863 0.92913857 0.94956768]
+ [0.97786279 0.07664909 0.93740751 0.95117243]
+ [1.         0.1010275  0.94517787 0.95342536]
+ [0.99073465 0.14260008 0.95174307 0.95561067]
+ [0.96626615 0.23408542 0.95899394 0.95700223]
+ [0.94753623 0.06827025 0.96678103 0.95794759]
+ [0.95682149 0.09596675 0.97487333 0.95981764]
+ [0.94843284 0.09756493 0.98183467 0.96147794]
+ [0.95478907 0.09222232 0.98952768 0.96346772]
+ [0.92749118 0.13177011 0.9941738  0.96541917]
+ [0.92739154 0.08874357 0.99758026 0.96789477]
+ [0.90238504 0.10744954 0.9981081  0.96957445]
+ [0.92342642 0.08940187 0.99895998 0.97144536]
+ [0.90224556 0.09183436 0.99848753 0.97299239]
+ [0.92402416 0.08367295 0.99851052 0.97477028]
+ [0.94215634 0.0859763  0.99909168 0.97667263]
+ [0.92464181 0.12724098 0.9973064  0.97801982]
+ [0.9451651  0.08958529 0.99629983 0.97925805]
+ [0.95375298 0.11025958 0.99466088 0.98122673]
+ [0.9589734  0.09475215 0.99409854 0.98308256]
+ [0.96973318 0.119076   0.99348184 0.98489231]
+ [0.99338473 0.10060719 0.99429609 0.98675073]
+ [0.98395998 0.11482517 0.99345467 0.98861604]
+ [0.95421124 0.09657871 0.99153873 0.98961223]
+ [0.97172577 0.06985499 0.99182513 0.99055285]
+ [0.9685377  0.056717   0.99292682 0.9913647 ]
+ [0.97748419 0.05443941 0.99401074 0.99300907]
+ [0.98023391 0.0515463  0.99567895 0.99443981]
+ [0.98232608 0.05509387 0.99712348 0.99684478]
+ [0.98232608 0.09422052 1.         1.        ]]
+2024-06-17 16:44:43,379 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:43,380 - INFO - Updated last_sequence sample during iteration: [[0.97748419 0.05443941 0.99401074 0.99300907]
+ [0.98023391 0.0515463  0.99567895 0.99443981]
+ [0.98232608 0.05509387 0.99712348 0.99684478]
+ [0.98232608 0.09422052 1.         1.        ]
+ [0.9043014  0.         0.         0.        ]]
+2024-06-17 16:44:43,448 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:43,449 - INFO - Updated last_sequence sample during iteration: [[0.98023391 0.0515463  0.99567895 0.99443981]
+ [0.98232608 0.05509387 0.99712348 0.99684478]
+ [0.98232608 0.09422052 1.         1.        ]
+ [0.9043014  0.         0.         0.        ]
+ [0.92911506 0.         0.         0.        ]]
+2024-06-17 16:44:43,531 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:43,532 - INFO - Updated last_sequence sample during iteration: [[0.98232608 0.05509387 0.99712348 0.99684478]
+ [0.98232608 0.09422052 1.         1.        ]
+ [0.9043014  0.         0.         0.        ]
+ [0.92911506 0.         0.         0.        ]
+ [0.95948637 0.         0.         0.        ]]
+2024-06-17 16:44:43,607 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:43,608 - INFO - Updated last_sequence sample during iteration: [[0.98232608 0.09422052 1.         1.        ]
+ [0.9043014  0.         0.         0.        ]
+ [0.92911506 0.         0.         0.        ]
+ [0.95948637 0.         0.         0.        ]
+ [0.97798026 0.         0.         0.        ]]
+2024-06-17 16:44:43,691 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:43,692 - INFO - Updated last_sequence sample during iteration: [[0.9043014  0.         0.         0.        ]
+ [0.92911506 0.         0.         0.        ]
+ [0.95948637 0.         0.         0.        ]
+ [0.97798026 0.         0.         0.        ]
+ [0.97063768 0.         0.         0.        ]]
+2024-06-17 16:44:43,783 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:43,784 - INFO - Updated last_sequence sample during iteration: [[0.92911506 0.         0.         0.        ]
+ [0.95948637 0.         0.         0.        ]
+ [0.97798026 0.         0.         0.        ]
+ [0.97063768 0.         0.         0.        ]
+ [0.97156048 0.         0.         0.        ]]
+2024-06-17 16:44:43,869 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:43,870 - INFO - Updated last_sequence sample during iteration: [[0.95948637 0.         0.         0.        ]
+ [0.97798026 0.         0.         0.        ]
+ [0.97063768 0.         0.         0.        ]
+ [0.97156048 0.         0.         0.        ]
+ [0.95097041 0.         0.         0.        ]]
+2024-06-17 16:44:43,966 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:43,967 - INFO - Updated last_sequence sample during iteration: [[0.97798026 0.         0.         0.        ]
+ [0.97063768 0.         0.         0.        ]
+ [0.97156048 0.         0.         0.        ]
+ [0.95097041 0.         0.         0.        ]
+ [0.93915153 0.         0.         0.        ]]
+2024-06-17 16:44:44,034 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,035 - INFO - Updated last_sequence sample during iteration: [[0.97063768 0.         0.         0.        ]
+ [0.97156048 0.         0.         0.        ]
+ [0.95097041 0.         0.         0.        ]
+ [0.93915153 0.         0.         0.        ]
+ [0.9120816  0.         0.         0.        ]]
+2024-06-17 16:44:44,118 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,118 - INFO - Updated last_sequence sample during iteration: [[0.97156048 0.         0.         0.        ]
+ [0.95097041 0.         0.         0.        ]
+ [0.93915153 0.         0.         0.        ]
+ [0.9120816  0.         0.         0.        ]
+ [0.89258993 0.         0.         0.        ]]
+2024-06-17 16:44:44,187 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,188 - INFO - Updated last_sequence sample during iteration: [[0.95097041 0.         0.         0.        ]
+ [0.93915153 0.         0.         0.        ]
+ [0.9120816  0.         0.         0.        ]
+ [0.89258993 0.         0.         0.        ]
+ [0.86348772 0.         0.         0.        ]]
+2024-06-17 16:44:44,251 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,252 - INFO - Updated last_sequence sample during iteration: [[0.93915153 0.         0.         0.        ]
+ [0.9120816  0.         0.         0.        ]
+ [0.89258993 0.         0.         0.        ]
+ [0.86348772 0.         0.         0.        ]
+ [0.83970714 0.         0.         0.        ]]
+2024-06-17 16:44:44,326 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,328 - INFO - Updated last_sequence sample during iteration: [[0.9120816  0.         0.         0.        ]
+ [0.89258993 0.         0.         0.        ]
+ [0.86348772 0.         0.         0.        ]
+ [0.83970714 0.         0.         0.        ]
+ [0.81091988 0.         0.         0.        ]]
+2024-06-17 16:44:44,417 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,417 - INFO - Updated last_sequence sample during iteration: [[0.89258993 0.         0.         0.        ]
+ [0.86348772 0.         0.         0.        ]
+ [0.83970714 0.         0.         0.        ]
+ [0.81091988 0.         0.         0.        ]
+ [0.78524339 0.         0.         0.        ]]
+2024-06-17 16:44:44,504 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,505 - INFO - Updated last_sequence sample during iteration: [[0.86348772 0.         0.         0.        ]
+ [0.83970714 0.         0.         0.        ]
+ [0.81091988 0.         0.         0.        ]
+ [0.78524339 0.         0.         0.        ]
+ [0.7579298  0.         0.         0.        ]]
+2024-06-17 16:44:44,590 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,591 - INFO - Updated last_sequence sample during iteration: [[0.83970714 0.         0.         0.        ]
+ [0.81091988 0.         0.         0.        ]
+ [0.78524339 0.         0.         0.        ]
+ [0.7579298  0.         0.         0.        ]
+ [0.73195267 0.         0.         0.        ]]
+2024-06-17 16:44:44,666 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,666 - INFO - Updated last_sequence sample during iteration: [[0.81091988 0.         0.         0.        ]
+ [0.78524339 0.         0.         0.        ]
+ [0.7579298  0.         0.         0.        ]
+ [0.73195267 0.         0.         0.        ]
+ [0.70659328 0.         0.         0.        ]]
+2024-06-17 16:44:44,739 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,739 - INFO - Updated last_sequence sample during iteration: [[0.78524339 0.         0.         0.        ]
+ [0.7579298  0.         0.         0.        ]
+ [0.73195267 0.         0.         0.        ]
+ [0.70659328 0.         0.         0.        ]
+ [0.68137085 0.         0.         0.        ]]
+2024-06-17 16:44:44,808 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,810 - INFO - Updated last_sequence sample during iteration: [[0.7579298  0.         0.         0.        ]
+ [0.73195267 0.         0.         0.        ]
+ [0.70659328 0.         0.         0.        ]
+ [0.68137085 0.         0.         0.        ]
+ [0.65807796 0.         0.         0.        ]]
+2024-06-17 16:44:44,894 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,895 - INFO - Updated last_sequence sample during iteration: [[0.73195267 0.         0.         0.        ]
+ [0.70659328 0.         0.         0.        ]
+ [0.68137085 0.         0.         0.        ]
+ [0.65807796 0.         0.         0.        ]
+ [0.63422573 0.         0.         0.        ]]
+2024-06-17 16:44:44,970 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:44,970 - INFO - Updated last_sequence sample during iteration: [[0.70659328 0.         0.         0.        ]
+ [0.68137085 0.         0.         0.        ]
+ [0.65807796 0.         0.         0.        ]
+ [0.63422573 0.         0.         0.        ]
+ [0.61289167 0.         0.         0.        ]]
+2024-06-17 16:44:45,045 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,045 - INFO - Updated last_sequence sample during iteration: [[0.68137085 0.         0.         0.        ]
+ [0.65807796 0.         0.         0.        ]
+ [0.63422573 0.         0.         0.        ]
+ [0.61289167 0.         0.         0.        ]
+ [0.59071076 0.         0.         0.        ]]
+2024-06-17 16:44:45,121 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,122 - INFO - Updated last_sequence sample during iteration: [[0.65807796 0.         0.         0.        ]
+ [0.63422573 0.         0.         0.        ]
+ [0.61289167 0.         0.         0.        ]
+ [0.59071076 0.         0.         0.        ]
+ [0.57114613 0.         0.         0.        ]]
+2024-06-17 16:44:45,202 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,202 - INFO - Updated last_sequence sample during iteration: [[0.63422573 0.         0.         0.        ]
+ [0.61289167 0.         0.         0.        ]
+ [0.59071076 0.         0.         0.        ]
+ [0.57114613 0.         0.         0.        ]
+ [0.55073464 0.         0.         0.        ]]
+2024-06-17 16:44:45,263 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,264 - INFO - Updated last_sequence sample during iteration: [[0.61289167 0.         0.         0.        ]
+ [0.59071076 0.         0.         0.        ]
+ [0.57114613 0.         0.         0.        ]
+ [0.55073464 0.         0.         0.        ]
+ [0.53272599 0.         0.         0.        ]]
+2024-06-17 16:44:45,343 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,344 - INFO - Updated last_sequence sample during iteration: [[0.59071076 0.         0.         0.        ]
+ [0.57114613 0.         0.         0.        ]
+ [0.55073464 0.         0.         0.        ]
+ [0.53272599 0.         0.         0.        ]
+ [0.51404232 0.         0.         0.        ]]
+2024-06-17 16:44:45,406 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,407 - INFO - Updated last_sequence sample during iteration: [[0.57114613 0.         0.         0.        ]
+ [0.55073464 0.         0.         0.        ]
+ [0.53272599 0.         0.         0.        ]
+ [0.51404232 0.         0.         0.        ]
+ [0.49738893 0.         0.         0.        ]]
+2024-06-17 16:44:45,483 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,484 - INFO - Updated last_sequence sample during iteration: [[0.55073464 0.         0.         0.        ]
+ [0.53272599 0.         0.         0.        ]
+ [0.51404232 0.         0.         0.        ]
+ [0.49738893 0.         0.         0.        ]
+ [0.48031411 0.         0.         0.        ]]
+2024-06-17 16:44:45,556 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,557 - INFO - Updated last_sequence sample during iteration: [[0.53272599 0.         0.         0.        ]
+ [0.51404232 0.         0.         0.        ]
+ [0.49738893 0.         0.         0.        ]
+ [0.48031411 0.         0.         0.        ]
+ [0.46483654 0.         0.         0.        ]]
+2024-06-17 16:44:45,621 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,622 - INFO - Updated last_sequence sample during iteration: [[0.51404232 0.         0.         0.        ]
+ [0.49738893 0.         0.         0.        ]
+ [0.48031411 0.         0.         0.        ]
+ [0.46483654 0.         0.         0.        ]
+ [0.44920713 0.         0.         0.        ]]
+2024-06-17 16:44:45,686 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,687 - INFO - Updated last_sequence sample during iteration: [[0.49738893 0.         0.         0.        ]
+ [0.48031411 0.         0.         0.        ]
+ [0.46483654 0.         0.         0.        ]
+ [0.44920713 0.         0.         0.        ]
+ [0.43474993 0.         0.         0.        ]]
+2024-06-17 16:44:45,773 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,774 - INFO - Updated last_sequence sample during iteration: [[0.48031411 0.         0.         0.        ]
+ [0.46483654 0.         0.         0.        ]
+ [0.44920713 0.         0.         0.        ]
+ [0.43474993 0.         0.         0.        ]
+ [0.42038387 0.         0.         0.        ]]
+2024-06-17 16:44:45,842 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,842 - INFO - Updated last_sequence sample during iteration: [[0.46483654 0.         0.         0.        ]
+ [0.44920713 0.         0.         0.        ]
+ [0.43474993 0.         0.         0.        ]
+ [0.42038387 0.         0.         0.        ]
+ [0.40681499 0.         0.         0.        ]]
+2024-06-17 16:44:45,912 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,913 - INFO - Updated last_sequence sample during iteration: [[0.44920713 0.         0.         0.        ]
+ [0.43474993 0.         0.         0.        ]
+ [0.42038387 0.         0.         0.        ]
+ [0.40681499 0.         0.         0.        ]
+ [0.39352995 0.         0.         0.        ]]
+2024-06-17 16:44:45,970 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:45,970 - INFO - Updated last_sequence sample during iteration: [[0.43474993 0.         0.         0.        ]
+ [0.42038387 0.         0.         0.        ]
+ [0.40681499 0.         0.         0.        ]
+ [0.39352995 0.         0.         0.        ]
+ [0.38073727 0.         0.         0.        ]]
+2024-06-17 16:44:46,037 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,037 - INFO - Updated last_sequence sample during iteration: [[0.42038387 0.         0.         0.        ]
+ [0.40681499 0.         0.         0.        ]
+ [0.39352995 0.         0.         0.        ]
+ [0.38073727 0.         0.         0.        ]
+ [0.36836261 0.         0.         0.        ]]
+2024-06-17 16:44:46,128 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,129 - INFO - Updated last_sequence sample during iteration: [[0.40681499 0.         0.         0.        ]
+ [0.39352995 0.         0.         0.        ]
+ [0.38073727 0.         0.         0.        ]
+ [0.36836261 0.         0.         0.        ]
+ [0.35625118 0.         0.         0.        ]]
+2024-06-17 16:44:46,204 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,204 - INFO - Updated last_sequence sample during iteration: [[0.39352995 0.         0.         0.        ]
+ [0.38073727 0.         0.         0.        ]
+ [0.36836261 0.         0.         0.        ]
+ [0.35625118 0.         0.         0.        ]
+ [0.34463415 0.         0.         0.        ]]
+2024-06-17 16:44:46,287 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,288 - INFO - Updated last_sequence sample during iteration: [[0.38073727 0.         0.         0.        ]
+ [0.36836261 0.         0.         0.        ]
+ [0.35625118 0.         0.         0.        ]
+ [0.34463415 0.         0.         0.        ]
+ [0.33312231 0.         0.         0.        ]]
+2024-06-17 16:44:46,379 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,380 - INFO - Updated last_sequence sample during iteration: [[0.36836261 0.         0.         0.        ]
+ [0.35625118 0.         0.         0.        ]
+ [0.34463415 0.         0.         0.        ]
+ [0.33312231 0.         0.         0.        ]
+ [0.32213098 0.         0.         0.        ]]
+2024-06-17 16:44:46,481 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,482 - INFO - Updated last_sequence sample during iteration: [[0.35625118 0.         0.         0.        ]
+ [0.34463415 0.         0.         0.        ]
+ [0.33312231 0.         0.         0.        ]
+ [0.32213098 0.         0.         0.        ]
+ [0.31114763 0.         0.         0.        ]]
+2024-06-17 16:44:46,561 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,561 - INFO - Updated last_sequence sample during iteration: [[0.34463415 0.         0.         0.        ]
+ [0.33312231 0.         0.         0.        ]
+ [0.32213098 0.         0.         0.        ]
+ [0.31114763 0.         0.         0.        ]
+ [0.30067426 0.         0.         0.        ]]
+2024-06-17 16:44:46,645 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,645 - INFO - Updated last_sequence sample during iteration: [[0.33312231 0.         0.         0.        ]
+ [0.32213098 0.         0.         0.        ]
+ [0.31114763 0.         0.         0.        ]
+ [0.30067426 0.         0.         0.        ]
+ [0.29015943 0.         0.         0.        ]]
+2024-06-17 16:44:46,701 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,702 - INFO - Updated last_sequence sample during iteration: [[0.32213098 0.         0.         0.        ]
+ [0.31114763 0.         0.         0.        ]
+ [0.30067426 0.         0.         0.        ]
+ [0.29015943 0.         0.         0.        ]
+ [0.28011316 0.         0.         0.        ]]
+2024-06-17 16:44:46,775 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,776 - INFO - Updated last_sequence sample during iteration: [[0.31114763 0.         0.         0.        ]
+ [0.30067426 0.         0.         0.        ]
+ [0.29015943 0.         0.         0.        ]
+ [0.28011316 0.         0.         0.        ]
+ [0.2700097  0.         0.         0.        ]]
+2024-06-17 16:44:46,856 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,857 - INFO - Updated last_sequence sample during iteration: [[0.30067426 0.         0.         0.        ]
+ [0.29015943 0.         0.         0.        ]
+ [0.28011316 0.         0.         0.        ]
+ [0.2700097  0.         0.         0.        ]
+ [0.26031634 0.         0.         0.        ]]
+2024-06-17 16:44:46,948 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:46,949 - INFO - Updated last_sequence sample during iteration: [[0.29015943 0.         0.         0.        ]
+ [0.28011316 0.         0.         0.        ]
+ [0.2700097  0.         0.         0.        ]
+ [0.26031634 0.         0.         0.        ]
+ [0.25057277 0.         0.         0.        ]]
+2024-06-17 16:44:47,019 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,019 - INFO - Updated last_sequence sample during iteration: [[0.28011316 0.         0.         0.        ]
+ [0.2700097  0.         0.         0.        ]
+ [0.26031634 0.         0.         0.        ]
+ [0.25057277 0.         0.         0.        ]
+ [0.24117263 0.         0.         0.        ]]
+2024-06-17 16:44:47,105 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,105 - INFO - Updated last_sequence sample during iteration: [[0.2700097  0.         0.         0.        ]
+ [0.26031634 0.         0.         0.        ]
+ [0.25057277 0.         0.         0.        ]
+ [0.24117263 0.         0.         0.        ]
+ [0.23174246 0.         0.         0.        ]]
+2024-06-17 16:44:47,164 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,164 - INFO - Updated last_sequence sample during iteration: [[0.26031634 0.         0.         0.        ]
+ [0.25057277 0.         0.         0.        ]
+ [0.24117263 0.         0.         0.        ]
+ [0.23174246 0.         0.         0.        ]
+ [0.22258894 0.         0.         0.        ]]
+2024-06-17 16:44:47,241 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,242 - INFO - Updated last_sequence sample during iteration: [[0.25057277 0.         0.         0.        ]
+ [0.24117263 0.         0.         0.        ]
+ [0.23174246 0.         0.         0.        ]
+ [0.22258894 0.         0.         0.        ]
+ [0.21343856 0.         0.         0.        ]]
+2024-06-17 16:44:47,328 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,329 - INFO - Updated last_sequence sample during iteration: [[0.24117263 0.         0.         0.        ]
+ [0.23174246 0.         0.         0.        ]
+ [0.22258894 0.         0.         0.        ]
+ [0.21343856 0.         0.         0.        ]
+ [0.20453708 0.         0.         0.        ]]
+2024-06-17 16:44:47,396 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,397 - INFO - Updated last_sequence sample during iteration: [[0.23174246 0.         0.         0.        ]
+ [0.22258894 0.         0.         0.        ]
+ [0.21343856 0.         0.         0.        ]
+ [0.20453708 0.         0.         0.        ]
+ [0.19566655 0.         0.         0.        ]]
+2024-06-17 16:44:47,460 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,461 - INFO - Updated last_sequence sample during iteration: [[0.22258894 0.         0.         0.        ]
+ [0.21343856 0.         0.         0.        ]
+ [0.20453708 0.         0.         0.        ]
+ [0.19566655 0.         0.         0.        ]
+ [0.18699852 0.         0.         0.        ]]
+2024-06-17 16:44:47,525 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,526 - INFO - Updated last_sequence sample during iteration: [[0.21343856 0.         0.         0.        ]
+ [0.20453708 0.         0.         0.        ]
+ [0.19566655 0.         0.         0.        ]
+ [0.18699852 0.         0.         0.        ]
+ [0.17838675 0.         0.         0.        ]]
+2024-06-17 16:44:47,590 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,590 - INFO - Updated last_sequence sample during iteration: [[0.20453708 0.         0.         0.        ]
+ [0.19566655 0.         0.         0.        ]
+ [0.18699852 0.         0.         0.        ]
+ [0.17838675 0.         0.         0.        ]
+ [0.16993156 0.         0.         0.        ]]
+2024-06-17 16:44:47,665 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,665 - INFO - Updated last_sequence sample during iteration: [[0.19566655 0.         0.         0.        ]
+ [0.18699852 0.         0.         0.        ]
+ [0.17838675 0.         0.         0.        ]
+ [0.16993156 0.         0.         0.        ]
+ [0.16155212 0.         0.         0.        ]]
+2024-06-17 16:44:47,737 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,737 - INFO - Updated last_sequence sample during iteration: [[0.18699852 0.         0.         0.        ]
+ [0.17838675 0.         0.         0.        ]
+ [0.16993156 0.         0.         0.        ]
+ [0.16155212 0.         0.         0.        ]
+ [0.15329035 0.         0.         0.        ]]
+2024-06-17 16:44:47,804 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,805 - INFO - Updated last_sequence sample during iteration: [[0.17838675 0.         0.         0.        ]
+ [0.16993156 0.         0.         0.        ]
+ [0.16155212 0.         0.         0.        ]
+ [0.15329035 0.         0.         0.        ]
+ [0.14511836 0.         0.         0.        ]]
+2024-06-17 16:44:47,878 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,879 - INFO - Updated last_sequence sample during iteration: [[0.16993156 0.         0.         0.        ]
+ [0.16155212 0.         0.         0.        ]
+ [0.15329035 0.         0.         0.        ]
+ [0.14511836 0.         0.         0.        ]
+ [0.13703296 0.         0.         0.        ]]
+2024-06-17 16:44:47,954 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:47,955 - INFO - Updated last_sequence sample during iteration: [[0.16155212 0.         0.         0.        ]
+ [0.15329035 0.         0.         0.        ]
+ [0.14511836 0.         0.         0.        ]
+ [0.13703296 0.         0.         0.        ]
+ [0.12903614 0.         0.         0.        ]]
+2024-06-17 16:44:48,184 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,185 - INFO - Updated last_sequence sample during iteration: [[0.15329035 0.         0.         0.        ]
+ [0.14511836 0.         0.         0.        ]
+ [0.13703296 0.         0.         0.        ]
+ [0.12903614 0.         0.         0.        ]
+ [0.12110712 0.         0.         0.        ]]
+2024-06-17 16:44:48,258 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,258 - INFO - Updated last_sequence sample during iteration: [[0.14511836 0.         0.         0.        ]
+ [0.13703296 0.         0.         0.        ]
+ [0.12903614 0.         0.         0.        ]
+ [0.12110712 0.         0.         0.        ]
+ [0.11334102 0.         0.         0.        ]]
+2024-06-17 16:44:48,336 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,336 - INFO - Updated last_sequence sample during iteration: [[0.13703296 0.         0.         0.        ]
+ [0.12903614 0.         0.         0.        ]
+ [0.12110712 0.         0.         0.        ]
+ [0.11334102 0.         0.         0.        ]
+ [0.10572885 0.         0.         0.        ]]
+2024-06-17 16:44:48,408 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,408 - INFO - Updated last_sequence sample during iteration: [[0.12903614 0.         0.         0.        ]
+ [0.12110712 0.         0.         0.        ]
+ [0.11334102 0.         0.         0.        ]
+ [0.10572885 0.         0.         0.        ]
+ [0.09836683 0.         0.         0.        ]]
+2024-06-17 16:44:48,478 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,479 - INFO - Updated last_sequence sample during iteration: [[0.12110712 0.         0.         0.        ]
+ [0.11334102 0.         0.         0.        ]
+ [0.10572885 0.         0.         0.        ]
+ [0.09836683 0.         0.         0.        ]
+ [0.09117649 0.         0.         0.        ]]
+2024-06-17 16:44:48,550 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,551 - INFO - Updated last_sequence sample during iteration: [[0.11334102 0.         0.         0.        ]
+ [0.10572885 0.         0.         0.        ]
+ [0.09836683 0.         0.         0.        ]
+ [0.09117649 0.         0.         0.        ]
+ [0.08424223 0.         0.         0.        ]]
+2024-06-17 16:44:48,625 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,626 - INFO - Updated last_sequence sample during iteration: [[0.10572885 0.         0.         0.        ]
+ [0.09836683 0.         0.         0.        ]
+ [0.09117649 0.         0.         0.        ]
+ [0.08424223 0.         0.         0.        ]
+ [0.07742619 0.         0.         0.        ]]
+2024-06-17 16:44:48,693 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,693 - INFO - Updated last_sequence sample during iteration: [[0.09836683 0.         0.         0.        ]
+ [0.09117649 0.         0.         0.        ]
+ [0.08424223 0.         0.         0.        ]
+ [0.07742619 0.         0.         0.        ]
+ [0.0708389  0.         0.         0.        ]]
+2024-06-17 16:44:48,772 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,772 - INFO - Updated last_sequence sample during iteration: [[0.09117649 0.         0.         0.        ]
+ [0.08424223 0.         0.         0.        ]
+ [0.07742619 0.         0.         0.        ]
+ [0.0708389  0.         0.         0.        ]
+ [0.06437673 0.         0.         0.        ]]
+2024-06-17 16:44:48,841 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,841 - INFO - Updated last_sequence sample during iteration: [[0.08424223 0.         0.         0.        ]
+ [0.07742619 0.         0.         0.        ]
+ [0.0708389  0.         0.         0.        ]
+ [0.06437673 0.         0.         0.        ]
+ [0.0584021  0.         0.         0.        ]]
+2024-06-17 16:44:48,903 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,903 - INFO - Updated last_sequence sample during iteration: [[0.07742619 0.         0.         0.        ]
+ [0.0708389  0.         0.         0.        ]
+ [0.06437673 0.         0.         0.        ]
+ [0.0584021  0.         0.         0.        ]
+ [0.05254846 0.         0.         0.        ]]
+2024-06-17 16:44:48,977 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:48,978 - INFO - Updated last_sequence sample during iteration: [[0.0708389  0.         0.         0.        ]
+ [0.06437673 0.         0.         0.        ]
+ [0.0584021  0.         0.         0.        ]
+ [0.05254846 0.         0.         0.        ]
+ [0.04719951 0.         0.         0.        ]]
+2024-06-17 16:44:49,046 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,047 - INFO - Updated last_sequence sample during iteration: [[0.06437673 0.         0.         0.        ]
+ [0.0584021  0.         0.         0.        ]
+ [0.05254846 0.         0.         0.        ]
+ [0.04719951 0.         0.         0.        ]
+ [0.04196889 0.         0.         0.        ]]
+2024-06-17 16:44:49,126 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,127 - INFO - Updated last_sequence sample during iteration: [[0.0584021  0.         0.         0.        ]
+ [0.05254846 0.         0.         0.        ]
+ [0.04719951 0.         0.         0.        ]
+ [0.04196889 0.         0.         0.        ]
+ [0.03724331 0.         0.         0.        ]]
+2024-06-17 16:44:49,207 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,208 - INFO - Updated last_sequence sample during iteration: [[0.05254846 0.         0.         0.        ]
+ [0.04719951 0.         0.         0.        ]
+ [0.04196889 0.         0.         0.        ]
+ [0.03724331 0.         0.         0.        ]
+ [0.03291468 0.         0.         0.        ]]
+2024-06-17 16:44:49,288 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,289 - INFO - Updated last_sequence sample during iteration: [[0.04719951 0.         0.         0.        ]
+ [0.04196889 0.         0.         0.        ]
+ [0.03724331 0.         0.         0.        ]
+ [0.03291468 0.         0.         0.        ]
+ [0.02901678 0.         0.         0.        ]]
+2024-06-17 16:44:49,357 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,358 - INFO - Updated last_sequence sample during iteration: [[0.04196889 0.         0.         0.        ]
+ [0.03724331 0.         0.         0.        ]
+ [0.03291468 0.         0.         0.        ]
+ [0.02901678 0.         0.         0.        ]
+ [0.02554064 0.         0.         0.        ]]
+2024-06-17 16:44:49,423 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,424 - INFO - Updated last_sequence sample during iteration: [[0.03724331 0.         0.         0.        ]
+ [0.03291468 0.         0.         0.        ]
+ [0.02901678 0.         0.         0.        ]
+ [0.02554064 0.         0.         0.        ]
+ [0.02234966 0.         0.         0.        ]]
+2024-06-17 16:44:49,493 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,494 - INFO - Updated last_sequence sample during iteration: [[0.03291468 0.         0.         0.        ]
+ [0.02901678 0.         0.         0.        ]
+ [0.02554064 0.         0.         0.        ]
+ [0.02234966 0.         0.         0.        ]
+ [0.01952955 0.         0.         0.        ]]
+2024-06-17 16:44:49,567 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,568 - INFO - Updated last_sequence sample during iteration: [[0.02901678 0.         0.         0.        ]
+ [0.02554064 0.         0.         0.        ]
+ [0.02234966 0.         0.         0.        ]
+ [0.01952955 0.         0.         0.        ]
+ [0.01692306 0.         0.         0.        ]]
+2024-06-17 16:44:49,636 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,637 - INFO - Updated last_sequence sample during iteration: [[0.02554064 0.         0.         0.        ]
+ [0.02234966 0.         0.         0.        ]
+ [0.01952955 0.         0.         0.        ]
+ [0.01692306 0.         0.         0.        ]
+ [0.01461716 0.         0.         0.        ]]
+2024-06-17 16:44:49,710 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,712 - INFO - Updated last_sequence sample during iteration: [[0.02234966 0.         0.         0.        ]
+ [0.01952955 0.         0.         0.        ]
+ [0.01692306 0.         0.         0.        ]
+ [0.01461716 0.         0.         0.        ]
+ [0.01249646 0.         0.         0.        ]]
+2024-06-17 16:44:49,778 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,779 - INFO - Updated last_sequence sample during iteration: [[0.01952955 0.         0.         0.        ]
+ [0.01692306 0.         0.         0.        ]
+ [0.01461716 0.         0.         0.        ]
+ [0.01249646 0.         0.         0.        ]
+ [0.01066529 0.         0.         0.        ]]
+2024-06-17 16:44:49,860 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,860 - INFO - Updated last_sequence sample during iteration: [[0.01692306 0.         0.         0.        ]
+ [0.01461716 0.         0.         0.        ]
+ [0.01249646 0.         0.         0.        ]
+ [0.01066529 0.         0.         0.        ]
+ [0.00899471 0.         0.         0.        ]]
+2024-06-17 16:44:49,922 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:49,923 - INFO - Updated last_sequence sample during iteration: [[0.01461716 0.         0.         0.        ]
+ [0.01249646 0.         0.         0.        ]
+ [0.01066529 0.         0.         0.        ]
+ [0.00899471 0.         0.         0.        ]
+ [0.00756887 0.         0.         0.        ]]
+2024-06-17 16:44:50,009 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:50,009 - INFO - Updated last_sequence sample during iteration: [[0.01249646 0.         0.         0.        ]
+ [0.01066529 0.         0.         0.        ]
+ [0.00899471 0.         0.         0.        ]
+ [0.00756887 0.         0.         0.        ]
+ [0.00628725 0.         0.         0.        ]]
+2024-06-17 16:44:50,077 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:50,078 - INFO - Updated last_sequence sample during iteration: [[0.01066529 0.         0.         0.        ]
+ [0.00899471 0.         0.         0.        ]
+ [0.00756887 0.         0.         0.        ]
+ [0.00628725 0.         0.         0.        ]
+ [0.00522528 0.         0.         0.        ]]
+2024-06-17 16:44:50,152 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:50,153 - INFO - Updated last_sequence sample during iteration: [[0.00899471 0.         0.         0.        ]
+ [0.00756887 0.         0.         0.        ]
+ [0.00628725 0.         0.         0.        ]
+ [0.00522528 0.         0.         0.        ]
+ [0.00428641 0.         0.         0.        ]]
+2024-06-17 16:44:50,215 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-17 16:44:50,215 - INFO - Updated last_sequence sample during iteration: [[0.00756887 0.         0.         0.        ]
+ [0.00628725 0.         0.         0.        ]
+ [0.00522528 0.         0.         0.        ]
+ [0.00428641 0.         0.         0.        ]
+ [0.00351874 0.         0.         0.        ]]
+2024-06-17 16:44:50,216 - INFO - Future predictions before rescaling: [0.9043014  0.92911506 0.95948637 0.97798026 0.9706377  0.9715605
+ 0.9509704  0.9391515  0.9120816  0.8925899  0.8634877  0.83970714
+ 0.8109199  0.7852434  0.7579298  0.73195267 0.7065933  0.68137085
+ 0.65807796 0.6342257  0.6128917  0.59071076 0.57114613 0.55073464
+ 0.532726   0.5140423  0.49738893 0.4803141  0.46483654 0.44920713
+ 0.43474993 0.42038387 0.406815   0.39352995 0.38073727 0.3683626
+ 0.35625118 0.34463415 0.3331223  0.32213098 0.31114763 0.30067426
+ 0.29015943 0.28011316 0.2700097  0.26031634 0.25057277 0.24117263
+ 0.23174246 0.22258894 0.21343856 0.20453708 0.19566655 0.18699852
+ 0.17838675 0.16993156 0.16155212 0.15329035 0.14511836 0.13703296
+ 0.12903614 0.12110712 0.11334102 0.10572885 0.09836683 0.09117649
+ 0.08424223 0.07742619 0.0708389  0.06437673 0.0584021  0.05254846
+ 0.04719951 0.04196889 0.03724331 0.03291468 0.02901678 0.02554064
+ 0.02234966 0.01952955 0.01692306 0.01461716 0.01249646 0.01066529
+ 0.00899471 0.00756887 0.00628725 0.00522528 0.00428641 0.00351874]
+2024-06-17 16:44:50,217 - INFO - Future predictions after rescaling: [45.60617497 46.85149773 48.3757426  49.3038955  48.93539359 48.98170611
+ 47.94835241 47.35519798 45.99663958 45.01841101 43.55785857 42.36438238
+ 40.91963638 39.63101043 38.26022327 36.9565088  35.68379698 34.41795934
+ 33.2489586  32.05188677 30.98119469 29.86800111 28.88611108 27.86171956
+ 26.95791946 26.02024201 25.18445838 24.32752422 23.55075151 22.76635827
+ 22.04079497 21.31980548 20.63882419 19.97208784 19.33006177 18.70901423
+ 18.10117812 17.518154   16.94040966 16.38878753 15.83756624 15.31193919
+ 14.78423164 14.2800393  13.77297675 13.28649637 12.79749575 12.32573071
+ 11.85245876 11.3930713  10.93384088 10.48710245 10.0419173   9.60689462
+  9.17469579  8.75035531  8.32981613  7.91518267  7.50505498  7.09927301
+  6.69793698  6.30000327  5.91024575  5.52821383  5.15873598  4.79787479
+  4.44986494  4.10778812  3.77719183  3.45287519  3.15302615  2.85924981
+  2.59080183  2.32829249  2.09113022  1.87388922  1.67826523  1.50380805
+  1.34366255  1.20212941  1.07131737  0.95559142  0.84916004  0.75725911
+  0.6734175   0.60185868  0.53753844  0.48424105  0.43712198  0.3985949 ]
+2024-06-17 16:44:50,218 - INFO - Future predictions DataFrame:
+2024-06-17 16:44:50,218 - INFO -             Future Predictions
+2023-12-30           45.606175
+2023-12-31           46.851498
+2024-01-01           48.375743
+2024-01-02           49.303895
+2024-01-03           48.935394
+2024-06-17 16:44:50,229 - INFO - Plotting results

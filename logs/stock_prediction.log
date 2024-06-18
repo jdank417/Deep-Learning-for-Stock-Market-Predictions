@@ -2262,3 +2262,144 @@
 2024-01-02           49.303895
 2024-01-03           48.935394
 2024-06-17 16:44:50,229 - INFO - Plotting results
+2024-06-17 19:42:52,443 - INFO - Starting analysis for stock symbol: AAPL
+2024-06-17 19:42:52,444 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-17 19:42:52,444 - INFO - Downloading stock data for AAPL
+2024-06-17 19:42:53,163 - INFO - Downloaded data shape: (3522, 6)
+2024-06-17 19:42:53,164 - INFO - Adding technical indicators
+2024-06-17 19:42:53,170 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-17 19:42:53,170 - INFO - Scaling the data
+2024-06-17 19:42:53,180 - INFO - Data scaled successfully
+2024-06-17 19:42:53,181 - INFO - Preparing dataset
+2024-06-17 19:42:53,191 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-17 19:42:53,191 - INFO - Pre-training model on interpolation task
+2024-06-17 19:45:02,450 - INFO - Loading pre-trained weights for extrapolation task
+2024-06-17 19:45:02,971 - INFO - Fine-tuning model on extrapolation task
+2024-06-17 19:46:37,509 - INFO - Making predictions
+2024-06-17 19:46:38,753 - INFO - Rescaling predictions
+2024-06-17 19:46:38,754 - INFO - Initial last_sequence shape: (60, 4)
+2024-06-17 19:46:38,756 - INFO - Initial last_sequence sample: [[0.87800551 0.01318269 0.89530324 0.95702002]
+ [0.89157215 0.01786575 0.8951185  0.95527274]
+ [0.89945973 0.00987776 0.89501944 0.95340216]
+ [0.89630466 0.01058171 0.89557903 0.95139607]
+ [0.90371901 0.01265667 0.89707572 0.9496399 ]]
+2024-06-17 19:46:38,757 - INFO - Last sequence before making future predictions: [[0.87800551 0.01318269 0.89530324 0.95702002]
+ [0.89157215 0.01786575 0.8951185  0.95527274]
+ [0.89945973 0.00987776 0.89501944 0.95340216]
+ [0.89630466 0.01058171 0.89557903 0.95139607]
+ [0.90371901 0.01265667 0.89707572 0.9496399 ]
+ [0.90850415 0.01760672 0.89840642 0.94832139]
+ [0.89872356 0.01474396 0.89943457 0.94695289]
+ [0.89803994 0.01533089 0.89963538 0.94658966]
+ [0.88978424 0.01804093 0.8991213  0.94640082]
+ [0.88289577 0.01654116 0.89921501 0.94596095]
+ [0.88089764 0.01898522 0.89962467 0.9456577 ]
+ [0.867331   0.02161663 0.89911328 0.94509231]
+ [0.86796198 0.01719583 0.89828862 0.94456024]
+ [0.87027568 0.01064558 0.89868488 0.94389154]
+ [0.85797108 0.01782962 0.89886427 0.94318618]
+ [0.83583325 0.02508253 0.89784684 0.94211093]
+ [0.84282691 0.01855236 0.89704628 0.94146889]
+ [0.85371172 0.01458451 0.89611987 0.94100236]
+ [0.85623581 0.01119993 0.89568345 0.94043919]
+ [0.87306262 0.01771001 0.89576645 0.94007707]
+ [0.89199283 0.02869572 0.89647866 0.93968274]
+ [0.88715505 0.03000372 0.89625375 0.93971273]
+ [0.90072169 0.02142923 0.896318   0.9397816 ]
+ [0.91434096 0.02503121 0.89723637 0.93996266]
+ [0.91996739 0.01362019 0.89806371 0.93982603]
+ [0.91744339 0.01600216 0.89851888 0.93924397]
+ [0.93842429 0.02266356 0.90054036 0.93908069]
+ [0.93001092 0.01054374 0.90216825 0.93856306]
+ [0.94389305 0.019419   0.90492336 0.93831202]
+ [0.94689029 0.0160167  0.90818183 0.93887852]
+ [0.95582961 0.01635187 0.91199721 0.94022814]
+ [0.95572442 0.01447234 0.91649802 0.94150666]
+ [0.96497914 0.01209338 0.92143794 0.94284962]
+ [0.96071987 0.00758567 0.92604317 0.94444249]
+ [0.96424297 0.0083844  0.93145432 0.94634195]
+ [0.95719676 0.         0.9376339  0.94792261]
+ [0.95625021 0.00888786 0.94340918 0.94956437]
+ [0.95945783 0.00773694 0.94879355 0.95094508]
+ [0.9540417  0.01021347 0.95377363 0.9520892 ]
+ [0.95709157 0.01332621 0.95805221 0.95369541]
+ [0.96387493 0.01164867 0.9617123  0.9556182 ]
+ [0.95435719 0.01041558 0.96513409 0.9572444 ]
+ [0.97533817 0.02293013 0.96893341 0.95917052]
+ [0.96955399 0.00917709 0.97174474 0.9614321 ]
+ [0.97980783 0.01261714 0.9747917  0.96408023]
+ [0.98737991 0.01579418 0.97835272 0.96685944]
+ [0.97407613 0.01986882 0.98016804 0.96929986]
+ [0.98212153 0.01542777 0.9828214  0.97162808]
+ [0.99921127 0.02496347 0.98563809 0.97446728]
+ [1.         0.02303956 0.98834233 0.97718317]
+ [0.99716051 0.05611805 0.99044681 0.97970023]
+ [0.98832638 0.01707294 0.99210684 0.98174409]
+ [0.9938477  0.00897483 0.99357677 0.98373797]
+ [0.98275251 0.01518323 0.99469862 0.98556411]
+ [0.9819637  0.01208121 0.99560093 0.98721698]
+ [0.97628472 0.00704085 0.99657285 0.98864879]
+ [0.97339259 0.00262312 0.9974457  0.99022612]
+ [0.97391838 0.01294564 0.998182   0.99182899]
+ [0.97617953 0.00538604 0.99930921 0.99365403]
+ [0.97065821 0.01000593 1.         0.99550795]]
+2024-06-17 20:46:35,539 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-17 20:46:35,539 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-17 20:46:35,539 - INFO - Downloading stock data for NVDA
+2024-06-17 20:46:36,066 - INFO - Downloaded data shape: (3522, 6)
+2024-06-17 20:46:36,067 - INFO - Adding technical indicators
+2024-06-17 20:46:36,068 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-17 20:46:36,069 - INFO - Scaling the data
+2024-06-17 20:46:36,071 - INFO - Data scaled successfully
+2024-06-17 20:46:36,071 - INFO - Preparing dataset
+2024-06-17 20:46:54,672 - INFO - Dataset prepared. X shape: (4413, 60, 4), y shape: (4413,)
+2024-06-17 20:46:54,672 - INFO - Pre-training model on interpolation task
+2024-06-17 20:47:48,325 - INFO - Loading pre-trained weights for extrapolation task
+2024-06-17 20:47:48,601 - INFO - Fine-tuning model on extrapolation task
+2024-06-17 20:48:11,448 - INFO - Making predictions
+2024-06-17 20:48:11,945 - INFO - Rescaling predictions
+2024-06-17 20:51:17,743 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-17 20:51:17,744 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-17 20:51:17,744 - INFO - Downloading stock data for NVDA
+2024-06-17 20:51:18,223 - INFO - Downloaded data shape: (3522, 6)
+2024-06-17 20:51:18,223 - INFO - Adding technical indicators
+2024-06-17 20:51:18,224 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-17 20:51:18,224 - INFO - Scaling the data
+2024-06-17 20:51:18,226 - INFO - Data scaled successfully
+2024-06-17 20:51:18,226 - INFO - Preparing dataset
+2024-06-17 20:51:25,349 - INFO - Dataset prepared. X shape: (4413, 60, 4), y shape: (4413,)
+2024-06-17 20:51:25,349 - INFO - Pre-training model on interpolation task
+2024-06-17 20:52:13,057 - INFO - Loading pre-trained weights for extrapolation task
+2024-06-17 20:52:13,337 - INFO - Fine-tuning model on extrapolation task
+2024-06-17 20:52:44,508 - INFO - Making predictions
+2024-06-17 20:52:45,003 - INFO - Rescaling predictions
+2024-06-17 20:53:28,837 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-17 20:53:28,837 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-17 20:53:28,837 - INFO - Downloading stock data for NVDA
+2024-06-17 20:53:29,254 - INFO - Downloaded data shape: (3522, 6)
+2024-06-17 20:53:29,254 - INFO - Adding technical indicators
+2024-06-17 20:53:29,256 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-17 20:53:29,256 - INFO - Scaling the data
+2024-06-17 20:53:29,257 - INFO - Data scaled successfully
+2024-06-17 20:53:29,257 - INFO - Preparing dataset
+2024-06-17 20:53:36,337 - INFO - Dataset prepared. X shape: (4413, 60, 4), y shape: (4413,)
+2024-06-17 20:53:36,338 - INFO - Pre-training model on interpolation task
+2024-06-17 20:54:10,883 - INFO - Loading pre-trained weights for extrapolation task
+2024-06-17 20:54:11,156 - INFO - Fine-tuning model on extrapolation task
+2024-06-17 20:54:52,687 - INFO - Making predictions
+2024-06-17 20:54:53,191 - INFO - Rescaling predictions
+2024-06-17 20:58:19,224 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-17 20:58:19,224 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-17 20:58:19,224 - INFO - Downloading stock data for NVDA
+2024-06-17 20:58:19,835 - INFO - Downloaded data shape: (3522, 6)
+2024-06-17 20:58:19,835 - INFO - Adding technical indicators
+2024-06-17 20:58:19,837 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-17 20:58:19,837 - INFO - Scaling the data
+2024-06-17 20:58:19,838 - INFO - Data scaled successfully
+2024-06-17 20:58:19,838 - INFO - Preparing dataset
+2024-06-17 20:58:26,857 - INFO - Dataset prepared. X shape: (4413, 60, 4), y shape: (4413,)
+2024-06-17 20:58:26,857 - INFO - Pre-training model on interpolation task
+2024-06-17 20:58:51,728 - INFO - Loading pre-trained weights for extrapolation task
+2024-06-17 20:58:51,999 - INFO - Fine-tuning model on extrapolation task
+2024-06-17 20:59:22,538 - INFO - Making predictions
+2024-06-17 20:59:23,041 - INFO - Rescaling predictions

@@ -155,135 +155,77 @@ def stock_market_analysis_with_gan(stock_symbol, test_ratio, future_days):
     # Augment real data with synthetic data
     augmented_data = augment_data_with_gan(scaled_data, generator, latent_dim, num_samples)
 
-    # Prepare dataset using augmented data
+    # Create the dataset with augmented data
     X, y = create_dataset(augmented_data, time_steps)
-    logger.info(f"Dataset prepared. X shape: {X.shape}, y shape: {y.shape}")
 
-    # Split the data into train and validation sets for interpolation
-    train_size = int(len(X) * 0.8)  # Use 80% for training
-    X_train_interp, y_train_interp = X[:train_size], y[:train_size]
-    X_val_interp, y_val_interp = X[train_size:], y[train_size:]
+    # Split the data into training and testing sets
+    train_size = int(len(X) * (1 - test_ratio))
 
-    # Define callbacks for interpolation
-    model_checkpoint_callback_interp = ModelCheckpoint(
-        filepath='Utils/interpolation_model_weights.h5',
-        save_best_only=True,
-        monitor='val_loss',
-        mode='min'
-    )
-    early_stopping_callback_interp = EarlyStopping(monitor='val_loss', patience=5)
-
-    # Pre-train the model on the interpolation task
-    logger.info("Pre-training model on interpolation task")
-    model = create_model(time_steps=time_steps, num_features=num_features)
-    model.fit(X_train_interp, y_train_interp, validation_data=(X_val_interp, y_val_interp), epochs=50, batch_size=32,
-              callbacks=[model_checkpoint_callback_interp, early_stopping_callback_interp])
-
-    # Split the data into train and test sets for extrapolation
-    train_size = int(len(X) * 0.9)  # Use 90% for training, leaving 10% for testing extrapolation
-    X_train_extrap, y_train_extrap = X[:train_size], y[:train_size]
-    X_test_extrap, y_test_extrap = X[train_size:], y[train_size:]
-
-    # Load the pre-trained weights from the interpolation task
-    logger.info("Loading pre-trained weights for extrapolation task")
-    model = create_model(time_steps=time_steps, num_features=num_features)
-    model.load_weights('Utils/interpolation_model_weights.h5')
+    # Use 90% for training
+    X_train, y_train = X[:train_size], y[:train_size]
+    X_test, y_test = X[train_size:], y[train_size:]
 
     # Define callbacks for extrapolation
-    model_checkpoint_callback_extrap = ModelCheckpoint(
+    model_checkpoint_callback_extra = ModelCheckpoint(
         filepath='Utils/extrapolation_model_weights.h5',
         save_best_only=True,
         monitor='val_loss',
         mode='min'
     )
-    early_stopping_callback_extrap = EarlyStopping(monitor='val_loss', patience=5)
+    early_stopping_callback_extra = EarlyStopping(monitor='val_loss', patience=5)
 
-    # Fine-tune the model on the extrapolation task
-    logger.info("Fine-tuning model on extrapolation task")
-    model.fit(X_train_extrap, y_train_extrap, validation_data=(X_test_extrap, y_test_extrap), epochs=20, batch_size=32,
-              callbacks=[model_checkpoint_callback_extrap, early_stopping_callback_extrap])
+    # Train the model on the extrapolation task
+    logger.info("Training model on extrapolation task")
+    model = create_model(time_steps=time_steps, num_features=num_features)
+    model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=50, batch_size=32,
+              callbacks=[model_checkpoint_callback_extra, early_stopping_callback_extra])
 
     # Make predictions
     logger.info("Making predictions")
-    predictions = model.predict(X_test_extrap)
+    predictions = model.predict(X_test)
+    predictions = scaler.inverse_transform(np.concatenate((predictions, np.zeros((predictions.shape[0], num_features - 1))), axis=1))[:, 0]
 
-    # Rescale predictions
-    logger.info("Rescaling predictions")
-    predictions = scaler.inverse_transform(
-        np.concatenate((predictions, np.zeros((predictions.shape[0], num_features - 1))), axis=1))[:, 0]
-
-    # Prepare full dataset predictions for plotting
-    predictions_full = np.full((len(stock_data), 1), np.nan)
-    predictions_full[train_size + time_steps: train_size + time_steps + len(predictions)] = predictions.reshape(-1, 1)
-
-    # Predict future stock prices
+    # Prepare for future predictions
+    logger.info("Preparing future predictions")
     last_sequence = scaled_data[-time_steps:]
-
-    # Print initial last_sequence
-    logger.info(f"Initial last_sequence shape: {last_sequence.shape}")
-    logger.info(f"Initial last_sequence sample: {last_sequence[:5]}")
-
     future_predictions = []
-
-    # Print last_sequence before making future predictions
-    logger.info(f"Last sequence before making future predictions: {last_sequence}")
-
-    # Make future predictions
     for _ in range(future_days):
-        next_prediction = model.predict(last_sequence.reshape(1, time_steps, num_features))
-        future_predictions.append(next_prediction[0, 0])
-        next_prediction_full = np.concatenate((next_prediction, np.zeros((1, num_features - 1))), axis=1)
-        last_sequence = np.concatenate((last_sequence[1:], next_prediction_full), axis=0)
+        next_pred = model.predict(last_sequence.reshape(1, time_steps, num_features))
+        next_pred_rescaled = scaler.inverse_transform(np.concatenate((next_pred, np.zeros((1, num_features - 1))), axis=1))[:, 0]
+        future_predictions.append(next_pred_rescaled[0])
+        next_pred_full = np.concatenate((next_pred, np.zeros((1, num_features - 1))), axis=1)  # Adjust shape
+        last_sequence = np.append(last_sequence[1:], next_pred_full, axis=0)
 
-        # Print updated last_sequence during each iteration
-        logger.info(f"Updated last_sequence shape during iteration: {last_sequence.shape}")
-        logger.info(f"Updated last_sequence sample during iteration: {last_sequence[-5:]}")
+    # Inverse transform the actual prices for plotting
+    logger.info("Inverse transforming the actual prices for plotting")
+    actual_data = scaler.inverse_transform(scaled_data)
+    actual_prices = actual_data[:, 0]
 
-    # Convert future_predictions to a NumPy array
-    future_predictions = np.array(future_predictions)
+    # Prepare predictions for plotting
+    logger.info("Preparing predictions for plotting")
+    predictions_full = np.empty_like(actual_prices)
+    predictions_full[:] = np.nan
+    predictions_full[train_size + time_steps: train_size + time_steps + len(predictions)] = predictions
 
-    # Print future_predictions before rescaling
-    logger.info(f"Future predictions before rescaling: {future_predictions}")
+    future_predictions_full = np.empty_like(actual_prices)
+    future_predictions_full[:] = np.nan
+    future_predictions_full[-future_days:] = future_predictions
 
-    # Rescale future predictions
-    future_predictions = scaler.inverse_transform(
-        np.concatenate((future_predictions.reshape(-1, 1), np.zeros((future_predictions.shape[0], num_features - 1))),
-                       axis=1))[:, 0]
-
-    # Print future_predictions after rescaling
-    logger.info(f"Future predictions after rescaling: {future_predictions}")
-
-    # Extend the stock_data index for future dates
-    last_date = stock_data.index[-1]
-    future_dates = pd.date_range(last_date + pd.Timedelta(days=1), periods=future_days)
-
-    # Create a DataFrame for the future predictions
-    future_predictions_df = pd.DataFrame(future_predictions, index=future_dates, columns=['Future Predictions'])
-
-    # Print the future_predictions_df to debug
-    logger.info("Future predictions DataFrame:")
-    logger.info(future_predictions_df.head())
-
-    # Plot the results
+    # Plot results
     logger.info("Plotting results")
     plt.figure(figsize=(12, 6))
-    plt.plot(stock_data['Close'], color='blue', label='Actual Stock Price')
-    plt.plot(pd.DataFrame(predictions_full, index=stock_data.index), color='orange', label='Predicted Stock Price')
-    plt.plot(future_predictions_df.index, future_predictions_df['Future Predictions'], color='red', linestyle='--',
-             label='Future Predictions')
-    plt.fill_between(stock_data.index[train_size + time_steps:],
-                     stock_data['Close'].values[train_size + time_steps:].flatten(),
-                     predictions_full[train_size + time_steps:].flatten(), color='orange', alpha=0.3)
+    plt.plot(actual_prices, label='Actual Stock Price')
+    plt.plot(predictions_full, label='Predicted Stock Price')
+    plt.plot(future_predictions_full, label='Future Predictions', linestyle='--', color='r')
     plt.title(f'{stock_symbol} Stock Price Prediction with GAN-Augmented LSTM')
     plt.xlabel('Time')
     plt.ylabel('Stock Price')
     plt.legend()
     plt.grid(True)
-
-    # Show the plot
+    plt.savefig(f'{stock_symbol}_stock_price_prediction.png')
     plt.show()
 
+    logger.info("Analysis completed successfully")
 
-# Call the function with the stock symbol, desired test ratio, and future days to predict
+# Example usage
 stock_market_analysis_with_gan('NVDA', test_ratio=0.2, future_days=90)
-

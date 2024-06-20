@@ -1,0 +1,22 @@
+2024-06-20 15:13:05,302 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 15:13:05,761 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 15:13:05,785 - INFO - Data shape after adding indicators: (3473, 11)
+2024-06-20 15:16:04,692 - INFO - Prediction plot saved for NVDA
+2024-06-20 15:19:20,824 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 15:19:21,307 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 15:19:21,317 - INFO - Data shape after adding indicators: (3473, 11)
+2024-06-20 15:22:21,492 - INFO - Prediction plot saved for NVDA
+2024-06-20 15:22:23,840 - INFO - Future prediction plot saved for NVDA
+2024-06-20 15:24:25,026 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 15:24:25,511 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 15:24:25,524 - INFO - Data shape after adding indicators: (3473, 11)
+2024-06-20 15:27:34,305 - INFO - Prediction plot saved for NVDA
+2024-06-20 15:27:36,760 - INFO - Future prediction plot saved for NVDA
+2024-06-20 15:30:05,397 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 15:30:05,911 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 15:30:05,926 - INFO - Data shape after adding indicators: (3473, 11)
+2024-06-20 15:37:06,937 - INFO - Prediction plot saved for NVDA
+2024-06-20 15:37:10,385 - INFO - Future prediction plot saved for NVDA
+2024-06-20 15:45:17,807 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 15:45:18,256 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 15:45:18,269 - INFO - Data shape after adding indicators: (3473, 11)

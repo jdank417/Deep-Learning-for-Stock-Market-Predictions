@@ -3481,3 +3481,198 @@
 2024-06-18 15:46:27,286 - INFO - Preparing future predictions
 2024-06-18 15:46:33,975 - INFO - Inverse transforming the actual prices for plotting
 2024-06-18 15:46:33,976 - INFO - Preparing predictions for plotting
+2024-06-20 13:40:33,477 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 13:40:33,478 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 13:40:33,478 - INFO - Downloading stock data for NVDA
+2024-06-20 13:40:37,419 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 13:40:37,421 - INFO - Adding technical indicators
+2024-06-20 13:40:37,425 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 13:40:37,425 - INFO - Scaling the data
+2024-06-20 13:40:37,430 - INFO - Data scaled successfully
+2024-06-20 13:40:37,430 - INFO - Preparing dataset
+2024-06-20 13:40:52,777 - INFO - Training model on extrapolation task
+2024-06-20 13:42:46,853 - INFO - Making predictions
+2024-06-20 13:42:48,161 - INFO - Preparing future predictions
+2024-06-20 13:42:54,837 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 13:42:54,837 - INFO - Preparing predictions for plotting
+2024-06-20 13:46:51,822 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 13:46:51,822 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 13:46:51,822 - INFO - Downloading stock data for NVDA
+2024-06-20 13:46:52,333 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 13:46:52,334 - INFO - Adding technical indicators
+2024-06-20 13:46:52,337 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 13:46:52,337 - INFO - Scaling the data
+2024-06-20 13:46:52,339 - INFO - Data scaled successfully
+2024-06-20 13:46:52,339 - INFO - Preparing dataset
+2024-06-20 13:47:07,243 - INFO - Training model on extrapolation task
+2024-06-20 13:49:22,957 - INFO - Making predictions
+2024-06-20 13:49:24,309 - INFO - Preparing future predictions
+2024-06-20 13:49:30,819 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 13:49:30,820 - INFO - Preparing predictions for plotting
+2024-06-20 13:53:50,913 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 13:53:50,914 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 13:53:50,914 - INFO - Downloading stock data for NVDA
+2024-06-20 13:53:51,353 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 13:53:51,355 - INFO - Adding technical indicators
+2024-06-20 13:53:51,359 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 13:53:51,359 - INFO - Scaling the data
+2024-06-20 13:53:51,361 - INFO - Data scaled successfully
+2024-06-20 13:53:51,361 - INFO - Preparing dataset
+2024-06-20 13:54:05,916 - INFO - Training model on extrapolation task
+2024-06-20 13:55:15,063 - INFO - Making predictions
+2024-06-20 13:55:16,435 - INFO - Preparing future predictions
+2024-06-20 13:55:23,137 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 13:55:23,138 - INFO - Preparing predictions for plotting
+2024-06-20 14:01:51,481 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 14:01:51,481 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 14:01:51,481 - INFO - Downloading stock data for NVDA
+2024-06-20 14:01:51,957 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 14:01:51,959 - INFO - Adding technical indicators
+2024-06-20 14:01:51,962 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 14:01:51,962 - INFO - Scaling the data
+2024-06-20 14:01:51,966 - INFO - Data scaled successfully
+2024-06-20 14:01:51,966 - INFO - Preparing dataset
+2024-06-20 14:02:06,459 - INFO - Training model on extrapolation task
+2024-06-20 14:03:55,036 - INFO - Making predictions
+2024-06-20 14:03:56,377 - INFO - Preparing future predictions
+2024-06-20 14:04:03,930 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 14:04:03,931 - INFO - Preparing predictions for plotting
+2024-06-20 14:06:58,112 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 14:06:58,112 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 14:06:58,112 - INFO - Downloading stock data for NVDA
+2024-06-20 14:06:58,569 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 14:06:58,570 - INFO - Adding technical indicators
+2024-06-20 14:06:58,575 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 14:06:58,575 - INFO - Scaling the data
+2024-06-20 14:06:58,580 - INFO - Data scaled successfully
+2024-06-20 14:06:58,580 - INFO - Preparing dataset
+2024-06-20 14:07:13,188 - INFO - Training model on extrapolation task
+2024-06-20 14:08:11,425 - INFO - Making predictions
+2024-06-20 14:08:12,751 - INFO - Preparing future predictions
+2024-06-20 14:08:19,434 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 14:08:19,434 - INFO - Preparing predictions for plotting
+2024-06-20 14:13:44,478 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 14:13:44,478 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 14:13:44,478 - INFO - Downloading stock data for NVDA
+2024-06-20 14:13:44,955 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 14:13:44,956 - INFO - Adding technical indicators
+2024-06-20 14:13:44,958 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 14:13:44,958 - INFO - Scaling the data
+2024-06-20 14:13:44,961 - INFO - Data scaled successfully
+2024-06-20 14:13:44,961 - INFO - Preparing dataset
+2024-06-20 14:13:59,964 - INFO - Training model on extrapolation task
+2024-06-20 14:16:16,808 - INFO - Making predictions
+2024-06-20 14:16:18,164 - INFO - Preparing future predictions
+2024-06-20 14:16:24,616 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 14:16:24,616 - INFO - Preparing predictions for plotting
+2024-06-20 14:19:49,590 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 14:19:49,590 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 14:19:49,590 - INFO - Downloading stock data for NVDA
+2024-06-20 14:19:50,017 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 14:19:50,019 - INFO - Adding technical indicators
+2024-06-20 14:19:50,023 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 14:19:50,023 - INFO - Scaling the data
+2024-06-20 14:19:50,025 - INFO - Data scaled successfully
+2024-06-20 14:19:50,026 - INFO - Preparing dataset
+2024-06-20 14:20:04,358 - INFO - Training model on extrapolation task
+2024-06-20 14:21:40,246 - INFO - Making predictions
+2024-06-20 14:21:41,525 - INFO - Preparing future predictions
+2024-06-20 14:21:47,984 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 14:24:17,334 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 14:24:17,335 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 14:24:17,335 - INFO - Downloading stock data for NVDA
+2024-06-20 14:24:17,783 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 14:24:17,784 - INFO - Adding technical indicators
+2024-06-20 14:24:17,787 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 14:24:17,787 - INFO - Scaling the data
+2024-06-20 14:24:17,791 - INFO - Data scaled successfully
+2024-06-20 14:24:17,791 - INFO - Preparing dataset
+2024-06-20 14:24:32,432 - INFO - Training model on extrapolation task
+2024-06-20 14:25:39,547 - INFO - Making predictions
+2024-06-20 14:25:40,793 - INFO - Preparing future predictions
+2024-06-20 14:25:47,426 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 14:28:25,799 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 14:28:25,800 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 14:28:25,800 - INFO - Downloading stock data for NVDA
+2024-06-20 14:28:26,272 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 14:28:26,273 - INFO - Adding technical indicators
+2024-06-20 14:28:26,275 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 14:28:26,275 - INFO - Scaling the data
+2024-06-20 14:28:26,277 - INFO - Data scaled successfully
+2024-06-20 14:28:26,277 - INFO - Preparing dataset
+2024-06-20 14:28:40,544 - INFO - Training model on extrapolation task
+2024-06-20 14:29:40,917 - INFO - Making predictions
+2024-06-20 14:29:42,291 - INFO - Preparing future predictions
+2024-06-20 14:29:48,688 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 14:43:25,145 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 14:43:25,145 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 14:43:25,145 - INFO - Downloading stock data for NVDA
+2024-06-20 14:43:25,657 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 14:43:25,658 - INFO - Adding technical indicators
+2024-06-20 14:43:25,661 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 14:43:25,661 - INFO - Scaling the data
+2024-06-20 14:43:25,664 - INFO - Data scaled successfully
+2024-06-20 14:43:25,664 - INFO - Preparing dataset
+2024-06-20 14:43:40,425 - INFO - Training model on extrapolation task
+2024-06-20 14:44:39,704 - INFO - Making predictions
+2024-06-20 14:44:40,955 - INFO - Preparing future predictions
+2024-06-20 14:44:47,415 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 14:46:12,315 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 14:46:12,315 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 14:46:12,315 - INFO - Downloading stock data for NVDA
+2024-06-20 14:46:12,788 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 14:46:12,789 - INFO - Adding technical indicators
+2024-06-20 14:46:12,791 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 14:46:12,791 - INFO - Scaling the data
+2024-06-20 14:46:12,794 - INFO - Data scaled successfully
+2024-06-20 14:46:12,795 - INFO - Preparing dataset
+2024-06-20 14:46:26,819 - INFO - Training model on extrapolation task
+2024-06-20 14:47:42,680 - INFO - Making predictions
+2024-06-20 14:47:44,135 - INFO - Preparing future predictions
+2024-06-20 14:47:50,598 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 14:50:37,797 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 14:50:37,797 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 14:50:37,797 - INFO - Downloading stock data for NVDA
+2024-06-20 14:50:38,268 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 14:50:38,269 - INFO - Adding technical indicators
+2024-06-20 14:50:38,272 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 14:50:38,272 - INFO - Scaling the data
+2024-06-20 14:50:38,275 - INFO - Data scaled successfully
+2024-06-20 14:50:38,275 - INFO - Preparing dataset
+2024-06-20 14:50:52,437 - INFO - Training model on extrapolation task
+2024-06-20 14:52:27,238 - INFO - Making predictions
+2024-06-20 14:52:28,569 - INFO - Preparing future predictions
+2024-06-20 14:52:35,335 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 15:06:44,059 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 15:06:44,059 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 15:06:44,059 - INFO - Downloading stock data for NVDA
+2024-06-20 15:06:48,287 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 15:06:48,288 - INFO - Adding technical indicators
+2024-06-20 15:06:48,290 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 15:06:48,290 - INFO - Scaling the data
+2024-06-20 15:06:48,293 - INFO - Data scaled successfully
+2024-06-20 15:06:48,293 - INFO - Preparing dataset
+2024-06-20 15:07:03,569 - INFO - Training model on extrapolation task
+2024-06-20 15:08:27,836 - INFO - Making predictions
+2024-06-20 15:08:29,138 - INFO - Preparing future predictions
+2024-06-20 15:08:35,750 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 15:08:35,750 - INFO - Length of actual_prices: 3473
+2024-06-20 15:08:35,751 - INFO - Length of predictions: 883
+2024-06-20 15:08:35,751 - INFO - start_idx: 2590, end_idx: 3473
+2024-06-20 15:09:13,112 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-20 15:09:13,113 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-20 15:09:13,113 - INFO - Downloading stock data for NVDA
+2024-06-20 15:09:13,635 - INFO - Downloaded data shape: (3522, 6)
+2024-06-20 15:09:13,636 - INFO - Adding technical indicators
+2024-06-20 15:09:13,638 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-20 15:09:13,638 - INFO - Scaling the data
+2024-06-20 15:09:13,642 - INFO - Data scaled successfully
+2024-06-20 15:09:13,642 - INFO - Preparing dataset
+2024-06-20 15:09:28,914 - INFO - Training model on extrapolation task
+2024-06-20 15:11:01,513 - INFO - Making predictions
+2024-06-20 15:11:02,972 - INFO - Preparing future predictions
+2024-06-20 15:11:09,650 - INFO - Inverse transforming the actual prices for plotting
+2024-06-20 15:11:09,650 - INFO - Length of actual_prices: 3473
+2024-06-20 15:11:09,651 - INFO - Length of predictions: 883
+2024-06-20 15:11:09,651 - INFO - start_idx: 2590, end_idx: 3473
+2024-06-20 15:11:10,546 - INFO - Prediction plot saved for NVDA

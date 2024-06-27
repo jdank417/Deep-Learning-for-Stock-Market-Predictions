@@ -1093,6 +1093,17 @@
 2024-01-02           50.384657
 2024-01-03           49.166860
 2024-06-13 15:33:38,042 - INFO - Plotting results
+2024-06-26 20:51:57,965 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-26 20:51:57,966 - INFO - Test ratio: 0.2, Future days: 30
+2024-06-26 20:51:57,966 - INFO - Downloading stock data for NVDA
+2024-06-26 20:51:58,535 - INFO - Downloaded data shape: (3522, 6)
+2024-06-26 20:51:58,535 - INFO - Adding technical indicators
+2024-06-26 20:51:58,539 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-26 20:51:58,539 - INFO - Scaling the data
+2024-06-26 20:51:58,542 - INFO - Data scaled successfully
+2024-06-26 20:51:58,543 - INFO - Preparing dataset
+2024-06-26 20:51:58,553 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-26 20:51:58,554 - INFO - Pre-training model on interpolation task
 2024-06-14 08:01:06,134 - INFO - Starting analysis for stock symbol: NVDA
 2024-06-14 08:01:06,135 - INFO - Test ratio: 0.2, Future days: 30
 2024-06-14 08:01:06,135 - INFO - Downloading stock data for NVDA
@@ -4711,3 +4722,157 @@
 2024-06-25 20:34:43,516 - INFO - Data scaled successfully
 2024-06-25 20:34:43,519 - INFO - Preparing dataset
 2024-06-25 20:34:43,522 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-26 20:53:09,905 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-26 20:53:09,905 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-26 20:53:09,905 - INFO - Downloading stock data for NVDA
+2024-06-26 20:53:10,290 - INFO - Downloaded data shape: (501, 6)
+2024-06-26 20:53:10,291 - INFO - Adding technical indicators
+2024-06-26 20:53:10,302 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-26 20:53:10,302 - INFO - Scaling the data
+2024-06-26 20:53:10,307 - INFO - Data scaled successfully
+2024-06-26 20:53:10,308 - INFO - Preparing dataset
+2024-06-26 20:53:10,312 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-26 20:56:44,695 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-26 20:56:44,696 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-26 20:56:44,696 - INFO - Downloading stock data for NVDA
+2024-06-26 20:56:45,029 - INFO - Downloaded data shape: (501, 6)
+2024-06-26 20:56:45,029 - INFO - Adding technical indicators
+2024-06-26 20:56:45,039 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-26 20:56:45,039 - INFO - Scaling the data
+2024-06-26 20:56:45,044 - INFO - Data scaled successfully
+2024-06-26 20:56:45,045 - INFO - Preparing dataset
+2024-06-26 20:56:45,048 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-26 21:00:29,044 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-26 21:00:29,044 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-26 21:00:29,044 - INFO - Downloading stock data for NVDA
+2024-06-26 21:00:29,395 - INFO - Downloaded data shape: (501, 6)
+2024-06-26 21:00:29,395 - INFO - Adding technical indicators
+2024-06-26 21:00:29,405 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-26 21:00:29,405 - INFO - Scaling the data
+2024-06-26 21:00:29,409 - INFO - Data scaled successfully
+2024-06-26 21:00:29,411 - INFO - Preparing dataset
+2024-06-26 21:00:29,413 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-26 21:04:16,581 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-26 21:04:16,581 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-26 21:04:16,581 - INFO - Downloading stock data for NVDA
+2024-06-26 21:04:17,014 - INFO - Downloaded data shape: (501, 6)
+2024-06-26 21:04:17,015 - INFO - Adding technical indicators
+2024-06-26 21:04:17,029 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-26 21:04:17,029 - INFO - Scaling the data
+2024-06-26 21:04:17,034 - INFO - Data scaled successfully
+2024-06-26 21:04:17,036 - INFO - Preparing dataset
+2024-06-26 21:04:17,039 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-26 21:09:11,837 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-26 21:09:11,837 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-26 21:09:11,837 - INFO - Downloading stock data for NVDA
+2024-06-26 21:09:12,293 - INFO - Downloaded data shape: (501, 6)
+2024-06-26 21:09:12,294 - INFO - Adding technical indicators
+2024-06-26 21:09:12,308 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-26 21:09:12,308 - INFO - Scaling the data
+2024-06-26 21:09:12,314 - INFO - Data scaled successfully
+2024-06-26 21:09:12,316 - INFO - Preparing dataset
+2024-06-26 21:09:12,319 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-26 21:13:02,239 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-26 21:13:02,239 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-26 21:13:02,239 - INFO - Downloading stock data for NVDA
+2024-06-26 21:13:02,632 - INFO - Downloaded data shape: (501, 6)
+2024-06-26 21:13:02,632 - INFO - Adding technical indicators
+2024-06-26 21:13:02,642 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-26 21:13:02,642 - INFO - Scaling the data
+2024-06-26 21:13:02,646 - INFO - Data scaled successfully
+2024-06-26 21:13:02,647 - INFO - Preparing dataset
+2024-06-26 21:13:02,650 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-26 21:19:51,347 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-26 21:19:51,347 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-26 21:19:51,348 - INFO - Downloading stock data for NVDA
+2024-06-26 21:19:51,750 - INFO - Downloaded data shape: (501, 6)
+2024-06-26 21:19:51,751 - INFO - Adding technical indicators
+2024-06-26 21:19:51,766 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-26 21:19:51,766 - INFO - Scaling the data
+2024-06-26 21:19:51,771 - INFO - Data scaled successfully
+2024-06-26 21:19:51,773 - INFO - Preparing dataset
+2024-06-26 21:19:51,776 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-26 21:23:36,240 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-26 21:23:36,241 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-26 21:23:36,241 - INFO - Downloading stock data for NVDA
+2024-06-26 21:23:36,667 - INFO - Downloaded data shape: (501, 6)
+2024-06-26 21:23:36,667 - INFO - Adding technical indicators
+2024-06-26 21:23:36,673 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-26 21:23:36,674 - INFO - Scaling the data
+2024-06-26 21:23:36,676 - INFO - Data scaled successfully
+2024-06-26 21:23:36,677 - INFO - Preparing dataset
+2024-06-26 21:23:36,690 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-26 21:27:08,038 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-26 21:27:08,038 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-26 21:27:08,038 - INFO - Downloading stock data for NVDA
+2024-06-26 21:27:08,463 - INFO - Downloaded data shape: (501, 6)
+2024-06-26 21:27:08,465 - INFO - Adding technical indicators
+2024-06-26 21:27:08,476 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-26 21:27:08,476 - INFO - Scaling the data
+2024-06-26 21:27:08,479 - INFO - Data scaled successfully
+2024-06-26 21:27:08,480 - INFO - Preparing dataset
+2024-06-26 21:27:08,482 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-27 09:47:19,462 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-27 09:47:19,462 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-27 09:47:19,463 - INFO - Downloading stock data for NVDA
+2024-06-27 09:47:23,255 - INFO - Downloaded data shape: (501, 6)
+2024-06-27 09:47:23,255 - INFO - Adding technical indicators
+2024-06-27 09:47:23,266 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-27 09:47:23,266 - INFO - Scaling the data
+2024-06-27 09:47:23,270 - INFO - Data scaled successfully
+2024-06-27 09:47:23,273 - INFO - Preparing dataset
+2024-06-27 09:47:23,274 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-27 09:52:03,135 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-27 09:52:03,137 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-27 09:52:03,137 - INFO - Downloading stock data for NVDA
+2024-06-27 09:52:03,527 - INFO - Downloaded data shape: (501, 6)
+2024-06-27 09:52:03,528 - INFO - Adding technical indicators
+2024-06-27 09:52:03,535 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-27 09:52:03,535 - INFO - Scaling the data
+2024-06-27 09:52:03,538 - INFO - Data scaled successfully
+2024-06-27 09:52:03,539 - INFO - Preparing dataset
+2024-06-27 09:52:03,542 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-27 09:58:08,030 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-27 09:58:08,030 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-27 09:58:08,030 - INFO - Downloading stock data for NVDA
+2024-06-27 09:58:08,498 - INFO - Downloaded data shape: (501, 6)
+2024-06-27 09:58:08,498 - INFO - Adding technical indicators
+2024-06-27 09:58:08,511 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-27 09:58:08,511 - INFO - Scaling the data
+2024-06-27 09:58:08,515 - INFO - Data scaled successfully
+2024-06-27 09:58:08,518 - INFO - Preparing dataset
+2024-06-27 09:58:08,520 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-27 10:00:39,641 - INFO - Analysis completed successfully
+2024-06-27 10:02:40,210 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-27 10:02:40,210 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-27 10:02:40,210 - INFO - Downloading stock data for NVDA
+2024-06-27 10:02:40,599 - INFO - Downloaded data shape: (501, 6)
+2024-06-27 10:02:40,599 - INFO - Adding technical indicators
+2024-06-27 10:02:40,608 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-27 10:02:40,609 - INFO - Scaling the data
+2024-06-27 10:02:40,612 - INFO - Data scaled successfully
+2024-06-27 10:02:40,614 - INFO - Preparing dataset
+2024-06-27 10:02:40,616 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-27 10:05:18,921 - INFO - Analysis completed successfully
+2024-06-27 10:07:47,483 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-27 10:07:47,483 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-27 10:07:47,483 - INFO - Downloading stock data for NVDA
+2024-06-27 10:07:47,847 - INFO - Downloaded data shape: (501, 6)
+2024-06-27 10:07:47,847 - INFO - Adding technical indicators
+2024-06-27 10:07:47,857 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-27 10:07:47,857 - INFO - Scaling the data
+2024-06-27 10:07:47,861 - INFO - Data scaled successfully
+2024-06-27 10:07:47,864 - INFO - Preparing dataset
+2024-06-27 10:07:47,867 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-27 10:10:32,715 - INFO - Analysis completed successfully
+2024-06-27 10:12:57,681 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-27 10:12:57,681 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-27 10:12:57,682 - INFO - Downloading stock data for NVDA
+2024-06-27 10:12:58,132 - INFO - Downloaded data shape: (501, 6)
+2024-06-27 10:12:58,132 - INFO - Adding technical indicators
+2024-06-27 10:12:58,143 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-27 10:12:58,143 - INFO - Scaling the data
+2024-06-27 10:12:58,148 - INFO - Data scaled successfully
+2024-06-27 10:12:58,151 - INFO - Preparing dataset
+2024-06-27 10:12:58,153 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-27 10:15:36,098 - INFO - Analysis completed successfully

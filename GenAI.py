@@ -62,7 +62,7 @@ def create_lstm_cnn_attention_encoder(lstm_units=100, conv_filters=64, conv_kern
     x = Flatten()(x)
     x = Dropout(dropout_rate)(x)
     features = Dense(50, activation='relu', name='features')(x)
-    outputs = Dense(1)(features)
+    outputs = Dense(num_features)(features)
 
     encoder = Model(inputs, [outputs, features], name='lstm_cnn_attention_encoder')
     encoder.compile(optimizer='adam', loss='mean_squared_error')
@@ -137,14 +137,26 @@ def create_ensemble_model(input_shape, latent_dim=8):
 
     def ensemble_predict(X):
         lstm_pred, lstm_features = lstm_cnn.predict(X)
-        vae_pred = vae.predict([X, lstm_features])[:, -1, 0]
+        vae_pred = vae.predict([X, lstm_features])
         rf_pred = rf.predict(X.reshape(X.shape[0], -1))
         xgb_pred = xgb.predict(X.reshape(X.shape[0], -1))
         gp_pred, _ = gp.predict(X.reshape(X.shape[0], -1), return_std=True)
-        return (lstm_pred + vae_pred + rf_pred + xgb_pred + gp_pred) / 5
+
+        # Ensure all predictions have the same shape
+        if len(lstm_pred.shape) == 3:
+            lstm_pred = lstm_pred[:, -1, :]  # Use only the last time step
+        if len(vae_pred.shape) == 3:
+            vae_pred = vae_pred[:, -1, :]  # Use only the last time step
+        rf_pred = rf_pred.reshape(-1, 1)
+        xgb_pred = xgb_pred.reshape(-1, 1)
+        gp_pred = gp_pred.reshape(-1, 1)
+
+        # Combine predictions for all features
+        combined_pred = np.column_stack((lstm_pred, vae_pred, rf_pred, xgb_pred, gp_pred))
+
+        return np.mean(combined_pred, axis=1)
 
     return ensemble_predict, (lstm_cnn, vae, rf, xgb, gp)
-
 
 def sliding_window_train(model, X, y, window_size=1000):
     for i in range(0, len(X) - window_size, 100):  # Step by 100 for efficiency
@@ -173,32 +185,33 @@ def generate_future_predictions_hybrid(ensemble_model, last_sequence, future_day
 
         # Update sequence for next iteration
         current_sequence = np.roll(current_sequence, -1, axis=1)
-        current_sequence[0, -1, :] = next_prediction
+        current_sequence[0, -1] = next_prediction  # Update all features
 
-    future_predictions = np.array(future_predictions)
+    future_predictions = np.array(future_predictions).reshape(-1, 1)
 
-    if future_predictions.shape[1] != num_features:
-        padding = np.zeros((future_predictions.shape[0], num_features - future_predictions.shape[1]))
-        future_predictions = np.hstack((future_predictions, padding))
+    print(f"Future Predictions Shape: {future_predictions.shape}")
+    print(f"Scaler Min Shape: {scaler.min_.shape}, Scaler Scale Shape: {scaler.scale_.shape}")
 
-    future_predictions_rescaled = scaler.inverse_transform(future_predictions)
-    return future_predictions_rescaled[:, 0]
+    # Prepare the predictions for inverse transform
+    future_predictions_padded = np.zeros((future_predictions.shape[0], scaler.scale_.shape[0]))
+    future_predictions_padded[:, 0] = future_predictions.flatten()
+
+    # Inverse transform predictions
+    future_predictions_rescaled = scaler.inverse_transform(future_predictions_padded)
+
+    return future_predictions_rescaled[:, 0]  # Return only the first column (closing price)
 
 
 def plot_results(stock_data, predictions_full, future_predictions_df, train_size, time_steps):
-    smoothed_predictions = savgol_filter(predictions_full.flatten(), window_length=15, polyorder=2)
-
-    plt.figure(figsize=(14, 7))
-    plt.plot(stock_data.index, stock_data['Close'], label='Actual Stock Price')
-    plt.plot(stock_data.index, smoothed_predictions, label='Smoothed Predictions', alpha=0.7)
-    plt.plot(future_predictions_df.index, future_predictions_df['Future Predictions'], label='Future Predictions',
-             color='g', alpha=0.7)
-    plt.axvline(stock_data.index[train_size], color='r', linestyle='--', linewidth=1, label='Train-Test Split')
+    plt.figure(figsize=(10, 5))
+    plt.plot(stock_data['Close'], label='Actual Stock Price')
+    plt.plot(stock_data.index[train_size + time_steps:], predictions_full[train_size + time_steps:], label='Smoothed Predictions')
+    plt.plot(future_predictions_df.index, future_predictions_df['Future Predictions'], label='Future Predictions')
+    plt.axvline(x=stock_data.index[train_size + time_steps], color='r', linestyle='--', label='Train-Test Split')
     plt.xlabel('Date')
     plt.ylabel('Stock Price')
     plt.title('Stock Price Prediction')
     plt.legend()
-    plt.grid(True)
     plt.show()
 
 
@@ -226,6 +239,11 @@ def stock_market_analysis_with_hybrid_model(stock_symbol, test_ratio, future_day
     scaled_data = scaler.fit_transform(stock_data)
     logger.info("Data scaled successfully")
 
+    # Scale the closing prices separately
+    closing_price_scaler = MinMaxScaler(feature_range=(0, 1))
+    closing_prices = stock_data['Close'].values.reshape(-1, 1)
+    closing_prices_scaled = closing_price_scaler.fit_transform(closing_prices)
+
     # Add wavelet features
     wavelet_feats = np.apply_along_axis(wavelet_features, 0, scaled_data)
 
@@ -234,13 +252,20 @@ def stock_market_analysis_with_hybrid_model(stock_symbol, test_ratio, future_day
     scaled_data = scaled_data[:min_rows]
     wavelet_feats = wavelet_feats[:min_rows]
 
-    scaled_data = np.hstack((scaled_data, wavelet_feats))
+    # Combine scaled data and wavelet features
+    combined_data = np.hstack((scaled_data, wavelet_feats))
+
+    # Create a new scaler for the combined data
+    combined_scaler = MinMaxScaler(feature_range=(0, 1))
+    combined_scaled_data = combined_scaler.fit_transform(combined_data)
+
+    # Update num_features
+    num_features = combined_scaled_data.shape[1]
 
     # Prepare the dataset
     logger.info("Preparing dataset")
     time_steps = 60
-    num_features = scaled_data.shape[1]
-    X, y = create_dataset(scaled_data, time_steps)
+    X, y = create_dataset(combined_scaled_data, time_steps)
     logger.info(f"Dataset prepared. X shape: {X.shape}, y shape: {y.shape}")
 
     # Split the data
@@ -265,17 +290,28 @@ def stock_market_analysis_with_hybrid_model(stock_symbol, test_ratio, future_day
     backtest_predictions = backtest(lstm_cnn, X, y)
 
     # Generate future predictions
-    future_predictions = generate_future_predictions_hybrid(ensemble_model, X_train[-1], future_days, scaler, num_features)
+    future_predictions = generate_future_predictions_hybrid(ensemble_model, X_train[-1], future_days, combined_scaler, num_features)
+
+    # Debug print for future predictions
+    print("Future Predictions:", future_predictions)
 
     # Prepare full dataset predictions for plotting
     test_predictions = ensemble_model(X_test)
-    test_predictions = scaler.inverse_transform(
-        np.column_stack((test_predictions, np.zeros((test_predictions.shape[0], num_features - 1))))
-    )[:, 0]
+    test_predictions = test_predictions.reshape(-1, 1)  # Reshape to 2D array for inverse_transform
 
+    # Debug print for test predictions before inverse transform
+    print("Raw Test Predictions:", test_predictions)
+
+    # Inverse transform the closing price predictions using the separate scaler
+    test_predictions_rescaled = closing_price_scaler.inverse_transform(test_predictions)
+
+    # Debug print for test predictions after inverse transform
+    print("Rescaled Test Predictions:", test_predictions_rescaled)
+
+    # Prepare predictions for plotting
     predictions_full = np.zeros((len(stock_data), 1))
     predictions_full[:] = np.nan
-    predictions_full[train_size + time_steps:] = test_predictions.reshape(-1, 1)
+    predictions_full[train_size + time_steps:] = test_predictions_rescaled.reshape(-1, 1)
 
     # Extend the stock_data index for future dates
     last_date = stock_data.index[-1]
@@ -288,6 +324,9 @@ def stock_market_analysis_with_hybrid_model(stock_symbol, test_ratio, future_day
     plot_results(stock_data, predictions_full, future_predictions_df, train_size, time_steps)
 
     logger.info("Analysis completed successfully")
+
+
+
 
 
 if __name__ == "__main__":

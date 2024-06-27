@@ -1,239 +1,294 @@
 import os
+import logging
 import yfinance as yf
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.model_selection import TimeSeriesSplit
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM, Dropout, Conv1D, MaxPooling1D
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import (Dense, LSTM, Dropout, Conv1D, MaxPooling1D,
+                                     Input, Reshape, Lambda, Flatten, concatenate, Attention)
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
-from tensorflow.keras.optimizers import Adam
-import logging
+from tensorflow.keras.losses import mse
+import tensorflow.keras.backend as K
+from scipy.signal import savgol_filter
+from sklearn.ensemble import RandomForestRegressor
+from xgboost import XGBRegressor
+import pywt
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
 
-# Configure logging
-logging.basicConfig(filename='stock_prediction.log', level=logging.INFO,
+# Create a 'logs' directory if it doesn't exist
+log_dir = 'logs'
+os.makedirs(log_dir, exist_ok=True)
+
+logging.basicConfig(filename=os.path.join(log_dir, 'stock_prediction.log'), level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger('stock_prediction')
 
 
-def create_model(lstm_units=100, conv_filters=64, conv_kernel_size=3, dropout_rate=0.3, time_steps=60, num_features=7):
-    model = Sequential([
-        Conv1D(filters=conv_filters, kernel_size=conv_kernel_size, activation='relu',
-               input_shape=(time_steps, num_features)),
-        MaxPooling1D(pool_size=2),
-        LSTM(units=lstm_units, return_sequences=True),
-        Dropout(dropout_rate),
-        LSTM(units=lstm_units),
-        Dropout(dropout_rate),
-        Dense(32, activation='relu'),
-        Dense(1, activation='linear')  # Changed to linear activation
-    ])
-    model.compile(optimizer=Adam(learning_rate=0.001), loss='mean_squared_error')
-    return model
-
-
-def add_technical_indicators(data):
-    data['MA20'] = data['Close'].rolling(window=20).mean()
-    data['MA50'] = data['Close'].rolling(window=50).mean()
-    data['RSI'] = calculate_rsi(data['Close'])
-    data['MACD'] = calculate_macd(data['Close'])
-    data['ATR'] = calculate_atr(data)
-    data.dropna(inplace=True)
-    return data
-
-
-def calculate_rsi(prices, period=14):
-    delta = prices.diff()
-    gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
-    loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
+def calculate_rsi(data, window=14):
+    delta = data.diff()
+    gain = (delta.where(delta > 0, 0)).rolling(window=window).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(window=window).mean()
     rs = gain / loss
     return 100 - (100 / (1 + rs))
 
 
-def calculate_macd(prices, slow=26, fast=12, signal=9):
-    exp1 = prices.ewm(span=fast, adjust=False).mean()
-    exp2 = prices.ewm(span=slow, adjust=False).mean()
-    macd = exp1 - exp2
-    signal_line = macd.ewm(span=signal, adjust=False).mean()
-    return macd - signal_line
+def calculate_macd(data, short_window=12, long_window=26, signal_window=9):
+    short_ema = data.ewm(span=short_window, adjust=False).mean()
+    long_ema = data.ewm(span=long_window, adjust=False).mean()
+    macd = short_ema - long_ema
+    signal = macd.ewm(span=signal_window, adjust=False).mean()
+    return macd, signal
 
 
-def calculate_atr(data, period=14):
-    high_low = data['High'] - data['Low']
-    high_close = np.abs(data['High'] - data['Close'].shift())
-    low_close = np.abs(data['Low'] - data['Close'].shift())
-    ranges = pd.concat([high_low, high_close, low_close], axis=1)
-    true_range = np.max(ranges, axis=1)
-    return true_range.rolling(period).mean()
+def calculate_atr(high, low, close, window=14):
+    tr1 = high - low
+    tr2 = abs(high - close.shift())
+    tr3 = abs(low - close.shift())
+    tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+    return tr.rolling(window=window).mean()
+
+
+def create_lstm_cnn_attention_encoder(lstm_units=100, conv_filters=64, conv_kernel_size=3, dropout_rate=0.3,
+                                      time_steps=60, num_features=4):
+    inputs = Input(shape=(time_steps, num_features))
+    x = Conv1D(filters=conv_filters, kernel_size=conv_kernel_size, activation='relu')(inputs)
+    x = MaxPooling1D(pool_size=2)(x)
+    lstm_out = LSTM(units=lstm_units, return_sequences=True)(x)
+    attention = Attention()([lstm_out, lstm_out])
+    x = concatenate([lstm_out, attention])
+    x = Flatten()(x)
+    x = Dropout(dropout_rate)(x)
+    features = Dense(50, activation='relu', name='features')(x)
+    outputs = Dense(1)(features)
+
+    encoder = Model(inputs, [outputs, features], name='lstm_cnn_attention_encoder')
+    encoder.compile(optimizer='adam', loss='mean_squared_error')
+    return encoder
+
+
+def create_conditional_vae(input_shape, latent_dim, condition_shape):
+    inputs = Input(shape=input_shape, name='vae_input')
+    condition = Input(shape=condition_shape, name='condition_input')
+
+    x = concatenate([Flatten()(inputs), condition])
+    x = Dense(128, activation='relu')(x)
+    x = Dense(64, activation='relu')(x)
+
+    z_mean = Dense(latent_dim)(x)
+    z_log_var = Dense(latent_dim)(x)
+
+    def sampling(args):
+        z_mean, z_log_var = args
+        epsilon = K.random_normal(shape=(K.shape(z_mean)[0], latent_dim))
+        return z_mean + K.exp(0.5 * z_log_var) * epsilon
+
+    z = Lambda(sampling)([z_mean, z_log_var])
+
+    latent_inputs = concatenate([z, condition])
+    x = Dense(64, activation='relu')(latent_inputs)
+    x = Dense(128, activation='relu')(x)
+    outputs = Dense(np.prod(input_shape), activation='linear')(x)
+    outputs = Reshape(input_shape)(outputs)
+
+    vae = Model([inputs, condition], outputs)
+
+    reconstruction_loss = mse(K.flatten(inputs), K.flatten(outputs))
+    kl_loss = -0.5 * K.sum(1 + z_log_var - K.square(z_mean) - K.exp(z_log_var), axis=-1)
+    vae_loss = K.mean(reconstruction_loss + kl_loss)
+    vae.add_loss(vae_loss)
+    vae.compile(optimizer='adam')
+
+    return vae
+
+
+def add_advanced_features(data):
+    data = data.copy()
+    data['RSI'] = calculate_rsi(data['Close'])
+    data['MACD'], _ = calculate_macd(data['Close'])
+    data['ATR'] = calculate_atr(data['High'], data['Low'], data['Close'])
+    data['MA20'] = data['Close'].rolling(window=20).mean()
+    data['MA50'] = data['Close'].rolling(window=50).mean()
+    data.dropna(inplace=True)
+    return data
+
+
+def wavelet_features(data, wavelet='db1', level=3):
+    coeffs = pywt.wavedec(data, wavelet, level=level)
+    return np.concatenate(coeffs)
 
 
 def create_dataset(data, time_steps):
     X, y = [], []
     for i in range(time_steps, len(data)):
-        X.append(data[i - time_steps:i])
-        y.append(data[i, 0])
+        X.append(data[i - time_steps:i, :])
+        y.append(data[i, 0])  # Predict 'Close' price
     return np.array(X), np.array(y)
 
 
-def stock_market_analysis(stock_symbol, test_ratio, future_days):
+def create_ensemble_model(input_shape, latent_dim=8):
+    lstm_cnn = create_lstm_cnn_attention_encoder(time_steps=input_shape[0], num_features=input_shape[1])
+    vae = create_conditional_vae(input_shape=input_shape, latent_dim=latent_dim, condition_shape=(50,))
+    rf = RandomForestRegressor(n_estimators=100)
+    xgb = XGBRegressor(n_estimators=100)
+    gp = GaussianProcessRegressor(kernel=C(1.0, (1e-3, 1e3)) * RBF(10, (1e-2, 1e2)), n_restarts_optimizer=10, alpha=0.1)
+
+    def ensemble_predict(X):
+        lstm_pred, lstm_features = lstm_cnn.predict(X)
+        vae_pred = vae.predict([X, lstm_features])[:, -1, 0]
+        rf_pred = rf.predict(X.reshape(X.shape[0], -1))
+        xgb_pred = xgb.predict(X.reshape(X.shape[0], -1))
+        gp_pred, _ = gp.predict(X.reshape(X.shape[0], -1), return_std=True)
+        return (lstm_pred + vae_pred + rf_pred + xgb_pred + gp_pred) / 5
+
+    return ensemble_predict, (lstm_cnn, vae, rf, xgb, gp)
+
+
+def sliding_window_train(model, X, y, window_size=1000):
+    for i in range(0, len(X) - window_size, 100):  # Step by 100 for efficiency
+        X_window = X[i:i + window_size]
+        y_window = y[i:i + window_size]
+        model.fit(X_window, y_window, epochs=1, verbose=0)
+    return model
+
+
+def backtest(model, X, y, initial_window=1000):
+    predictions = []
+    for i in range(initial_window, len(X)):
+        model.fit(X[:i], y[:i])
+        pred = model.predict(X[i].reshape(1, -1))
+        predictions.append(pred[0])
+    return np.array(predictions)
+
+
+def generate_future_predictions_hybrid(ensemble_model, last_sequence, future_days, scaler, num_features):
+    future_predictions = []
+    current_sequence = last_sequence.reshape(1, *last_sequence.shape)
+
+    for _ in range(future_days):
+        next_prediction = ensemble_model(current_sequence)
+        future_predictions.append(next_prediction[0])
+
+        # Update sequence for next iteration
+        current_sequence = np.roll(current_sequence, -1, axis=1)
+        current_sequence[0, -1, :] = next_prediction
+
+    future_predictions = np.array(future_predictions)
+
+    if future_predictions.shape[1] != num_features:
+        padding = np.zeros((future_predictions.shape[0], num_features - future_predictions.shape[1]))
+        future_predictions = np.hstack((future_predictions, padding))
+
+    future_predictions_rescaled = scaler.inverse_transform(future_predictions)
+    return future_predictions_rescaled[:, 0]
+
+
+def plot_results(stock_data, predictions_full, future_predictions_df, train_size, time_steps):
+    smoothed_predictions = savgol_filter(predictions_full.flatten(), window_length=15, polyorder=2)
+
+    plt.figure(figsize=(14, 7))
+    plt.plot(stock_data.index, stock_data['Close'], label='Actual Stock Price')
+    plt.plot(stock_data.index, smoothed_predictions, label='Smoothed Predictions', alpha=0.7)
+    plt.plot(future_predictions_df.index, future_predictions_df['Future Predictions'], label='Future Predictions',
+             color='g', alpha=0.7)
+    plt.axvline(stock_data.index[train_size], color='r', linestyle='--', linewidth=1, label='Train-Test Split')
+    plt.xlabel('Date')
+    plt.ylabel('Stock Price')
+    plt.title('Stock Price Prediction')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+
+def stock_market_analysis_with_hybrid_model(stock_symbol, test_ratio, future_days):
     logger.info(f"Starting analysis for stock symbol: {stock_symbol}")
+    logger.info(f"Test ratio: {test_ratio}, Future days: {future_days}")
 
     # Download stock data
-    stock_data = yf.download(stock_symbol, start='2010-01-01', end='2024-01-01')
+    logger.info(f"Downloading stock data for {stock_symbol}")
+    stock_data = yf.download(stock_symbol, start='2022-01-01', end='2024-01-01')
     logger.info(f"Downloaded data shape: {stock_data.shape}")
 
-    # Add technical indicators
-    stock_data = add_technical_indicators(stock_data)
-    logger.info(f"Data shape after adding indicators: {stock_data.shape}")
+    if stock_data.empty:
+        logger.error("Failed to retrieve data for the given stock symbol")
+        raise ValueError("Failed to retrieve data for the given stock symbol")
 
-    # Prepare features and target
-    features = ['Close', 'Volume', 'MA20', 'MA50', 'RSI', 'MACD', 'ATR']
-    data = stock_data[features].values
+    # Add technical indicators
+    logger.info("Adding technical indicators")
+    stock_data = add_advanced_features(stock_data)
+    logger.info(f"Technical indicators added. Updated data shape: {stock_data.shape}")
 
     # Scale the data
+    logger.info("Scaling the data")
     scaler = MinMaxScaler(feature_range=(0, 1))
-    scaled_data = scaler.fit_transform(data)
+    scaled_data = scaler.fit_transform(stock_data)
+    logger.info("Data scaled successfully")
 
-    # Create a separate scaler for 'Close' price only
-    close_scaler = MinMaxScaler(feature_range=(0, 1))
-    close_scaler.fit(data[:, 0].reshape(-1, 1))
+    # Add wavelet features
+    wavelet_feats = np.apply_along_axis(wavelet_features, 0, scaled_data)
+
+    # Ensure arrays have the same number of rows
+    min_rows = min(scaled_data.shape[0], wavelet_feats.shape[0])
+    scaled_data = scaled_data[:min_rows]
+    wavelet_feats = wavelet_feats[:min_rows]
+
+    scaled_data = np.hstack((scaled_data, wavelet_feats))
 
     # Prepare the dataset
+    logger.info("Preparing dataset")
     time_steps = 60
+    num_features = scaled_data.shape[1]
     X, y = create_dataset(scaled_data, time_steps)
+    logger.info(f"Dataset prepared. X shape: {X.shape}, y shape: {y.shape}")
 
     # Split the data
     train_size = int(len(X) * (1 - test_ratio))
     X_train, X_test = X[:train_size], X[train_size:]
     y_train, y_test = y[:train_size], y[train_size:]
 
-    # Create and train the model
-    model = create_model(time_steps=time_steps, num_features=len(features))
-    callbacks = [
-        EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True),
-        ModelCheckpoint('best_model.h5', save_best_only=True, monitor='val_loss')
-    ]
+    # Create ensemble model
+    ensemble_model, (lstm_cnn, vae, rf, xgb, gp) = create_ensemble_model((time_steps, num_features))
 
-    # Use TimeSeriesSplit for validation
-    tscv = TimeSeriesSplit(n_splits=5)
-    for train_index, val_index in tscv.split(X_train):
-        X_train_fold, X_val_fold = X_train[train_index], X_train[val_index]
-        y_train_fold, y_val_fold = y_train[train_index], y_train[val_index]
-        model.fit(X_train_fold, y_train_fold, validation_data=(X_val_fold, y_val_fold),
-                  epochs=100, batch_size=32, callbacks=callbacks, verbose=0)
+    # Train models
+    lstm_cnn.fit(X_train, y_train, epochs=50, batch_size=32, validation_split=0.2)
+    vae.fit([X_train, lstm_cnn.predict(X_train)[1]], X_train, epochs=50, batch_size=32, validation_split=0.2)
+    rf.fit(X_train.reshape(X_train.shape[0], -1), y_train)
+    xgb.fit(X_train.reshape(X_train.shape[0], -1), y_train)
+    gp.fit(X_train.reshape(X_train.shape[0], -1), y_train)
 
-    # Make predictions
-    predictions = model.predict(X_test)
+    # Continuous updating with sliding window
+    lstm_cnn = sliding_window_train(lstm_cnn, X_train, y_train)
 
-    # Inverse transform predictions and actual values using close_scaler
-    predictions = close_scaler.inverse_transform(predictions)
-    actual_prices = close_scaler.inverse_transform(scaled_data[:, 0].reshape(-1, 1))
+    # Backtesting
+    backtest_predictions = backtest(lstm_cnn, X, y)
 
-    # Prepare for plotting
-    all_predictions = np.full(len(actual_prices), np.nan)
-    all_predictions[-len(predictions):] = predictions.flatten()
+    # Generate future predictions
+    future_predictions = generate_future_predictions_hybrid(ensemble_model, X_train[-1], future_days, scaler, num_features)
 
-    # Create a directory for saving plots
-    plot_dir = 'stock_plots'
-    os.makedirs(plot_dir, exist_ok=True)
+    # Prepare full dataset predictions for plotting
+    test_predictions = ensemble_model(X_test)
+    test_predictions = scaler.inverse_transform(
+        np.column_stack((test_predictions, np.zeros((test_predictions.shape[0], num_features - 1))))
+    )[:, 0]
 
-    # Plotting historical and predicted prices
-    plt.figure(figsize=(16, 8))
+    predictions_full = np.zeros((len(stock_data), 1))
+    predictions_full[:] = np.nan
+    predictions_full[train_size + time_steps:] = test_predictions.reshape(-1, 1)
 
-    # Plot actual prices
-    plt.plot(stock_data.index, actual_prices, label='Actual Prices', color='blue')
+    # Extend the stock_data index for future dates
+    last_date = stock_data.index[-1]
+    future_dates = pd.date_range(last_date + pd.Timedelta(days=1), periods=future_days)
 
-    # Plot predicted prices
-    valid_predictions = ~np.isnan(all_predictions)
-    plt.plot(stock_data.index[valid_predictions], all_predictions[valid_predictions], label='Predicted Prices',
-             color='red')
+    # Create a DataFrame for the future predictions
+    future_predictions_df = pd.DataFrame(future_predictions, index=future_dates, columns=['Future Predictions'])
 
-    plt.title(f'{stock_symbol} Stock Price Prediction')
-    plt.xlabel('Date')
-    plt.ylabel('Stock Price')
-    plt.legend()
-    plt.xticks(rotation=45)
-    plt.tight_layout()
+    # Plot the results
+    plot_results(stock_data, predictions_full, future_predictions_df, train_size, time_steps)
 
-    # Add text annotations for min and max values
-    min_price = np.min(actual_prices)
-    max_price = np.max(actual_prices)
-    plt.annotate(f'Min: {min_price:.2f}', xy=(stock_data.index[np.argmin(actual_prices)], min_price), xytext=(10, 10),
-                 textcoords='offset points', ha='left', va='bottom',
-                 bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
-                 arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
-    plt.annotate(f'Max: {max_price:.2f}', xy=(stock_data.index[np.argmax(actual_prices)], max_price), xytext=(10, -10),
-                 textcoords='offset points', ha='left', va='top',
-                 bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
-                 arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
-
-    plt.savefig(os.path.join(plot_dir, f'{stock_symbol}_prediction.png'), dpi=300, bbox_inches='tight')
-    plt.close()
-
-    logger.info(f"Prediction plot saved for {stock_symbol}")
-
-    # Future predictions
-    last_sequence = scaled_data[-time_steps:]
-    future_predictions = []
-    for _ in range(future_days):
-        next_pred = model.predict(last_sequence.reshape(1, time_steps, len(features)))
-        future_predictions.append(next_pred[0, 0])
-        next_pred_full = last_sequence[-1].copy()
-        next_pred_full[0] = next_pred[0, 0]
-        last_sequence = np.append(last_sequence[1:], [next_pred_full], axis=0)
-
-    future_dates = pd.date_range(start=stock_data.index[-1] + pd.Timedelta(days=1), periods=future_days)
-    future_predictions = close_scaler.inverse_transform(np.array(future_predictions).reshape(-1, 1))
-
-    # Plotting future predictions
-    plt.figure(figsize=(16, 8))
-
-    # Plot historical prices
-    plt.plot(stock_data.index, actual_prices, label='Historical Prices', color='blue')
-
-    # Plot future predictions
-    plt.plot(future_dates, future_predictions, label='Future Predictions', color='red')
-
-    plt.title(f'{stock_symbol} Stock Price Future Prediction')
-    plt.xlabel('Date')
-    plt.ylabel('Stock Price')
-    plt.legend()
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-
-    # Add text annotations for last actual price and last predicted price
-    last_actual_price = actual_prices[-1][0]
-    last_predicted_price = future_predictions[-1][0]
-    plt.annotate(f'Last Actual: {last_actual_price:.2f}', xy=(stock_data.index[-1], last_actual_price), xytext=(10, 10),
-                 textcoords='offset points', ha='left', va='bottom',
-                 bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
-                 arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
-    plt.annotate(f'Last Predicted: {last_predicted_price:.2f}', xy=(future_dates[-1], last_predicted_price),
-                 xytext=(10, -10),
-                 textcoords='offset points', ha='left', va='top',
-                 bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
-                 arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
-
-    plt.savefig(os.path.join(plot_dir, f'{stock_symbol}_future_prediction.png'), dpi=300, bbox_inches='tight')
-    plt.close()
-
-    logger.info(f"Future prediction plot saved for {stock_symbol}")
-
-    # Print paths to saved plots
-    print(f"Plots saved in directory: {os.path.abspath(plot_dir)}")
-    print(f"Historical and predicted prices plot: {os.path.join(plot_dir, f'{stock_symbol}_prediction.png')}")
-    print(f"Future prediction plot: {os.path.join(plot_dir, f'{stock_symbol}_future_prediction.png')}")
-
-    # Print some statistics
-    print(f"\nStatistics for {stock_symbol}:")
-    print(f"Data range: {stock_data.index[0]} to {stock_data.index[-1]}")
-    print(f"Number of data points: {len(stock_data)}")
-    print(f"Minimum price: {np.min(actual_prices):.2f}")
-    print(f"Maximum price: {np.max(actual_prices):.2f}")
-    print(f"Last actual price: {last_actual_price:.2f}")
-    print(f"Last predicted price: {last_predicted_price:.2f}")
+    logger.info("Analysis completed successfully")
 
 
 if __name__ == "__main__":
-    stock_market_analysis('NVDA', test_ratio=0.2, future_days=30)
+    stock_market_analysis_with_hybrid_model('NVDA', test_ratio=0.2, future_days=90)

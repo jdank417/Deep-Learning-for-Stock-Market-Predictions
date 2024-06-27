@@ -3676,3 +3676,1038 @@
 2024-06-20 15:11:09,651 - INFO - Length of predictions: 883
 2024-06-20 15:11:09,651 - INFO - start_idx: 2590, end_idx: 3473
 2024-06-20 15:11:10,546 - INFO - Prediction plot saved for NVDA
+2024-06-21 09:08:35,383 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 09:08:35,383 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 09:08:35,383 - INFO - Downloading stock data for NVDA
+2024-06-21 09:08:35,878 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 09:08:35,879 - INFO - Adding technical indicators
+2024-06-21 09:08:35,882 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-21 09:08:35,882 - INFO - Scaling the data
+2024-06-21 09:08:35,886 - INFO - Data scaled successfully
+2024-06-21 09:08:35,886 - INFO - Preparing dataset
+2024-06-21 09:08:35,897 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-21 09:08:35,898 - INFO - Pre-training model on interpolation task
+2024-06-21 09:09:27,902 - INFO - Loading pre-trained weights for extrapolation task
+2024-06-21 09:09:28,464 - INFO - Fine-tuning model on extrapolation task
+2024-06-21 09:11:00,309 - INFO - Making predictions
+2024-06-21 09:11:01,359 - INFO - Rescaling predictions
+2024-06-21 09:11:01,360 - INFO - Initial last_sequence shape: (60, 4)
+2024-06-21 09:11:01,362 - INFO - Initial last_sequence sample: [[0.88600632 0.09536932 0.90775178 0.96101883]
+ [0.90740631 0.10659768 0.90795038 0.96095939]
+ [0.89766271 0.09980879 0.90804968 0.96032327]
+ [0.90812362 0.08854205 0.90901967 0.9599223 ]
+ [0.92820849 0.09116181 0.91040044 0.96005107]]
+2024-06-21 09:11:01,365 - INFO - Last sequence before making future predictions: [[0.88600632 0.09536932 0.90775178 0.96101883]
+ [0.90740631 0.10659768 0.90795038 0.96095939]
+ [0.89766271 0.09980879 0.90804968 0.96032327]
+ [0.90812362 0.08854205 0.90901967 0.9599223 ]
+ [0.92820849 0.09116181 0.91040044 0.96005107]
+ [0.93097813 0.11945354 0.91182615 0.96120359]
+ [0.9014087  0.11747673 0.91345778 0.96161102]
+ [0.9140415  0.09032886 0.91568311 0.96222045]
+ [0.87106221 0.2102082  0.91612002 0.96158346]
+ [0.83635202 0.15947483 0.91607508 0.96052052]
+ [0.83445915 0.12491185 0.91720813 0.96032542]
+ [0.82023235 0.11834066 0.91697504 0.9598943 ]
+ [0.85187395 0.11868722 0.91776211 0.96080736]
+ [0.86558268 0.09755725 0.91959338 0.9607686 ]
+ [0.8280431  0.09671169 0.9188732  0.95983788]
+ [0.7990914  0.13581531 0.91598519 0.9584769 ]
+ [0.80255843 0.10175791 0.91285049 0.95725203]
+ [0.81572915 0.09387369 0.90906565 0.95633121]
+ [0.80813753 0.12950047 0.90620481 0.95366654]
+ [0.83892244 0.10746325 0.90441117 0.95222675]
+ [0.86245442 0.09967088 0.90317569 0.95067197]
+ [0.89232273 0.10390362 0.90238444 0.94974254]
+ [0.9071871  0.0973571  0.90288407 0.94962755]
+ [0.91125195 0.0815733  0.90304817 0.94924855]
+ [0.92358581 0.08254773 0.90280568 0.94829672]
+ [0.93107778 0.13567685 0.9028109  0.94730011]
+ [0.95867453 0.10298101 0.90581494 0.94686081]
+ [0.96435329 0.09280659 0.90845419 0.94690862]
+ [0.98499607 0.10180452 0.9144309  0.94738582]
+ [0.96969335 0.11785564 0.92142569 0.94817269]
+ [0.98148921 0.08063863 0.92913857 0.94956768]
+ [0.97786279 0.07664909 0.93740751 0.95117243]
+ [1.         0.1010275  0.94517787 0.95342536]
+ [0.99073465 0.14260008 0.95174307 0.95561067]
+ [0.96626615 0.23408542 0.95899394 0.95700223]
+ [0.94753623 0.06827025 0.96678103 0.95794759]
+ [0.95682149 0.09596675 0.97487333 0.95981764]
+ [0.94843284 0.09756493 0.98183467 0.96147794]
+ [0.95478907 0.09222232 0.98952768 0.96346772]
+ [0.92749118 0.13177011 0.9941738  0.96541917]
+ [0.92739154 0.08874357 0.99758026 0.96789477]
+ [0.90238504 0.10744954 0.9981081  0.96957445]
+ [0.92342642 0.08940187 0.99895998 0.97144536]
+ [0.90224556 0.09183436 0.99848753 0.97299239]
+ [0.92402416 0.08367295 0.99851052 0.97477028]
+ [0.94215634 0.0859763  0.99909168 0.97667263]
+ [0.92464181 0.12724098 0.9973064  0.97801982]
+ [0.9451651  0.08958529 0.99629983 0.97925805]
+ [0.95375298 0.11025958 0.99466088 0.98122673]
+ [0.9589734  0.09475215 0.99409854 0.98308256]
+ [0.96973318 0.119076   0.99348184 0.98489231]
+ [0.99338473 0.10060719 0.99429609 0.98675073]
+ [0.98395998 0.11482517 0.99345467 0.98861604]
+ [0.95421124 0.09657871 0.99153873 0.98961223]
+ [0.97172577 0.06985499 0.99182513 0.99055285]
+ [0.9685377  0.056717   0.99292682 0.9913647 ]
+ [0.97748419 0.05443941 0.99401074 0.99300907]
+ [0.98023391 0.0515463  0.99567895 0.99443981]
+ [0.98232608 0.05509387 0.99712348 0.99684478]
+ [0.98232608 0.09422052 1.         1.        ]]
+2024-06-21 09:11:01,448 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:01,448 - INFO - Updated last_sequence sample during iteration: [[0.97748419 0.05443941 0.99401074 0.99300907]
+ [0.98023391 0.0515463  0.99567895 0.99443981]
+ [0.98232608 0.05509387 0.99712348 0.99684478]
+ [0.98232608 0.09422052 1.         1.        ]
+ [0.86873448 0.         0.         0.        ]]
+2024-06-21 09:11:01,530 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:01,531 - INFO - Updated last_sequence sample during iteration: [[0.98023391 0.0515463  0.99567895 0.99443981]
+ [0.98232608 0.05509387 0.99712348 0.99684478]
+ [0.98232608 0.09422052 1.         1.        ]
+ [0.86873448 0.         0.         0.        ]
+ [0.89025748 0.         0.         0.        ]]
+2024-06-21 09:11:01,595 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:01,596 - INFO - Updated last_sequence sample during iteration: [[0.98232608 0.05509387 0.99712348 0.99684478]
+ [0.98232608 0.09422052 1.         1.        ]
+ [0.86873448 0.         0.         0.        ]
+ [0.89025748 0.         0.         0.        ]
+ [0.86811    0.         0.         0.        ]]
+2024-06-21 09:11:01,673 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:01,674 - INFO - Updated last_sequence sample during iteration: [[0.98232608 0.09422052 1.         1.        ]
+ [0.86873448 0.         0.         0.        ]
+ [0.89025748 0.         0.         0.        ]
+ [0.86811    0.         0.         0.        ]
+ [0.86665279 0.         0.         0.        ]]
+2024-06-21 09:11:01,752 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:01,753 - INFO - Updated last_sequence sample during iteration: [[0.86873448 0.         0.         0.        ]
+ [0.89025748 0.         0.         0.        ]
+ [0.86811    0.         0.         0.        ]
+ [0.86665279 0.         0.         0.        ]
+ [0.80930299 0.         0.         0.        ]]
+2024-06-21 09:11:01,819 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:01,820 - INFO - Updated last_sequence sample during iteration: [[0.89025748 0.         0.         0.        ]
+ [0.86811    0.         0.         0.        ]
+ [0.86665279 0.         0.         0.        ]
+ [0.80930299 0.         0.         0.        ]
+ [0.79163367 0.         0.         0.        ]]
+2024-06-21 09:11:01,881 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:01,882 - INFO - Updated last_sequence sample during iteration: [[0.86811    0.         0.         0.        ]
+ [0.86665279 0.         0.         0.        ]
+ [0.80930299 0.         0.         0.        ]
+ [0.79163367 0.         0.         0.        ]
+ [0.73134345 0.         0.         0.        ]]
+2024-06-21 09:11:01,954 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:01,955 - INFO - Updated last_sequence sample during iteration: [[0.86665279 0.         0.         0.        ]
+ [0.80930299 0.         0.         0.        ]
+ [0.79163367 0.         0.         0.        ]
+ [0.73134345 0.         0.         0.        ]
+ [0.70053822 0.         0.         0.        ]]
+2024-06-21 09:11:02,055 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,055 - INFO - Updated last_sequence sample during iteration: [[0.80930299 0.         0.         0.        ]
+ [0.79163367 0.         0.         0.        ]
+ [0.73134345 0.         0.         0.        ]
+ [0.70053822 0.         0.         0.        ]
+ [0.64502901 0.         0.         0.        ]]
+2024-06-21 09:11:02,131 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,131 - INFO - Updated last_sequence sample during iteration: [[0.79163367 0.         0.         0.        ]
+ [0.73134345 0.         0.         0.        ]
+ [0.70053822 0.         0.         0.        ]
+ [0.64502901 0.         0.         0.        ]
+ [0.60571629 0.         0.         0.        ]]
+2024-06-21 09:11:02,187 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,187 - INFO - Updated last_sequence sample during iteration: [[0.73134345 0.         0.         0.        ]
+ [0.70053822 0.         0.         0.        ]
+ [0.64502901 0.         0.         0.        ]
+ [0.60571629 0.         0.         0.        ]
+ [0.55643022 0.         0.         0.        ]]
+2024-06-21 09:11:02,254 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,254 - INFO - Updated last_sequence sample during iteration: [[0.70053822 0.         0.         0.        ]
+ [0.64502901 0.         0.         0.        ]
+ [0.60571629 0.         0.         0.        ]
+ [0.55643022 0.         0.         0.        ]
+ [0.51326507 0.         0.         0.        ]]
+2024-06-21 09:11:02,326 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,327 - INFO - Updated last_sequence sample during iteration: [[0.64502901 0.         0.         0.        ]
+ [0.60571629 0.         0.         0.        ]
+ [0.55643022 0.         0.         0.        ]
+ [0.51326507 0.         0.         0.        ]
+ [0.46959385 0.         0.         0.        ]]
+2024-06-21 09:11:02,400 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,400 - INFO - Updated last_sequence sample during iteration: [[0.60571629 0.         0.         0.        ]
+ [0.55643022 0.         0.         0.        ]
+ [0.51326507 0.         0.         0.        ]
+ [0.46959385 0.         0.         0.        ]
+ [0.42626813 0.         0.         0.        ]]
+2024-06-21 09:11:02,468 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,468 - INFO - Updated last_sequence sample during iteration: [[0.55643022 0.         0.         0.        ]
+ [0.51326507 0.         0.         0.        ]
+ [0.46959385 0.         0.         0.        ]
+ [0.42626813 0.         0.         0.        ]
+ [0.38717598 0.         0.         0.        ]]
+2024-06-21 09:11:02,536 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,537 - INFO - Updated last_sequence sample during iteration: [[0.51326507 0.         0.         0.        ]
+ [0.46959385 0.         0.         0.        ]
+ [0.42626813 0.         0.         0.        ]
+ [0.38717598 0.         0.         0.        ]
+ [0.34611392 0.         0.         0.        ]]
+2024-06-21 09:11:02,618 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,619 - INFO - Updated last_sequence sample during iteration: [[0.46959385 0.         0.         0.        ]
+ [0.42626813 0.         0.         0.        ]
+ [0.38717598 0.         0.         0.        ]
+ [0.34611392 0.         0.         0.        ]
+ [0.31091174 0.         0.         0.        ]]
+2024-06-21 09:11:02,705 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,706 - INFO - Updated last_sequence sample during iteration: [[0.42626813 0.         0.         0.        ]
+ [0.38717598 0.         0.         0.        ]
+ [0.34611392 0.         0.         0.        ]
+ [0.31091174 0.         0.         0.        ]
+ [0.27352425 0.         0.         0.        ]]
+2024-06-21 09:11:02,779 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,781 - INFO - Updated last_sequence sample during iteration: [[0.38717598 0.         0.         0.        ]
+ [0.34611392 0.         0.         0.        ]
+ [0.31091174 0.         0.         0.        ]
+ [0.27352425 0.         0.         0.        ]
+ [0.24161313 0.         0.         0.        ]]
+2024-06-21 09:11:02,848 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,849 - INFO - Updated last_sequence sample during iteration: [[0.34611392 0.         0.         0.        ]
+ [0.31091174 0.         0.         0.        ]
+ [0.27352425 0.         0.         0.        ]
+ [0.24161313 0.         0.         0.        ]
+ [0.20855169 0.         0.         0.        ]]
+2024-06-21 09:11:02,912 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,913 - INFO - Updated last_sequence sample during iteration: [[0.31091174 0.         0.         0.        ]
+ [0.27352425 0.         0.         0.        ]
+ [0.24161313 0.         0.         0.        ]
+ [0.20855169 0.         0.         0.        ]
+ [0.17963943 0.         0.         0.        ]]
+2024-06-21 09:11:02,988 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:02,988 - INFO - Updated last_sequence sample during iteration: [[0.27352425 0.         0.         0.        ]
+ [0.24161313 0.         0.         0.        ]
+ [0.20855169 0.         0.         0.        ]
+ [0.17963943 0.         0.         0.        ]
+ [0.15103817 0.         0.         0.        ]]
+2024-06-21 09:11:03,081 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,082 - INFO - Updated last_sequence sample during iteration: [[0.24161313 0.         0.         0.        ]
+ [0.20855169 0.         0.         0.        ]
+ [0.17963943 0.         0.         0.        ]
+ [0.15103817 0.         0.         0.        ]
+ [0.12504791 0.         0.         0.        ]]
+2024-06-21 09:11:03,159 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,159 - INFO - Updated last_sequence sample during iteration: [[0.20855169 0.         0.         0.        ]
+ [0.17963943 0.         0.         0.        ]
+ [0.15103817 0.         0.         0.        ]
+ [0.12504791 0.         0.         0.        ]
+ [0.10051982 0.         0.         0.        ]]
+2024-06-21 09:11:03,232 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,233 - INFO - Updated last_sequence sample during iteration: [[0.17963943 0.         0.         0.        ]
+ [0.15103817 0.         0.         0.        ]
+ [0.12504791 0.         0.         0.        ]
+ [0.10051982 0.         0.         0.        ]
+ [0.07778492 0.         0.         0.        ]]
+2024-06-21 09:11:03,316 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,317 - INFO - Updated last_sequence sample during iteration: [[0.15103817 0.         0.         0.        ]
+ [0.12504791 0.         0.         0.        ]
+ [0.10051982 0.         0.         0.        ]
+ [0.07778492 0.         0.         0.        ]
+ [0.05801582 0.         0.         0.        ]]
+2024-06-21 09:11:03,377 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,378 - INFO - Updated last_sequence sample during iteration: [[0.12504791 0.         0.         0.        ]
+ [0.10051982 0.         0.         0.        ]
+ [0.07778492 0.         0.         0.        ]
+ [0.05801582 0.         0.         0.        ]
+ [0.0394391  0.         0.         0.        ]]
+2024-06-21 09:11:03,459 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,461 - INFO - Updated last_sequence sample during iteration: [[0.10051982 0.         0.         0.        ]
+ [0.07778492 0.         0.         0.        ]
+ [0.05801582 0.         0.         0.        ]
+ [0.0394391  0.         0.         0.        ]
+ [0.02551785 0.         0.         0.        ]]
+2024-06-21 09:11:03,541 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,541 - INFO - Updated last_sequence sample during iteration: [[0.07778492 0.         0.         0.        ]
+ [0.05801582 0.         0.         0.        ]
+ [0.0394391  0.         0.         0.        ]
+ [0.02551785 0.         0.         0.        ]
+ [0.01184812 0.         0.         0.        ]]
+2024-06-21 09:11:03,608 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,609 - INFO - Updated last_sequence sample during iteration: [[0.05801582 0.         0.         0.        ]
+ [0.0394391  0.         0.         0.        ]
+ [0.02551785 0.         0.         0.        ]
+ [0.01184812 0.         0.         0.        ]
+ [0.00260898 0.         0.         0.        ]]
+2024-06-21 09:11:03,698 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,698 - INFO - Updated last_sequence sample during iteration: [[ 0.0394391   0.          0.          0.        ]
+ [ 0.02551785  0.          0.          0.        ]
+ [ 0.01184812  0.          0.          0.        ]
+ [ 0.00260898  0.          0.          0.        ]
+ [-0.00630617  0.          0.          0.        ]]
+2024-06-21 09:11:03,760 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,761 - INFO - Updated last_sequence sample during iteration: [[ 0.02551785  0.          0.          0.        ]
+ [ 0.01184812  0.          0.          0.        ]
+ [ 0.00260898  0.          0.          0.        ]
+ [-0.00630617  0.          0.          0.        ]
+ [-0.01131789  0.          0.          0.        ]]
+2024-06-21 09:11:03,828 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,829 - INFO - Updated last_sequence sample during iteration: [[ 0.01184812  0.          0.          0.        ]
+ [ 0.00260898  0.          0.          0.        ]
+ [-0.00630617  0.          0.          0.        ]
+ [-0.01131789  0.          0.          0.        ]
+ [-0.01582683  0.          0.          0.        ]]
+2024-06-21 09:11:03,911 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,911 - INFO - Updated last_sequence sample during iteration: [[ 0.00260898  0.          0.          0.        ]
+ [-0.00630617  0.          0.          0.        ]
+ [-0.01131789  0.          0.          0.        ]
+ [-0.01582683  0.          0.          0.        ]
+ [-0.01726598  0.          0.          0.        ]]
+2024-06-21 09:11:03,966 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:03,966 - INFO - Updated last_sequence sample during iteration: [[-0.00630617  0.          0.          0.        ]
+ [-0.01131789  0.          0.          0.        ]
+ [-0.01582683  0.          0.          0.        ]
+ [-0.01726598  0.          0.          0.        ]
+ [-0.01832438  0.          0.          0.        ]]
+2024-06-21 09:11:04,049 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,050 - INFO - Updated last_sequence sample during iteration: [[-0.01131789  0.          0.          0.        ]
+ [-0.01582683  0.          0.          0.        ]
+ [-0.01726598  0.          0.          0.        ]
+ [-0.01832438  0.          0.          0.        ]
+ [-0.01723529  0.          0.          0.        ]]
+2024-06-21 09:11:04,110 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,112 - INFO - Updated last_sequence sample during iteration: [[-0.01582683  0.          0.          0.        ]
+ [-0.01726598  0.          0.          0.        ]
+ [-0.01832438  0.          0.          0.        ]
+ [-0.01723529  0.          0.          0.        ]
+ [-0.01596673  0.          0.          0.        ]]
+2024-06-21 09:11:04,203 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,203 - INFO - Updated last_sequence sample during iteration: [[-0.01726598  0.          0.          0.        ]
+ [-0.01832438  0.          0.          0.        ]
+ [-0.01723529  0.          0.          0.        ]
+ [-0.01596673  0.          0.          0.        ]
+ [-0.0134181   0.          0.          0.        ]]
+2024-06-21 09:11:04,286 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,287 - INFO - Updated last_sequence sample during iteration: [[-0.01832438  0.          0.          0.        ]
+ [-0.01723529  0.          0.          0.        ]
+ [-0.01596673  0.          0.          0.        ]
+ [-0.0134181   0.          0.          0.        ]
+ [-0.01095364  0.          0.          0.        ]]
+2024-06-21 09:11:04,368 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,369 - INFO - Updated last_sequence sample during iteration: [[-0.01723529  0.          0.          0.        ]
+ [-0.01596673  0.          0.          0.        ]
+ [-0.0134181   0.          0.          0.        ]
+ [-0.01095364  0.          0.          0.        ]
+ [-0.00781292  0.          0.          0.        ]]
+2024-06-21 09:11:04,475 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,476 - INFO - Updated last_sequence sample during iteration: [[-0.01596673  0.          0.          0.        ]
+ [-0.0134181   0.          0.          0.        ]
+ [-0.01095364  0.          0.          0.        ]
+ [-0.00781292  0.          0.          0.        ]
+ [-0.00495863  0.          0.          0.        ]]
+2024-06-21 09:11:04,567 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,567 - INFO - Updated last_sequence sample during iteration: [[-0.0134181   0.          0.          0.        ]
+ [-0.01095364  0.          0.          0.        ]
+ [-0.00781292  0.          0.          0.        ]
+ [-0.00495863  0.          0.          0.        ]
+ [-0.00183098  0.          0.          0.        ]]
+2024-06-21 09:11:04,637 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,638 - INFO - Updated last_sequence sample during iteration: [[-0.01095364  0.          0.          0.        ]
+ [-0.00781292  0.          0.          0.        ]
+ [-0.00495863  0.          0.          0.        ]
+ [-0.00183098  0.          0.          0.        ]
+ [ 0.00088841  0.          0.          0.        ]]
+2024-06-21 09:11:04,720 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,721 - INFO - Updated last_sequence sample during iteration: [[-0.00781292  0.          0.          0.        ]
+ [-0.00495863  0.          0.          0.        ]
+ [-0.00183098  0.          0.          0.        ]
+ [ 0.00088841  0.          0.          0.        ]
+ [ 0.00360109  0.          0.          0.        ]]
+2024-06-21 09:11:04,789 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,789 - INFO - Updated last_sequence sample during iteration: [[-0.00495863  0.          0.          0.        ]
+ [-0.00183098  0.          0.          0.        ]
+ [ 0.00088841  0.          0.          0.        ]
+ [ 0.00360109  0.          0.          0.        ]
+ [ 0.00585556  0.          0.          0.        ]]
+2024-06-21 09:11:04,858 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,859 - INFO - Updated last_sequence sample during iteration: [[-0.00183098  0.          0.          0.        ]
+ [ 0.00088841  0.          0.          0.        ]
+ [ 0.00360109  0.          0.          0.        ]
+ [ 0.00585556  0.          0.          0.        ]
+ [ 0.00794374  0.          0.          0.        ]]
+2024-06-21 09:11:04,917 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,918 - INFO - Updated last_sequence sample during iteration: [[0.00088841 0.         0.         0.        ]
+ [0.00360109 0.         0.         0.        ]
+ [0.00585556 0.         0.         0.        ]
+ [0.00794374 0.         0.         0.        ]
+ [0.00960463 0.         0.         0.        ]]
+2024-06-21 09:11:04,986 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:04,986 - INFO - Updated last_sequence sample during iteration: [[0.00360109 0.         0.         0.        ]
+ [0.00585556 0.         0.         0.        ]
+ [0.00794374 0.         0.         0.        ]
+ [0.00960463 0.         0.         0.        ]
+ [0.01106795 0.         0.         0.        ]]
+2024-06-21 09:11:05,059 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:05,060 - INFO - Updated last_sequence sample during iteration: [[0.00585556 0.         0.         0.        ]
+ [0.00794374 0.         0.         0.        ]
+ [0.00960463 0.         0.         0.        ]
+ [0.01106795 0.         0.         0.        ]
+ [0.0121596  0.         0.         0.        ]]
+2024-06-21 09:11:05,143 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:05,143 - INFO - Updated last_sequence sample during iteration: [[0.00794374 0.         0.         0.        ]
+ [0.00960463 0.         0.         0.        ]
+ [0.01106795 0.         0.         0.        ]
+ [0.0121596  0.         0.         0.        ]
+ [0.01305886 0.         0.         0.        ]]
+2024-06-21 09:11:05,234 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:05,235 - INFO - Updated last_sequence sample during iteration: [[0.00960463 0.         0.         0.        ]
+ [0.01106795 0.         0.         0.        ]
+ [0.0121596  0.         0.         0.        ]
+ [0.01305886 0.         0.         0.        ]
+ [0.01369098 0.         0.         0.        ]]
+2024-06-21 09:11:05,305 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:05,306 - INFO - Updated last_sequence sample during iteration: [[0.01106795 0.         0.         0.        ]
+ [0.0121596  0.         0.         0.        ]
+ [0.01305886 0.         0.         0.        ]
+ [0.01369098 0.         0.         0.        ]
+ [0.0141486  0.         0.         0.        ]]
+2024-06-21 09:11:05,554 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:05,555 - INFO - Updated last_sequence sample during iteration: [[0.0121596  0.         0.         0.        ]
+ [0.01305886 0.         0.         0.        ]
+ [0.01369098 0.         0.         0.        ]
+ [0.0141486  0.         0.         0.        ]
+ [0.01441375 0.         0.         0.        ]]
+2024-06-21 09:11:05,626 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:05,626 - INFO - Updated last_sequence sample during iteration: [[0.01305886 0.         0.         0.        ]
+ [0.01369098 0.         0.         0.        ]
+ [0.0141486  0.         0.         0.        ]
+ [0.01441375 0.         0.         0.        ]
+ [0.01452831 0.         0.         0.        ]]
+2024-06-21 09:11:05,695 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:05,696 - INFO - Updated last_sequence sample during iteration: [[0.01369098 0.         0.         0.        ]
+ [0.0141486  0.         0.         0.        ]
+ [0.01441375 0.         0.         0.        ]
+ [0.01452831 0.         0.         0.        ]
+ [0.01451046 0.         0.         0.        ]]
+2024-06-21 09:11:05,767 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:05,768 - INFO - Updated last_sequence sample during iteration: [[0.0141486  0.         0.         0.        ]
+ [0.01441375 0.         0.         0.        ]
+ [0.01452831 0.         0.         0.        ]
+ [0.01451046 0.         0.         0.        ]
+ [0.01437328 0.         0.         0.        ]]
+2024-06-21 09:11:05,848 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:05,849 - INFO - Updated last_sequence sample during iteration: [[0.01441375 0.         0.         0.        ]
+ [0.01452831 0.         0.         0.        ]
+ [0.01451046 0.         0.         0.        ]
+ [0.01437328 0.         0.         0.        ]
+ [0.01415275 0.         0.         0.        ]]
+2024-06-21 09:11:05,917 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:05,918 - INFO - Updated last_sequence sample during iteration: [[0.01452831 0.         0.         0.        ]
+ [0.01451046 0.         0.         0.        ]
+ [0.01437328 0.         0.         0.        ]
+ [0.01415275 0.         0.         0.        ]
+ [0.01383996 0.         0.         0.        ]]
+2024-06-21 09:11:05,997 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:05,998 - INFO - Updated last_sequence sample during iteration: [[0.01451046 0.         0.         0.        ]
+ [0.01437328 0.         0.         0.        ]
+ [0.01415275 0.         0.         0.        ]
+ [0.01383996 0.         0.         0.        ]
+ [0.01348392 0.         0.         0.        ]]
+2024-06-21 09:11:06,065 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,065 - INFO - Updated last_sequence sample during iteration: [[0.01437328 0.         0.         0.        ]
+ [0.01415275 0.         0.         0.        ]
+ [0.01383996 0.         0.         0.        ]
+ [0.01348392 0.         0.         0.        ]
+ [0.01307923 0.         0.         0.        ]]
+2024-06-21 09:11:06,129 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,129 - INFO - Updated last_sequence sample during iteration: [[0.01415275 0.         0.         0.        ]
+ [0.01383996 0.         0.         0.        ]
+ [0.01348392 0.         0.         0.        ]
+ [0.01307923 0.         0.         0.        ]
+ [0.01264214 0.         0.         0.        ]]
+2024-06-21 09:11:06,188 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,189 - INFO - Updated last_sequence sample during iteration: [[0.01383996 0.         0.         0.        ]
+ [0.01348392 0.         0.         0.        ]
+ [0.01307923 0.         0.         0.        ]
+ [0.01264214 0.         0.         0.        ]
+ [0.0121713  0.         0.         0.        ]]
+2024-06-21 09:11:06,266 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,266 - INFO - Updated last_sequence sample during iteration: [[0.01348392 0.         0.         0.        ]
+ [0.01307923 0.         0.         0.        ]
+ [0.01264214 0.         0.         0.        ]
+ [0.0121713  0.         0.         0.        ]
+ [0.01169553 0.         0.         0.        ]]
+2024-06-21 09:11:06,333 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,334 - INFO - Updated last_sequence sample during iteration: [[0.01307923 0.         0.         0.        ]
+ [0.01264214 0.         0.         0.        ]
+ [0.0121713  0.         0.         0.        ]
+ [0.01169553 0.         0.         0.        ]
+ [0.01122829 0.         0.         0.        ]]
+2024-06-21 09:11:06,423 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,424 - INFO - Updated last_sequence sample during iteration: [[0.01264214 0.         0.         0.        ]
+ [0.0121713  0.         0.         0.        ]
+ [0.01169553 0.         0.         0.        ]
+ [0.01122829 0.         0.         0.        ]
+ [0.01077306 0.         0.         0.        ]]
+2024-06-21 09:11:06,504 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,505 - INFO - Updated last_sequence sample during iteration: [[0.0121713  0.         0.         0.        ]
+ [0.01169553 0.         0.         0.        ]
+ [0.01122829 0.         0.         0.        ]
+ [0.01077306 0.         0.         0.        ]
+ [0.01034123 0.         0.         0.        ]]
+2024-06-21 09:11:06,569 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,570 - INFO - Updated last_sequence sample during iteration: [[0.01169553 0.         0.         0.        ]
+ [0.01122829 0.         0.         0.        ]
+ [0.01077306 0.         0.         0.        ]
+ [0.01034123 0.         0.         0.        ]
+ [0.00993322 0.         0.         0.        ]]
+2024-06-21 09:11:06,642 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,643 - INFO - Updated last_sequence sample during iteration: [[0.01122829 0.         0.         0.        ]
+ [0.01077306 0.         0.         0.        ]
+ [0.01034123 0.         0.         0.        ]
+ [0.00993322 0.         0.         0.        ]
+ [0.00955814 0.         0.         0.        ]]
+2024-06-21 09:11:06,713 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,714 - INFO - Updated last_sequence sample during iteration: [[0.01077306 0.         0.         0.        ]
+ [0.01034123 0.         0.         0.        ]
+ [0.00993322 0.         0.         0.        ]
+ [0.00955814 0.         0.         0.        ]
+ [0.00921796 0.         0.         0.        ]]
+2024-06-21 09:11:06,783 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,783 - INFO - Updated last_sequence sample during iteration: [[0.01034123 0.         0.         0.        ]
+ [0.00993322 0.         0.         0.        ]
+ [0.00955814 0.         0.         0.        ]
+ [0.00921796 0.         0.         0.        ]
+ [0.00892466 0.         0.         0.        ]]
+2024-06-21 09:11:06,846 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,846 - INFO - Updated last_sequence sample during iteration: [[0.00993322 0.         0.         0.        ]
+ [0.00955814 0.         0.         0.        ]
+ [0.00921796 0.         0.         0.        ]
+ [0.00892466 0.         0.         0.        ]
+ [0.00866957 0.         0.         0.        ]]
+2024-06-21 09:11:06,898 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,899 - INFO - Updated last_sequence sample during iteration: [[0.00955814 0.         0.         0.        ]
+ [0.00921796 0.         0.         0.        ]
+ [0.00892466 0.         0.         0.        ]
+ [0.00866957 0.         0.         0.        ]
+ [0.00846233 0.         0.         0.        ]]
+2024-06-21 09:11:06,996 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:06,997 - INFO - Updated last_sequence sample during iteration: [[0.00921796 0.         0.         0.        ]
+ [0.00892466 0.         0.         0.        ]
+ [0.00866957 0.         0.         0.        ]
+ [0.00846233 0.         0.         0.        ]
+ [0.00829153 0.         0.         0.        ]]
+2024-06-21 09:11:07,068 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,069 - INFO - Updated last_sequence sample during iteration: [[0.00892466 0.         0.         0.        ]
+ [0.00866957 0.         0.         0.        ]
+ [0.00846233 0.         0.         0.        ]
+ [0.00829153 0.         0.         0.        ]
+ [0.00816241 0.         0.         0.        ]]
+2024-06-21 09:11:07,155 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,155 - INFO - Updated last_sequence sample during iteration: [[0.00866957 0.         0.         0.        ]
+ [0.00846233 0.         0.         0.        ]
+ [0.00829153 0.         0.         0.        ]
+ [0.00816241 0.         0.         0.        ]
+ [0.00806519 0.         0.         0.        ]]
+2024-06-21 09:11:07,231 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,231 - INFO - Updated last_sequence sample during iteration: [[0.00846233 0.         0.         0.        ]
+ [0.00829153 0.         0.         0.        ]
+ [0.00816241 0.         0.         0.        ]
+ [0.00806519 0.         0.         0.        ]
+ [0.0080004  0.         0.         0.        ]]
+2024-06-21 09:11:07,308 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,309 - INFO - Updated last_sequence sample during iteration: [[0.00829153 0.         0.         0.        ]
+ [0.00816241 0.         0.         0.        ]
+ [0.00806519 0.         0.         0.        ]
+ [0.0080004  0.         0.         0.        ]
+ [0.00796105 0.         0.         0.        ]]
+2024-06-21 09:11:07,381 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,381 - INFO - Updated last_sequence sample during iteration: [[0.00816241 0.         0.         0.        ]
+ [0.00806519 0.         0.         0.        ]
+ [0.0080004  0.         0.         0.        ]
+ [0.00796105 0.         0.         0.        ]
+ [0.00794436 0.         0.         0.        ]]
+2024-06-21 09:11:07,456 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,457 - INFO - Updated last_sequence sample during iteration: [[0.00806519 0.         0.         0.        ]
+ [0.0080004  0.         0.         0.        ]
+ [0.00796105 0.         0.         0.        ]
+ [0.00794436 0.         0.         0.        ]
+ [0.00794625 0.         0.         0.        ]]
+2024-06-21 09:11:07,524 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,525 - INFO - Updated last_sequence sample during iteration: [[0.0080004  0.         0.         0.        ]
+ [0.00796105 0.         0.         0.        ]
+ [0.00794436 0.         0.         0.        ]
+ [0.00794625 0.         0.         0.        ]
+ [0.00796222 0.         0.         0.        ]]
+2024-06-21 09:11:07,587 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,587 - INFO - Updated last_sequence sample during iteration: [[0.00796105 0.         0.         0.        ]
+ [0.00794436 0.         0.         0.        ]
+ [0.00794625 0.         0.         0.        ]
+ [0.00796222 0.         0.         0.        ]
+ [0.0079903  0.         0.         0.        ]]
+2024-06-21 09:11:07,659 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,660 - INFO - Updated last_sequence sample during iteration: [[0.00794436 0.         0.         0.        ]
+ [0.00794625 0.         0.         0.        ]
+ [0.00796222 0.         0.         0.        ]
+ [0.0079903  0.         0.         0.        ]
+ [0.00802414 0.         0.         0.        ]]
+2024-06-21 09:11:07,733 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,734 - INFO - Updated last_sequence sample during iteration: [[0.00794625 0.         0.         0.        ]
+ [0.00796222 0.         0.         0.        ]
+ [0.0079903  0.         0.         0.        ]
+ [0.00802414 0.         0.         0.        ]
+ [0.00806482 0.         0.         0.        ]]
+2024-06-21 09:11:07,808 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,809 - INFO - Updated last_sequence sample during iteration: [[0.00796222 0.         0.         0.        ]
+ [0.0079903  0.         0.         0.        ]
+ [0.00802414 0.         0.         0.        ]
+ [0.00806482 0.         0.         0.        ]
+ [0.00810616 0.         0.         0.        ]]
+2024-06-21 09:11:07,878 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,879 - INFO - Updated last_sequence sample during iteration: [[0.0079903  0.         0.         0.        ]
+ [0.00802414 0.         0.         0.        ]
+ [0.00806482 0.         0.         0.        ]
+ [0.00810616 0.         0.         0.        ]
+ [0.00815008 0.         0.         0.        ]]
+2024-06-21 09:11:07,958 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:07,958 - INFO - Updated last_sequence sample during iteration: [[0.00802414 0.         0.         0.        ]
+ [0.00806482 0.         0.         0.        ]
+ [0.00810616 0.         0.         0.        ]
+ [0.00815008 0.         0.         0.        ]
+ [0.00819213 0.         0.         0.        ]]
+2024-06-21 09:11:08,047 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:08,048 - INFO - Updated last_sequence sample during iteration: [[0.00806482 0.         0.         0.        ]
+ [0.00810616 0.         0.         0.        ]
+ [0.00815008 0.         0.         0.        ]
+ [0.00819213 0.         0.         0.        ]
+ [0.00823357 0.         0.         0.        ]]
+2024-06-21 09:11:08,136 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:08,138 - INFO - Updated last_sequence sample during iteration: [[0.00810616 0.         0.         0.        ]
+ [0.00815008 0.         0.         0.        ]
+ [0.00819213 0.         0.         0.        ]
+ [0.00823357 0.         0.         0.        ]
+ [0.00827103 0.         0.         0.        ]]
+2024-06-21 09:11:08,226 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:08,227 - INFO - Updated last_sequence sample during iteration: [[0.00815008 0.         0.         0.        ]
+ [0.00819213 0.         0.         0.        ]
+ [0.00823357 0.         0.         0.        ]
+ [0.00827103 0.         0.         0.        ]
+ [0.00830636 0.         0.         0.        ]]
+2024-06-21 09:11:08,311 - INFO - Updated last_sequence shape during iteration: (60, 4)
+2024-06-21 09:11:08,312 - INFO - Updated last_sequence sample during iteration: [[0.00819213 0.         0.         0.        ]
+ [0.00823357 0.         0.         0.        ]
+ [0.00827103 0.         0.         0.        ]
+ [0.00830636 0.         0.         0.        ]
+ [0.00833715 0.         0.         0.        ]]
+2024-06-21 09:11:08,314 - INFO - Future predictions before rescaling: [ 8.68734479e-01  8.90257478e-01  8.68110001e-01  8.66652787e-01
+  8.09302986e-01  7.91633666e-01  7.31343448e-01  7.00538218e-01
+  6.45029008e-01  6.05716288e-01  5.56430221e-01  5.13265073e-01
+  4.69593853e-01  4.26268131e-01  3.87175977e-01  3.46113920e-01
+  3.10911745e-01  2.73524255e-01  2.41613135e-01  2.08551690e-01
+  1.79639429e-01  1.51038170e-01  1.25047907e-01  1.00519821e-01
+  7.77849182e-02  5.80158196e-02  3.94391008e-02  2.55178474e-02
+  1.18481219e-02  2.60897726e-03 -6.30617142e-03 -1.13178864e-02
+ -1.58268288e-02 -1.72659829e-02 -1.83243752e-02 -1.72352940e-02
+ -1.59667283e-02 -1.34181008e-02 -1.09536424e-02 -7.81291723e-03
+ -4.95862961e-03 -1.83098018e-03  8.88410956e-04  3.60109285e-03
+  5.85555658e-03  7.94373825e-03  9.60462540e-03  1.10679455e-02
+  1.21595971e-02  1.30588599e-02  1.36909820e-02  1.41486041e-02
+  1.44137517e-02  1.45283118e-02  1.45104565e-02  1.43732801e-02
+  1.41527466e-02  1.38399638e-02  1.34839155e-02  1.30792260e-02
+  1.26421377e-02  1.21713020e-02  1.16955265e-02  1.12282857e-02
+  1.07730627e-02  1.03412345e-02  9.93322209e-03  9.55814123e-03
+  9.21795517e-03  8.92465562e-03  8.66956636e-03  8.46232846e-03
+  8.29152763e-03  8.16241279e-03  8.06519389e-03  8.00039619e-03
+  7.96104968e-03  7.94436038e-03  7.94624537e-03  7.96222314e-03
+  7.99030438e-03  8.02414492e-03  8.06482136e-03  8.10616463e-03
+  8.15007836e-03  8.19213316e-03  8.23356584e-03  8.27103481e-03
+  8.30635801e-03  8.33715498e-03]
+2024-06-21 09:11:08,315 - INFO - Future predictions after rescaling: [ 4.38211776e+01  4.49013524e+01  4.37898370e+01  4.37167038e+01
+  4.08384893e+01  3.99517191e+01  3.69259339e+01  3.53799118e+01
+  3.25940711e+01  3.06210836e+01  2.81475637e+01  2.59812344e+01
+  2.37895069e+01  2.16151188e+01  1.96532009e+01  1.75924195e+01
+  1.58257279e+01  1.39493619e+01  1.23478385e+01  1.06885838e+01
+  9.23756409e+00  7.80215269e+00  6.49777937e+00  5.26678830e+00
+  4.12579173e+00  3.13363997e+00  2.20133017e+00  1.50266422e+00
+  8.16621700e-01  3.52936746e-01 -9.44878245e-02 -3.46010767e-01
+ -5.72301059e-01 -6.44527889e-01 -6.97645420e-01 -6.42987703e-01
+ -5.79322198e-01 -4.51414226e-01 -3.27730454e-01 -1.70106877e-01
+ -2.68587432e-02  1.30108600e-01  2.66586684e-01  4.02728051e-01
+  5.15872823e-01  6.20672398e-01  7.04027342e-01  7.77466989e-01
+  8.32253709e-01  8.77385008e-01  9.09109323e-01  9.32076004e-01
+  9.45382963e-01  9.51132392e-01  9.50236288e-01  9.43351817e-01
+  9.32283904e-01  9.16586273e-01  8.98717274e-01  8.78407124e-01
+  8.56470973e-01  8.32841141e-01  8.08963398e-01  7.85513983e-01
+  7.62667705e-01  7.40995543e-01  7.20518624e-01  7.01694441e-01
+  6.84621523e-01  6.69901698e-01  6.57099533e-01  6.46698885e-01
+  6.38126903e-01  6.31647017e-01  6.26767892e-01  6.23515890e-01
+  6.21541206e-01  6.20703620e-01  6.20798222e-01  6.21600099e-01
+  6.23009412e-01  6.24707767e-01  6.26749196e-01  6.28824091e-01
+  6.31027989e-01  6.33138593e-01  6.35217975e-01  6.37098430e-01
+  6.38871196e-01  6.40416803e-01]
+2024-06-21 09:11:08,318 - INFO - Future predictions DataFrame:
+2024-06-21 09:11:08,318 - INFO -             Future Predictions
+2023-12-30           43.821178
+2023-12-31           44.901352
+2024-01-01           43.789837
+2024-01-02           43.716704
+2024-01-03           40.838489
+2024-06-21 09:11:08,326 - INFO - Plotting results
+2024-06-21 09:24:12,547 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 09:24:12,547 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 09:24:12,547 - INFO - Downloading stock data for NVDA
+2024-06-21 09:24:13,049 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 09:24:13,051 - INFO - Adding technical indicators
+2024-06-21 09:24:13,054 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-21 09:24:13,054 - INFO - Scaling the data
+2024-06-21 09:24:13,058 - INFO - Data scaled successfully
+2024-06-21 09:24:13,058 - INFO - Preparing dataset
+2024-06-21 09:24:13,069 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-21 09:24:13,069 - INFO - Pre-training model on interpolation task
+2024-06-21 09:28:48,472 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 09:28:48,473 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 09:28:48,473 - INFO - Downloading stock data for NVDA
+2024-06-21 09:28:48,960 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 09:28:48,962 - INFO - Adding technical indicators
+2024-06-21 09:28:48,966 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-21 09:28:48,967 - INFO - Scaling the data
+2024-06-21 09:28:48,970 - INFO - Data scaled successfully
+2024-06-21 09:28:48,970 - INFO - Preparing dataset
+2024-06-21 09:28:48,980 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-21 09:28:48,980 - INFO - Pre-training model on interpolation task
+2024-06-21 09:37:50,573 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 09:37:50,573 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 09:37:50,573 - INFO - Downloading stock data for NVDA
+2024-06-21 09:37:51,144 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 09:37:51,145 - INFO - Adding technical indicators
+2024-06-21 09:37:51,147 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-21 09:37:51,147 - INFO - Scaling the data
+2024-06-21 09:37:51,150 - INFO - Data scaled successfully
+2024-06-21 09:37:51,150 - INFO - Preparing dataset
+2024-06-21 09:37:51,157 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-21 09:37:51,157 - INFO - Pre-training model on interpolation task
+2024-06-21 09:39:10,872 - INFO - Loading pre-trained weights for extrapolation task
+2024-06-21 09:39:11,441 - INFO - Fine-tuning model on extrapolation task
+2024-06-21 09:40:43,233 - INFO - Making predictions
+2024-06-21 09:40:44,281 - INFO - Rescaling predictions
+2024-06-21 09:40:44,568 - INFO - Training VAE on stock data
+2024-06-21 09:44:05,263 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 09:44:05,264 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 09:44:05,264 - INFO - Downloading stock data for NVDA
+2024-06-21 09:44:05,740 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 09:44:05,742 - INFO - Adding technical indicators
+2024-06-21 09:44:05,744 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-21 09:44:05,744 - INFO - Scaling the data
+2024-06-21 09:44:05,746 - INFO - Data scaled successfully
+2024-06-21 09:44:05,746 - INFO - Preparing dataset
+2024-06-21 09:44:05,752 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-21 09:44:05,752 - INFO - Pre-training model on interpolation task
+2024-06-21 09:44:59,443 - INFO - Loading pre-trained weights for extrapolation task
+2024-06-21 09:45:00,012 - INFO - Fine-tuning model on extrapolation task
+2024-06-21 09:46:04,179 - INFO - Making predictions
+2024-06-21 09:46:05,264 - INFO - Rescaling predictions
+2024-06-21 09:46:05,546 - INFO - Training VAE on stock data
+2024-06-21 09:47:34,491 - INFO - Generating future predictions using VAE
+2024-06-21 09:48:45,820 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 09:48:45,820 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 09:48:45,820 - INFO - Downloading stock data for NVDA
+2024-06-21 09:48:46,282 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 09:48:46,284 - INFO - Adding technical indicators
+2024-06-21 09:48:46,286 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-21 09:48:46,287 - INFO - Scaling the data
+2024-06-21 09:48:46,290 - INFO - Data scaled successfully
+2024-06-21 09:48:46,290 - INFO - Preparing dataset
+2024-06-21 09:48:46,302 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-21 09:48:46,302 - INFO - Pre-training model on interpolation task
+2024-06-21 09:49:37,197 - INFO - Loading pre-trained weights for extrapolation task
+2024-06-21 09:49:37,693 - INFO - Fine-tuning model on extrapolation task
+2024-06-21 09:50:49,718 - INFO - Making predictions
+2024-06-21 09:50:50,730 - INFO - Rescaling predictions
+2024-06-21 09:50:51,005 - INFO - Training VAE on stock data
+2024-06-21 09:52:11,699 - INFO - Generating future predictions using VAE
+2024-06-21 09:58:20,306 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 09:58:20,306 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 09:58:20,306 - INFO - Downloading stock data for NVDA
+2024-06-21 09:58:20,794 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 09:58:20,795 - INFO - Adding technical indicators
+2024-06-21 09:58:20,797 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-21 09:58:20,797 - INFO - Scaling the data
+2024-06-21 09:58:20,800 - INFO - Data scaled successfully
+2024-06-21 09:58:20,800 - INFO - Preparing dataset
+2024-06-21 09:58:20,810 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-21 10:06:25,962 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 10:06:25,962 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 10:06:25,963 - INFO - Downloading stock data for NVDA
+2024-06-21 10:06:26,448 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 10:06:26,449 - INFO - Adding technical indicators
+2024-06-21 10:06:26,452 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-21 10:06:26,452 - INFO - Scaling the data
+2024-06-21 10:06:26,454 - INFO - Data scaled successfully
+2024-06-21 10:06:26,454 - INFO - Preparing dataset
+2024-06-21 10:06:26,468 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-21 10:23:46,159 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 10:23:46,159 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 10:23:46,160 - INFO - Downloading stock data for NVDA
+2024-06-21 10:23:46,675 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 10:23:46,676 - INFO - Adding technical indicators
+2024-06-21 10:23:46,681 - INFO - Technical indicators added. Updated data shape: (3473, 5)
+2024-06-21 10:23:46,682 - INFO - Scaling the data
+2024-06-21 10:23:46,684 - INFO - Data scaled successfully
+2024-06-21 10:23:46,684 - INFO - Preparing dataset
+2024-06-21 10:23:46,692 - INFO - Dataset prepared. X shape: (3413, 60, 5), y shape: (3413,)
+2024-06-21 12:56:06,952 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 12:56:06,953 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 12:56:06,953 - INFO - Downloading stock data for NVDA
+2024-06-21 12:56:10,570 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 12:56:10,572 - INFO - Adding technical indicators
+2024-06-21 12:56:10,577 - INFO - Technical indicators added. Updated data shape: (3473, 5)
+2024-06-21 12:56:10,577 - INFO - Scaling the data
+2024-06-21 12:56:10,579 - INFO - Data scaled successfully
+2024-06-21 12:56:10,579 - INFO - Preparing dataset
+2024-06-21 12:56:10,587 - INFO - Dataset prepared. X shape: (3413, 60, 5), y shape: (3413,)
+2024-06-21 13:03:26,536 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 13:03:26,536 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 13:03:26,536 - INFO - Downloading stock data for NVDA
+2024-06-21 13:03:27,012 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 13:03:27,013 - INFO - Adding technical indicators
+2024-06-21 13:03:27,019 - INFO - Technical indicators added. Updated data shape: (3473, 5)
+2024-06-21 13:03:27,019 - INFO - Scaling the data
+2024-06-21 13:03:27,023 - INFO - Data scaled successfully
+2024-06-21 13:03:27,023 - INFO - Preparing dataset
+2024-06-21 13:03:27,032 - INFO - Dataset prepared. X shape: (3413, 60, 5), y shape: (3413,)
+2024-06-21 13:13:18,954 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 13:13:18,954 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 13:13:18,954 - INFO - Downloading stock data for NVDA
+2024-06-21 13:13:19,459 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 13:13:19,460 - INFO - Adding technical indicators
+2024-06-21 13:13:19,467 - INFO - Technical indicators added. Updated data shape: (3473, 5)
+2024-06-21 13:13:19,467 - INFO - Scaling the data
+2024-06-21 13:13:19,472 - INFO - Data scaled successfully
+2024-06-21 13:13:19,473 - INFO - Preparing dataset
+2024-06-21 13:13:19,484 - INFO - Dataset prepared. X shape: (3413, 60, 5), y shape: (3413,)
+2024-06-21 13:29:24,421 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 13:29:24,421 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 13:29:24,422 - INFO - Downloading stock data for NVDA
+2024-06-21 13:29:24,874 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 13:29:24,875 - INFO - Adding technical indicators
+2024-06-21 13:29:24,879 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-21 13:29:24,879 - INFO - Scaling the data
+2024-06-21 13:29:24,885 - INFO - Data scaled successfully
+2024-06-21 13:29:24,885 - INFO - Preparing dataset
+2024-06-21 13:29:24,896 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-21 14:03:24,225 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 14:03:24,226 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 14:03:24,226 - INFO - Downloading stock data for NVDA
+2024-06-21 14:03:24,826 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 14:03:24,827 - INFO - Adding technical indicators
+2024-06-21 14:03:24,832 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-21 14:03:24,832 - INFO - Scaling the data
+2024-06-21 14:03:24,838 - INFO - Data scaled successfully
+2024-06-21 14:03:24,838 - INFO - Preparing dataset
+2024-06-21 14:03:24,846 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-21 14:15:51,718 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 14:15:51,718 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 14:15:51,718 - INFO - Downloading stock data for NVDA
+2024-06-21 14:15:52,239 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 14:15:52,241 - INFO - Adding technical indicators
+2024-06-21 14:15:52,253 - INFO - Technical indicators added. Updated data shape: (3473, 6)
+2024-06-21 14:15:52,253 - INFO - Scaling the data
+2024-06-21 14:15:52,256 - INFO - Data scaled successfully
+2024-06-21 14:15:52,256 - INFO - Preparing dataset
+2024-06-21 14:15:52,264 - INFO - Dataset prepared. X shape: (3413, 60, 6), y shape: (3413,)
+2024-06-21 14:15:52,964 - INFO - Training LSTM-CNN encoder
+2024-06-21 14:18:29,847 - INFO - LSTM-CNN encoder trained successfully
+2024-06-21 14:18:29,847 - INFO - Extracting features using the encoder
+2024-06-21 14:18:33,039 - INFO - Features extracted. Train features shape: (2730, 50)
+2024-06-21 14:18:33,194 - INFO - Training VAE
+2024-06-21 14:18:47,563 - INFO - VAE trained successfully
+2024-06-21 14:18:47,563 - INFO - Generating predictions
+2024-06-21 14:19:03,147 - INFO - Predictions generated successfully
+2024-06-21 14:22:09,814 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 14:22:09,814 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 14:22:09,814 - INFO - Downloading stock data for NVDA
+2024-06-21 14:22:10,300 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 14:22:10,302 - INFO - Adding technical indicators
+2024-06-21 14:22:10,311 - INFO - Technical indicators added. Updated data shape: (3473, 6)
+2024-06-21 14:22:10,312 - INFO - Scaling the data
+2024-06-21 14:22:10,314 - INFO - Data scaled successfully
+2024-06-21 14:22:10,314 - INFO - Preparing dataset
+2024-06-21 14:22:10,320 - INFO - Dataset prepared. X shape: (3413, 60, 6), y shape: (3413,)
+2024-06-21 14:22:10,856 - INFO - Training LSTM-CNN encoder
+2024-06-21 14:23:50,965 - INFO - LSTM-CNN encoder trained successfully
+2024-06-21 14:23:50,966 - INFO - Extracting features using the encoder
+2024-06-21 14:23:54,157 - INFO - Features extracted. Train features shape: (2730, 50)
+2024-06-21 14:23:54,365 - INFO - Training VAE
+2024-06-21 14:24:11,967 - INFO - VAE trained successfully
+2024-06-21 14:24:11,967 - INFO - Generating predictions
+2024-06-21 14:24:28,082 - INFO - Predictions generated successfully
+2024-06-21 14:28:38,778 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 14:28:38,778 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 14:28:38,778 - INFO - Downloading stock data for NVDA
+2024-06-21 14:28:39,265 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 14:28:39,267 - INFO - Adding technical indicators
+2024-06-21 14:28:39,280 - INFO - Technical indicators added. Updated data shape: (3473, 6)
+2024-06-21 14:28:39,280 - INFO - Scaling the data
+2024-06-21 14:28:39,283 - INFO - Data scaled successfully
+2024-06-21 14:28:39,283 - INFO - Preparing dataset
+2024-06-21 14:28:39,291 - INFO - Dataset prepared. X shape: (3413, 60, 6), y shape: (3413,)
+2024-06-21 14:28:39,904 - INFO - Training LSTM-CNN encoder
+2024-06-21 14:32:44,023 - INFO - LSTM-CNN encoder trained successfully
+2024-06-21 14:32:44,023 - INFO - Extracting features using the encoder
+2024-06-21 14:32:47,885 - INFO - Features extracted. Train features shape: (2730, 50)
+2024-06-21 14:32:48,039 - INFO - Training VAE
+2024-06-21 14:33:06,995 - INFO - VAE trained successfully
+2024-06-21 14:33:06,995 - INFO - Generating predictions
+2024-06-21 14:33:23,865 - INFO - Predictions generated successfully
+2024-06-21 14:38:02,566 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 14:38:02,566 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 14:38:02,566 - INFO - Downloading stock data for NVDA
+2024-06-21 14:38:03,125 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 14:38:03,126 - INFO - Adding technical indicators
+2024-06-21 14:38:03,134 - INFO - Technical indicators added. Updated data shape: (3473, 6)
+2024-06-21 14:38:03,134 - INFO - Scaling the data
+2024-06-21 14:38:03,137 - INFO - Data scaled successfully
+2024-06-21 14:38:03,137 - INFO - Preparing dataset
+2024-06-21 14:38:03,147 - INFO - Dataset prepared. X shape: (3413, 60, 6), y shape: (3413,)
+2024-06-21 14:38:03,822 - INFO - Training LSTM-CNN encoder
+2024-06-21 14:44:02,863 - INFO - LSTM-CNN encoder trained successfully
+2024-06-21 14:44:02,864 - INFO - Extracting features using the encoder
+2024-06-21 14:44:06,780 - INFO - Features extracted. Train features shape: (2730, 50)
+2024-06-21 14:44:06,965 - INFO - Training VAE
+2024-06-21 14:44:21,445 - INFO - VAE trained successfully
+2024-06-21 14:44:21,445 - INFO - Generating predictions
+2024-06-21 14:44:37,775 - INFO - Predictions generated successfully
+2024-06-21 14:55:00,024 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 14:55:00,024 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 14:55:00,024 - INFO - Downloading stock data for NVDA
+2024-06-21 14:55:04,040 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 14:55:04,041 - INFO - Adding technical indicators
+2024-06-21 14:55:04,050 - INFO - Technical indicators added. Updated data shape: (3473, 6)
+2024-06-21 14:55:04,050 - INFO - Scaling the data
+2024-06-21 14:55:04,054 - INFO - Data scaled successfully
+2024-06-21 14:55:04,054 - INFO - Preparing dataset
+2024-06-21 14:55:04,065 - INFO - Dataset prepared. X shape: (3413, 60, 6), y shape: (3413,)
+2024-06-21 14:55:04,716 - INFO - Training LSTM-CNN encoder
+2024-06-21 14:59:50,505 - INFO - LSTM-CNN encoder trained successfully
+2024-06-21 14:59:50,505 - INFO - Extracting features using the encoder
+2024-06-21 14:59:54,433 - INFO - Features extracted. Train features shape: (2730, 50)
+2024-06-21 14:59:54,612 - INFO - Training VAE
+2024-06-21 15:00:06,998 - INFO - VAE trained successfully
+2024-06-21 15:00:06,998 - INFO - Generating predictions
+2024-06-21 15:00:23,623 - INFO - Predictions generated successfully
+2024-06-21 15:02:13,252 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 15:02:13,252 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 15:02:13,252 - INFO - Downloading stock data for NVDA
+2024-06-21 15:02:13,767 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 15:02:13,768 - INFO - Adding technical indicators
+2024-06-21 15:02:13,776 - INFO - Technical indicators added. Updated data shape: (3473, 6)
+2024-06-21 15:02:13,776 - INFO - Scaling the data
+2024-06-21 15:02:13,778 - INFO - Data scaled successfully
+2024-06-21 15:02:13,778 - INFO - Preparing dataset
+2024-06-21 15:02:13,789 - INFO - Dataset prepared. X shape: (3413, 60, 6), y shape: (3413,)
+2024-06-21 15:02:14,412 - INFO - Training LSTM-CNN encoder
+2024-06-21 15:07:51,601 - INFO - LSTM-CNN encoder trained successfully
+2024-06-21 15:07:51,601 - INFO - Extracting features using the encoder
+2024-06-21 15:07:55,597 - INFO - Features extracted. Train features shape: (2730, 50)
+2024-06-21 15:07:55,822 - INFO - Training VAE
+2024-06-21 15:08:05,802 - INFO - VAE trained successfully
+2024-06-21 15:08:05,802 - INFO - Generating predictions
+2024-06-21 15:08:22,327 - INFO - Predictions generated successfully
+2024-06-21 15:14:56,481 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 15:14:56,481 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 15:14:56,481 - INFO - Downloading stock data for NVDA
+2024-06-21 15:14:56,988 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 15:14:56,988 - INFO - Adding technical indicators
+2024-06-21 15:14:56,992 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-06-21 15:14:56,992 - INFO - Scaling the data
+2024-06-21 15:14:56,994 - INFO - Data scaled successfully
+2024-06-21 15:14:56,994 - INFO - Preparing dataset
+2024-06-21 15:14:57,001 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-06-21 16:04:18,079 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 16:04:18,079 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 16:04:18,079 - INFO - Downloading stock data for NVDA
+2024-06-21 16:04:22,053 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 16:04:22,053 - INFO - Adding technical indicators
+2024-06-21 16:04:22,067 - INFO - Technical indicators added. Updated data shape: (3473, 11)
+2024-06-21 16:04:22,068 - INFO - Scaling the data
+2024-06-21 16:04:22,072 - INFO - Data scaled successfully
+2024-06-21 16:07:11,849 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 16:07:11,849 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 16:07:11,849 - INFO - Downloading stock data for NVDA
+2024-06-21 16:07:12,741 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 16:07:12,741 - INFO - Adding technical indicators
+2024-06-21 16:07:12,755 - INFO - Technical indicators added. Updated data shape: (3473, 11)
+2024-06-21 16:07:12,755 - INFO - Scaling the data
+2024-06-21 16:07:12,758 - INFO - Data scaled successfully
+2024-06-21 16:08:51,408 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 16:08:51,408 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 16:08:51,408 - INFO - Downloading stock data for NVDA
+2024-06-21 16:08:52,058 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 16:08:52,058 - INFO - Adding technical indicators
+2024-06-21 16:08:52,070 - INFO - Technical indicators added. Updated data shape: (3473, 11)
+2024-06-21 16:08:52,070 - INFO - Scaling the data
+2024-06-21 16:08:52,075 - INFO - Data scaled successfully
+2024-06-21 16:10:27,538 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 16:10:27,539 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 16:10:27,539 - INFO - Downloading stock data for NVDA
+2024-06-21 16:10:28,310 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 16:10:28,310 - INFO - Adding technical indicators
+2024-06-21 16:10:28,321 - INFO - Technical indicators added. Updated data shape: (3473, 11)
+2024-06-21 16:10:28,322 - INFO - Scaling the data
+2024-06-21 16:10:28,324 - INFO - Data scaled successfully
+2024-06-21 16:15:47,678 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 16:15:47,678 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 16:15:47,678 - INFO - Downloading stock data for NVDA
+2024-06-21 16:15:48,181 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 16:15:48,182 - INFO - Adding technical indicators
+2024-06-21 16:15:48,200 - INFO - Technical indicators added. Updated data shape: (3473, 11)
+2024-06-21 16:15:48,200 - INFO - Scaling the data
+2024-06-21 16:15:48,206 - INFO - Data scaled successfully
+2024-06-21 16:20:12,738 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 16:20:12,739 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 16:20:12,739 - INFO - Downloading stock data for NVDA
+2024-06-21 16:20:13,177 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 16:20:13,177 - INFO - Adding technical indicators
+2024-06-21 16:20:13,186 - INFO - Technical indicators added. Updated data shape: (3473, 11)
+2024-06-21 16:20:13,186 - INFO - Scaling the data
+2024-06-21 16:20:13,189 - INFO - Data scaled successfully
+2024-06-21 16:20:13,190 - INFO - Preparing dataset
+2024-06-21 16:20:13,204 - INFO - Dataset prepared. X shape: (3413, 60, 22), y shape: (3413,)
+2024-06-21 16:40:42,003 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 16:40:42,003 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-21 16:40:42,003 - INFO - Downloading stock data for NVDA
+2024-06-21 16:40:42,363 - INFO - Downloaded data shape: (501, 6)
+2024-06-21 16:40:42,364 - INFO - Adding technical indicators
+2024-06-21 16:40:42,372 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-21 16:40:42,372 - INFO - Scaling the data
+2024-06-21 16:40:42,375 - INFO - Data scaled successfully
+2024-06-21 16:40:42,378 - INFO - Preparing dataset
+2024-06-21 16:40:42,381 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-24 09:07:29,646 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-24 09:07:29,647 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-24 09:07:29,647 - INFO - Downloading stock data for NVDA
+2024-06-24 09:07:33,445 - INFO - Downloaded data shape: (501, 6)
+2024-06-24 09:07:33,445 - INFO - Adding technical indicators
+2024-06-24 09:07:33,456 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-24 09:07:33,456 - INFO - Scaling the data
+2024-06-24 09:07:33,460 - INFO - Data scaled successfully
+2024-06-24 09:07:33,463 - INFO - Preparing dataset
+2024-06-24 09:07:33,465 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-24 09:26:56,752 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-24 09:26:56,752 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-24 09:26:56,752 - INFO - Downloading stock data for NVDA
+2024-06-24 09:26:57,119 - INFO - Downloaded data shape: (501, 6)
+2024-06-24 09:26:57,119 - INFO - Adding technical indicators
+2024-06-24 09:26:57,128 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-24 09:26:57,128 - INFO - Scaling the data
+2024-06-24 09:26:57,130 - INFO - Data scaled successfully
+2024-06-24 09:26:57,131 - INFO - Preparing dataset
+2024-06-24 09:26:57,132 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)
+2024-06-25 20:34:35,596 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-25 20:34:35,596 - INFO - Test ratio: 0.2, Future days: 90
+2024-06-25 20:34:35,597 - INFO - Downloading stock data for NVDA
+2024-06-25 20:34:43,492 - INFO - Downloaded data shape: (501, 6)
+2024-06-25 20:34:43,493 - INFO - Adding technical indicators
+2024-06-25 20:34:43,510 - INFO - Technical indicators added. Updated data shape: (452, 11)
+2024-06-25 20:34:43,510 - INFO - Scaling the data
+2024-06-25 20:34:43,516 - INFO - Data scaled successfully
+2024-06-25 20:34:43,519 - INFO - Preparing dataset
+2024-06-25 20:34:43,522 - INFO - Dataset prepared. X shape: (392, 60, 22), y shape: (392,)

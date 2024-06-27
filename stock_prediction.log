@@ -20,3 +20,52 @@
 2024-06-20 15:45:17,807 - INFO - Starting analysis for stock symbol: NVDA
 2024-06-20 15:45:18,256 - INFO - Downloaded data shape: (3522, 6)
 2024-06-20 15:45:18,269 - INFO - Data shape after adding indicators: (3473, 11)
+2024-06-21 08:22:58,728 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 08:23:02,444 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 08:23:02,457 - INFO - Data shape after adding indicators: (3473, 11)
+2024-06-21 08:28:38,762 - INFO - Prediction plot saved for NVDA
+2024-06-21 08:28:42,298 - INFO - Future prediction plot saved for NVDA
+2024-06-21 08:33:42,361 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 08:33:42,893 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 08:33:42,910 - INFO - Data shape after adding indicators: (3473, 11)
+2024-06-21 08:39:44,835 - INFO - Prediction plot saved for NVDA
+2024-06-21 08:39:48,449 - INFO - Future prediction plot saved for NVDA
+2024-06-21 08:44:14,902 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 08:44:15,394 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 08:44:15,408 - INFO - Data shape after adding indicators: (3473, 11)
+2024-06-21 08:51:12,507 - INFO - Prediction plot saved for NVDA
+2024-06-21 08:51:15,964 - INFO - Future prediction plot saved for NVDA
+2024-06-21 08:51:15,966 - ERROR - Error in stock_market_analysis: Invalid format specifier
+2024-06-21 08:57:17,415 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 08:57:17,938 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 08:57:17,948 - INFO - Data shape after adding indicators: (3473, 11)
+2024-06-21 08:57:18,988 - ERROR - Error in stock_market_analysis: Exception encountered when calling layer "sequential_1" (type Sequential).
+
+Input 0 of layer "conv1d" is incompatible with the layer: expected min_ndim=3, found ndim=2. Full shape received: (None, 7)
+
+Call arguments received by layer "sequential_1" (type Sequential):
+  • inputs=tf.Tensor(shape=(None, 7), dtype=float32)
+  • training=None
+  • mask=None
+2024-06-21 09:06:40,613 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 09:06:41,081 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 09:06:41,090 - INFO - Data shape after adding indicators: (3473, 11)
+2024-06-21 09:06:42,160 - ERROR - Error in stock_market_analysis: Exception encountered when calling layer "sequential_1" (type Sequential).
+
+Input 0 of layer "conv1d" is incompatible with the layer: expected min_ndim=3, found ndim=2. Full shape received: (None, 7)
+
+Call arguments received by layer "sequential_1" (type Sequential):
+  • inputs=tf.Tensor(shape=(None, 7), dtype=float32)
+  • training=None
+  • mask=None
+2024-06-21 09:07:04,055 - INFO - Starting analysis for stock symbol: NVDA
+2024-06-21 09:07:04,543 - INFO - Downloaded data shape: (3522, 6)
+2024-06-21 09:07:04,552 - INFO - Data shape after adding indicators: (3473, 11)
+2024-06-21 09:07:05,565 - ERROR - Error in stock_market_analysis: Exception encountered when calling layer "sequential_1" (type Sequential).
+
+Input 0 of layer "conv1d" is incompatible with the layer: expected min_ndim=3, found ndim=2. Full shape received: (None, 7)
+
+Call arguments received by layer "sequential_1" (type Sequential):
+  • inputs=tf.Tensor(shape=(None, 7), dtype=float32)
+  • training=None
+  • mask=None

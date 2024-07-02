@@ -4,24 +4,27 @@ import yfinance as yf
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import RobustScaler
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import (Dense, LSTM, Dropout, Conv1D, MaxPooling1D,
-                                     Input, Reshape, Lambda, Flatten, concatenate, Attention)
-from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
+from tensorflow.keras.layers import Dense, LSTM, Dropout, Conv1D, MaxPooling1D, Input, Reshape, Lambda, Flatten, \
+    concatenate, Attention
+from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.losses import mse
 import tensorflow.keras.backend as K
-from scipy.signal import savgol_filter
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 import pywt
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
+from ta.volatility import BollingerBands
+from ta.momentum import StochasticOscillator
+from ta.volume import OnBalanceVolumeIndicator
+from joblib import Parallel, delayed
+import tensorflow as tf
 
-# Create a 'logs' directory if it doesn't exist
+# Setup logging
 log_dir = 'logs'
 os.makedirs(log_dir, exist_ok=True)
-
 logging.basicConfig(filename=os.path.join(log_dir, 'stock_prediction.log'), level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger('stock_prediction')
@@ -29,8 +32,8 @@ logger = logging.getLogger('stock_prediction')
 
 def calculate_rsi(data, window=14):
     delta = data.diff()
-    gain = (delta.where(delta > 0, 0)).rolling(window=window).mean()
-    loss = (-delta.where(delta < 0, 0)).rolling(window=window).mean()
+    gain = delta.clip(lower=0).rolling(window=window).mean()
+    loss = -delta.clip(upper=0).rolling(window=window).mean()
     rs = gain / loss
     return 100 - (100 / (1 + rs))
 
@@ -45,10 +48,49 @@ def calculate_macd(data, short_window=12, long_window=26, signal_window=9):
 
 def calculate_atr(high, low, close, window=14):
     tr1 = high - low
-    tr2 = abs(high - close.shift())
-    tr3 = abs(low - close.shift())
+    tr2 = (high - close.shift()).abs()
+    tr3 = (low - close.shift()).abs()
     tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
     return tr.rolling(window=window).mean()
+
+
+def add_advanced_features(data):
+    data = data.copy()
+    data['RSI'] = calculate_rsi(data['Close'])
+    data['MACD'], _ = calculate_macd(data['Close'])
+    data['ATR'] = calculate_atr(data['High'], data['Low'], data['Close'])
+    data['MA20'] = data['Close'].rolling(window=20).mean()
+    data['MA50'] = data['Close'].rolling(window=50).mean()
+
+    # Adding Bollinger Bands
+    bb_indicator = BollingerBands(close=data["Close"], window=20, window_dev=2)
+    data['BB_high'] = bb_indicator.bollinger_hband()
+    data['BB_low'] = bb_indicator.bollinger_lband()
+
+    # Adding Stochastic Oscillator
+    stoch = StochasticOscillator(high=data["High"], low=data["Low"], close=data["Close"], window=14, smooth_window=3)
+    data['Stoch_k'] = stoch.stoch()
+    data['Stoch_d'] = stoch.stoch_signal()
+
+    # Adding On-Balance Volume
+    obv = OnBalanceVolumeIndicator(close=data["Close"], volume=data["Volume"])
+    data['OBV'] = obv.on_balance_volume()
+
+    data.dropna(inplace=True)
+    return data
+
+
+def wavelet_features(data, wavelet='db1', level=3):
+    coeffs = pywt.wavedec(data, wavelet, level=level)
+    return np.concatenate(coeffs)
+
+
+def create_dataset(data, time_steps):
+    X, y = [], []
+    for i in range(time_steps, len(data)):
+        X.append(data[i - time_steps:i, :])
+        y.append(data[i, 0])  # Predict 'Close' price
+    return np.array(X), np.array(y)
 
 
 def create_lstm_cnn_attention_encoder(lstm_units=100, conv_filters=64, conv_kernel_size=3, dropout_rate=0.3,
@@ -104,230 +146,153 @@ def create_conditional_vae(input_shape, latent_dim, condition_shape):
     return vae
 
 
-def add_advanced_features(data):
-    data = data.copy()
-    data['RSI'] = calculate_rsi(data['Close'])
-    data['MACD'], _ = calculate_macd(data['Close'])
-    data['ATR'] = calculate_atr(data['High'], data['Low'], data['Close'])
-    data['MA20'] = data['Close'].rolling(window=20).mean()
-    data['MA50'] = data['Close'].rolling(window=50).mean()
-    data.dropna(inplace=True)
-    return data
-
-
-def wavelet_features(data, wavelet='db1', level=3):
-    coeffs = pywt.wavedec(data, wavelet, level=level)
-    return np.concatenate(coeffs)
-
-
-def create_dataset(data, time_steps):
-    X, y = [], []
-    for i in range(time_steps, len(data)):
-        X.append(data[i - time_steps:i, :])
-        y.append(data[i, 0])  # Predict 'Close' price
-    return np.array(X), np.array(y)
-
-
 def create_ensemble_model(input_shape, latent_dim=8):
     lstm_cnn = create_lstm_cnn_attention_encoder(time_steps=input_shape[0], num_features=input_shape[1])
     vae = create_conditional_vae(input_shape=input_shape, latent_dim=latent_dim, condition_shape=(50,))
-    rf = RandomForestRegressor(n_estimators=100)
-    xgb = XGBRegressor(n_estimators=100)
+    rf = RandomForestRegressor(n_estimators=100, n_jobs=-1)
+    xgb = XGBRegressor(n_estimators=100, n_jobs=-1)
     gp = GaussianProcessRegressor(kernel=C(1.0, (1e-3, 1e3)) * RBF(10, (1e-2, 1e2)), n_restarts_optimizer=10, alpha=0.1)
 
     def ensemble_predict(X):
+        # Convert X to numpy array if it's a list
+        X = np.array(X)
+
+        # Ensure X has the correct shape
+        if X.ndim == 2:
+            X = X.reshape(1, *X.shape)
+
         lstm_pred, lstm_features = lstm_cnn.predict(X)
         vae_pred = vae.predict([X, lstm_features])
-        rf_pred = rf.predict(X.reshape(X.shape[0], -1))
-        xgb_pred = xgb.predict(X.reshape(X.shape[0], -1))
-        gp_pred, _ = gp.predict(X.reshape(X.shape[0], -1), return_std=True)
+        X_reshaped = X.reshape(X.shape[0], -1)
+        rf_pred = rf.predict(X_reshaped)
+        xgb_pred = xgb.predict(X_reshaped)
+        gp_pred, _ = gp.predict(X_reshaped, return_std=True)
 
         # Ensure all predictions have the same shape
-        if len(lstm_pred.shape) == 3:
-            lstm_pred = lstm_pred[:, -1, :]  # Use only the last time step
-        if len(vae_pred.shape) == 3:
-            vae_pred = vae_pred[:, -1, :]  # Use only the last time step
-        rf_pred = rf_pred.reshape(-1, 1)
-        xgb_pred = xgb_pred.reshape(-1, 1)
-        gp_pred = gp_pred.reshape(-1, 1)
+        lstm_pred = lstm_pred.flatten()
+        vae_pred = vae_pred.flatten()
+        rf_pred = rf_pred.flatten()
+        xgb_pred = xgb_pred.flatten()
+        gp_pred = gp_pred.flatten()
 
-        # Combine predictions for all features
-        combined_pred = np.column_stack((lstm_pred, vae_pred, rf_pred, xgb_pred, gp_pred))
+        # Ensure all predictions have the same length
+        min_length = min(len(lstm_pred), len(vae_pred), len(rf_pred), len(xgb_pred), len(gp_pred))
+        lstm_pred = lstm_pred[:min_length]
+        vae_pred = vae_pred[:min_length]
+        rf_pred = rf_pred[:min_length]
+        xgb_pred = xgb_pred[:min_length]
+        gp_pred = gp_pred[:min_length]
 
-        return np.mean(combined_pred, axis=1)
+        combined_predictions = np.mean(
+            [lstm_pred, vae_pred, rf_pred, xgb_pred, gp_pred],
+            axis=0
+        )
+        return combined_predictions
 
     return ensemble_predict, (lstm_cnn, vae, rf, xgb, gp)
 
-def sliding_window_train(model, X, y, window_size=1000):
-    for i in range(0, len(X) - window_size, 100):  # Step by 100 for efficiency
-        X_window = X[i:i + window_size]
-        y_window = y[i:i + window_size]
-        model.fit(X_window, y_window, epochs=1, verbose=0)
-    return model
 
-
-def backtest(model, X, y, initial_window=1000):
-    predictions = []
-    for i in range(initial_window, len(X)):
-        model.fit(X[:i], y[:i])
-        pred = model.predict(X[i].reshape(1, -1))
-        predictions.append(pred[0])
-    return np.array(predictions)
-
-
-def generate_future_predictions_hybrid(ensemble_model, last_sequence, future_days, scaler, num_features):
+def generate_future_predictions(ensemble_model, last_input, future_days, scaler, num_features):
     future_predictions = []
-    current_sequence = last_sequence.reshape(1, *last_sequence.shape)
+    input_sequence = last_input.copy()
 
     for _ in range(future_days):
-        next_prediction = ensemble_model(current_sequence)
-        future_predictions.append(next_prediction[0])
+        input_sequence = np.roll(input_sequence, -1, axis=0)
+        prediction = ensemble_model(input_sequence.reshape(1, input_sequence.shape[0], num_features))
+        input_sequence[-1, 0] = prediction[0]  # Use only the first prediction
+        future_predictions.append(prediction[0])
 
-        # Update sequence for next iteration
-        current_sequence = np.roll(current_sequence, -1, axis=1)
-        current_sequence[0, -1] = next_prediction  # Update all features
+    # Create a dummy array with the same number of features as the original data
+    dummy_array = np.zeros((len(future_predictions), num_features))
+    dummy_array[:, 0] = future_predictions  # Set the first column (closing price) to our predictions
 
-    future_predictions = np.array(future_predictions).reshape(-1, 1)
+    # Inverse transform the entire dummy array
+    inverse_transformed = scaler.inverse_transform(dummy_array)
 
-    print(f"Future Predictions Shape: {future_predictions.shape}")
-    print(f"Scaler Min Shape: {scaler.min_.shape}, Scaler Scale Shape: {scaler.scale_.shape}")
-
-    # Prepare the predictions for inverse transform
-    future_predictions_padded = np.zeros((future_predictions.shape[0], scaler.scale_.shape[0]))
-    future_predictions_padded[:, 0] = future_predictions.flatten()
-
-    # Inverse transform predictions
-    future_predictions_rescaled = scaler.inverse_transform(future_predictions_padded)
-
-    return future_predictions_rescaled[:, 0]  # Return only the first column (closing price)
+    # Return only the first column (closing price)
+    return inverse_transformed[:, 0]
 
 
-def plot_results(stock_data, predictions_full, future_predictions_df, train_size, time_steps):
-    plt.figure(figsize=(10, 5))
-    plt.plot(stock_data['Close'], label='Actual Stock Price')
-    plt.plot(stock_data.index[train_size + time_steps:], predictions_full[train_size + time_steps:], label='Smoothed Predictions')
-    plt.plot(future_predictions_df.index, future_predictions_df['Future Predictions'], label='Future Predictions')
-    plt.axvline(x=stock_data.index[train_size + time_steps], color='r', linestyle='--', label='Train-Test Split')
-    plt.xlabel('Date')
-    plt.ylabel('Stock Price')
-    plt.title('Stock Price Prediction')
-    plt.legend()
-    plt.show()
-
-
-def stock_market_analysis_with_hybrid_model(stock_symbol, test_ratio, future_days):
-    logger.info(f"Starting analysis for stock symbol: {stock_symbol}")
-    logger.info(f"Test ratio: {test_ratio}, Future days: {future_days}")
-
+def stock_market_analysis(symbol, start_date, end_date, time_steps=60, future_days=90):
     # Download stock data
-    logger.info(f"Downloading stock data for {stock_symbol}")
-    stock_data = yf.download(stock_symbol, start='2022-01-01', end='2024-01-01')
-    logger.info(f"Downloaded data shape: {stock_data.shape}")
+    df = yf.download(symbol, start=start_date, end=end_date)
+    df = add_advanced_features(df)
 
-    if stock_data.empty:
-        logger.error("Failed to retrieve data for the given stock symbol")
-        raise ValueError("Failed to retrieve data for the given stock symbol")
+    # Normalize features
+    feature_cols = ['Close', 'RSI', 'MACD', 'ATR', 'MA20', 'MA50', 'BB_high', 'BB_low', 'Stoch_k', 'Stoch_d', 'OBV']
+    scaler = RobustScaler()
+    scaled_data = scaler.fit_transform(df[feature_cols])
 
-    # Add technical indicators
-    logger.info("Adding technical indicators")
-    stock_data = add_advanced_features(stock_data)
-    logger.info(f"Technical indicators added. Updated data shape: {stock_data.shape}")
+    # Create datasets
+    X, y = create_dataset(scaled_data, time_steps)
+    split_ratio = 0.8
+    split_idx = int(len(X) * split_ratio)
+    X_train, X_test = X[:split_idx], X[split_idx:]
+    y_train, y_test = y[:split_idx], y[split_idx:]
 
-    # Scale the data
-    logger.info("Scaling the data")
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    scaled_data = scaler.fit_transform(stock_data)
-    logger.info("Data scaled successfully")
+    # Create ensemble model and fit
+    ensemble_model, model_components = create_ensemble_model(X_train.shape[1:])
+    lstm_cnn, vae, rf, xgb, gp = model_components
 
-    # Scale the closing prices separately
-    closing_price_scaler = MinMaxScaler(feature_range=(0, 1))
-    closing_prices = stock_data['Close'].values.reshape(-1, 1)
-    closing_prices_scaled = closing_price_scaler.fit_transform(closing_prices)
+    # Train LSTM-CNN-Attention Encoder
+    lstm_cnn.fit(X_train, y_train, epochs=50, batch_size=64, validation_split=0.2, verbose=1,
+                 callbacks=[EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
 
-    # Add wavelet features
-    wavelet_feats = np.apply_along_axis(wavelet_features, 0, scaled_data)
+    # Train Conditional VAE
+    vae.fit([X_train, lstm_cnn.predict(X_train)[1]], epochs=50, batch_size=64, validation_split=0.2, verbose=1,
+            callbacks=[EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
 
-    # Ensure arrays have the same number of rows
-    min_rows = min(scaled_data.shape[0], wavelet_feats.shape[0])
-    scaled_data = scaled_data[:min_rows]
-    wavelet_feats = wavelet_feats[:min_rows]
+    # Train other models
+    X_train_reshaped = X_train.reshape(X_train.shape[0], -1)
+    rf.fit(X_train_reshaped, y_train)
+    xgb.fit(X_train_reshaped, y_train)
+    gp.fit(X_train_reshaped, y_train)
 
-    # Combine scaled data and wavelet features
-    combined_data = np.hstack((scaled_data, wavelet_feats))
+    # Predict and plot results
+    y_pred = ensemble_model(X_test)
 
-    # Create a new scaler for the combined data
-    combined_scaler = MinMaxScaler(feature_range=(0, 1))
-    combined_scaled_data = combined_scaler.fit_transform(combined_data)
-
-    # Update num_features
-    num_features = combined_scaled_data.shape[1]
-
-    # Prepare the dataset
-    logger.info("Preparing dataset")
-    time_steps = 60
-    X, y = create_dataset(combined_scaled_data, time_steps)
-    logger.info(f"Dataset prepared. X shape: {X.shape}, y shape: {y.shape}")
-
-    # Split the data
-    train_size = int(len(X) * (1 - test_ratio))
-    X_train, X_test = X[:train_size], X[train_size:]
-    y_train, y_test = y[:train_size], y[train_size:]
-
-    # Create ensemble model
-    ensemble_model, (lstm_cnn, vae, rf, xgb, gp) = create_ensemble_model((time_steps, num_features))
-
-    # Train models
-    lstm_cnn.fit(X_train, y_train, epochs=50, batch_size=32, validation_split=0.2)
-    vae.fit([X_train, lstm_cnn.predict(X_train)[1]], X_train, epochs=50, batch_size=32, validation_split=0.2)
-    rf.fit(X_train.reshape(X_train.shape[0], -1), y_train)
-    xgb.fit(X_train.reshape(X_train.shape[0], -1), y_train)
-    gp.fit(X_train.reshape(X_train.shape[0], -1), y_train)
-
-    # Continuous updating with sliding window
-    lstm_cnn = sliding_window_train(lstm_cnn, X_train, y_train)
-
-    # Backtesting
-    backtest_predictions = backtest(lstm_cnn, X, y)
+    # Inverse transform y_test and y_pred
+    y_test_inv = scaler.inverse_transform(np.column_stack([y_test, np.zeros((len(y_test), len(feature_cols) - 1))]))[:,
+                 0]
+    y_pred_inv = scaler.inverse_transform(np.column_stack([y_pred, np.zeros((len(y_pred), len(feature_cols) - 1))]))[:,
+                 0]
 
     # Generate future predictions
-    future_predictions = generate_future_predictions_hybrid(ensemble_model, X_train[-1], future_days, combined_scaler, num_features)
+    future_predictions = generate_future_predictions(ensemble_model, X_test[-1], future_days, scaler, len(feature_cols))
 
-    # Debug print for future predictions
-    print("Future Predictions:", future_predictions)
+    # Create date ranges
+    historical_dates = df.index[-len(y_test):]
+    future_dates = pd.date_range(start=historical_dates[-1] + pd.Timedelta(days=1), periods=future_days, freq='D')
 
-    # Prepare full dataset predictions for plotting
-    test_predictions = ensemble_model(X_test)
-    test_predictions = test_predictions.reshape(-1, 1)  # Reshape to 2D array for inverse_transform
+    plt.figure(figsize=(16, 8))
+    plt.plot(historical_dates, y_test_inv, label='Actual Prices', color='blue')
+    plt.plot(historical_dates, y_pred_inv, label='Predicted Prices', color='red')
+    plt.plot(future_dates, future_predictions, label='Future Predictions', color='green')
 
-    # Debug print for test predictions before inverse transform
-    print("Raw Test Predictions:", test_predictions)
+    plt.title(f'{symbol} Stock Price Prediction', fontsize=16)
+    plt.xlabel('Date', fontsize=12)
+    plt.ylabel('Price', fontsize=12)
+    plt.legend(fontsize=10)
+    plt.grid(True, linestyle='--', alpha=0.5)
 
-    # Inverse transform the closing price predictions using the separate scaler
-    test_predictions_rescaled = closing_price_scaler.inverse_transform(test_predictions)
+    # Improve x-axis date formatting
+    plt.gcf().autofmt_xdate()
+    plt.tight_layout()
 
-    # Debug print for test predictions after inverse transform
-    print("Rescaled Test Predictions:", test_predictions_rescaled)
+    # Optionally, use a logarithmic scale if the price range is very wide
+    # plt.yscale('log')
 
-    # Prepare predictions for plotting
-    predictions_full = np.zeros((len(stock_data), 1))
-    predictions_full[:] = np.nan
-    predictions_full[train_size + time_steps:] = test_predictions_rescaled.reshape(-1, 1)
+    plt.show()
 
-    # Extend the stock_data index for future dates
-    last_date = stock_data.index[-1]
-    future_dates = pd.date_range(last_date + pd.Timedelta(days=1), periods=future_days)
+    # Optional: Print some performance metrics
+    mse = np.mean((y_test_inv - y_pred_inv) ** 2)
+    rmse = np.sqrt(mse)
+    mae = np.mean(np.abs(y_test_inv - y_pred_inv))
 
-    # Create a DataFrame for the future predictions
-    future_predictions_df = pd.DataFrame(future_predictions, index=future_dates, columns=['Future Predictions'])
-
-    # Plot the results
-    plot_results(stock_data, predictions_full, future_predictions_df, train_size, time_steps)
-
-    logger.info("Analysis completed successfully")
-
-
+    print(f"Mean Squared Error: {mse:.2f}")
+    print(f"Root Mean Squared Error: {rmse:.2f}")
+    print(f"Mean Absolute Error: {mae:.2f}")
 
 
-
-if __name__ == "__main__":
-    stock_market_analysis_with_hybrid_model('NVDA', test_ratio=0.2, future_days=90)
+if __name__ == '__main__':
+    stock_market_analysis('NVDA', '2020-01-01', '2024-01-01', time_steps=60, future_days=90)

@@ -4,24 +4,17 @@ import yfinance as yf
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 from sklearn.preprocessing import RobustScaler
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, LSTM, Dropout, Conv1D, MaxPooling1D, Input, Reshape, Lambda, Flatten, \
-    concatenate, Attention
+from tensorflow.keras.layers import Dense, LSTM, Dropout, Conv1D, MaxPooling1D, Input, Flatten, concatenate, Lambda, Reshape
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.losses import mse
 import tensorflow.keras.backend as K
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
-import pywt
-from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
 from ta.volatility import BollingerBands
 from ta.momentum import StochasticOscillator
 from ta.volume import OnBalanceVolumeIndicator
-from joblib import Parallel, delayed
-import tensorflow as tf
 
 # Setup logging
 log_dir = 'logs'
@@ -51,8 +44,12 @@ def calculate_atr(high, low, close, window=14):
     tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
     return tr.rolling(window=window).mean()
 
+def interpolate_data(data):
+    return data.interpolate(method='linear', axis=0).ffill().bfill()
+
 def add_advanced_features(data):
     data = data.copy()
+    data = interpolate_data(data)  # Interpolate missing data
     data['RSI'] = calculate_rsi(data['Close'])
     data['MACD'], _ = calculate_macd(data['Close'])
     data['ATR'] = calculate_atr(data['High'], data['Low'], data['Close'])
@@ -72,30 +69,6 @@ def add_advanced_features(data):
 
     data.dropna(inplace=True)
     return data
-
-def create_dataset(data, time_steps):
-    X, y = [], []
-    for i in range(time_steps, len(data)):
-        X.append(data[i - time_steps:i, :])
-        y.append(data[i, 0])  # Predict 'Close' price
-    return np.array(X), np.array(y)
-
-def create_lstm_cnn_attention_encoder(lstm_units=100, conv_filters=64, conv_kernel_size=3, dropout_rate=0.3,
-                                      time_steps=60, num_features=4):
-    inputs = Input(shape=(time_steps, num_features))
-    x = Conv1D(filters=conv_filters, kernel_size=conv_kernel_size, activation='relu')(inputs)
-    x = MaxPooling1D(pool_size=2)(x)
-    lstm_out = LSTM(units=lstm_units, return_sequences=True)(x)
-    attention = Attention()([lstm_out, lstm_out])
-    x = concatenate([lstm_out, attention])
-    x = Flatten()(x)
-    x = Dropout(dropout_rate)(x)
-    features = Dense(50, activation='relu', name='features')(x)
-    outputs = Dense(num_features)(features)
-
-    encoder = Model(inputs, [outputs, features], name='lstm_cnn_attention_encoder')
-    encoder.compile(optimizer='adam', loss='mean_squared_error')
-    return encoder
 
 def create_conditional_vae(input_shape, latent_dim, condition_shape):
     inputs = Input(shape=input_shape, name='vae_input')
@@ -131,45 +104,59 @@ def create_conditional_vae(input_shape, latent_dim, condition_shape):
 
     return vae
 
+def create_lstm_cnn_attention_encoder(lstm_units=100, conv_filters=64, conv_kernel_size=3, dropout_rate=0.3, time_steps=60, num_features=11):
+    inputs = Input(shape=(time_steps, num_features))
+    x = Conv1D(filters=conv_filters, kernel_size=conv_kernel_size, activation='relu')(inputs)
+    x = MaxPooling1D(pool_size=2)(x)
+    x = LSTM(units=lstm_units, return_sequences=True)(x)
+    x = Dropout(dropout_rate)(x)
+    x = LSTM(units=lstm_units)(x)
+    x = Dropout(dropout_rate)(x)
+    outputs = Dense(num_features, name='output')(x)
+
+    encoder = Model(inputs, outputs, name='lstm_cnn_attention_encoder')
+    encoder.compile(optimizer='adam', loss='mean_squared_error')
+    return encoder
+
 def create_ensemble_model(input_shape, latent_dim=8):
     lstm_cnn = create_lstm_cnn_attention_encoder(time_steps=input_shape[0], num_features=input_shape[1])
-    vae = create_conditional_vae(input_shape=input_shape, latent_dim=latent_dim, condition_shape=(50,))
+    vae = create_conditional_vae(input_shape=input_shape, latent_dim=latent_dim, condition_shape=(input_shape[1],))
     rf = RandomForestRegressor(n_estimators=100, n_jobs=-1)
     xgb = XGBRegressor(n_estimators=100, n_jobs=-1)
-    gp = GaussianProcessRegressor(kernel=C(1.0, (1e-3, 1e3)) * RBF(10, (1e-2, 1e2)), n_restarts_optimizer=10, alpha=0.1)
 
     def ensemble_predict(X):
         X = np.array(X)
         if X.ndim == 2:
             X = X.reshape(1, *X.shape)
 
-        lstm_pred, lstm_features = lstm_cnn.predict(X)
-        vae_pred = vae.predict([X, lstm_features])
+        lstm_pred = lstm_cnn.predict(X)
+        vae_pred = vae.predict([X, lstm_pred])
         X_reshaped = X.reshape(X.shape[0], -1)
         rf_pred = rf.predict(X_reshaped)
         xgb_pred = xgb.predict(X_reshaped)
-        gp_pred, _ = gp.predict(X_reshaped, return_std=True)
 
         lstm_pred = lstm_pred.flatten()
         vae_pred = vae_pred.flatten()
         rf_pred = rf_pred.flatten()
         xgb_pred = xgb_pred.flatten()
-        gp_pred = gp_pred.flatten()
 
-        min_length = min(len(lstm_pred), len(vae_pred), len(rf_pred), len(xgb_pred), len(gp_pred))
+        min_length = min(len(lstm_pred), len(vae_pred), len(rf_pred), len(xgb_pred))
         lstm_pred = lstm_pred[:min_length]
         vae_pred = vae_pred[:min_length]
         rf_pred = rf_pred[:min_length]
         xgb_pred = xgb_pred[:min_length]
-        gp_pred = gp_pred[:min_length]
 
-        combined_predictions = np.mean(
-            [lstm_pred, vae_pred, rf_pred, xgb_pred, gp_pred],
-            axis=0
-        )
+        combined_predictions = np.mean([lstm_pred, vae_pred, rf_pred, xgb_pred], axis=0)
         return combined_predictions
 
-    return ensemble_predict, (lstm_cnn, vae, rf, xgb, gp)
+    return ensemble_predict, (lstm_cnn, vae, rf, xgb)
+
+def create_dataset(data, time_steps):
+    X, y = [], []
+    for i in range(time_steps, len(data)):
+        X.append(data[i - time_steps:i, :])
+        y.append(data[i])  # Predict the entire feature set
+    return np.array(X), np.array(y)
 
 def generate_future_predictions(ensemble_model, last_input, future_days, scaler, num_features):
     future_predictions = []
@@ -178,86 +165,100 @@ def generate_future_predictions(ensemble_model, last_input, future_days, scaler,
     for _ in range(future_days):
         input_sequence = np.roll(input_sequence, -1, axis=0)
         prediction = ensemble_model(input_sequence.reshape(1, input_sequence.shape[0], num_features))
-        input_sequence[-1, 0] = prediction[0]  # Use only the first prediction
-        future_predictions.append(prediction[0])
+        input_sequence[-1] = prediction  # Update the last entry in the input sequence with the prediction
+        future_predictions.append(prediction.flatten())  # Flatten the prediction and append it to future_predictions
 
-    dummy_array = np.zeros((len(future_predictions), num_features))
-    dummy_array[:, 0] = future_predictions
+    future_predictions = np.array(future_predictions)
+    future_predictions = future_predictions.reshape(-1, num_features)  # Ensure correct shape for inverse_transform
+    inverse_transformed = scaler.inverse_transform(future_predictions)[:, 0]  # Inverse transform and extract first column
+    return inverse_transformed.flatten()  # Flatten to get a 1D array of predictions
 
-    inverse_transformed = scaler.inverse_transform(dummy_array)
-
-    return inverse_transformed[:, 0]
 
 def stock_market_analysis(symbol, start_date, end_date, time_steps=60, future_days=90):
     df = yf.download(symbol, start=start_date, end=end_date)
+
+    # Store original close prices and dates
+    original_close = df['Close'].copy()
+    original_dates = df.index.copy()
+
+    # Artificially introduce gaps in the data
+    gap_indices = np.random.choice(df.index[100:-100], size=20, replace=False)
+    df.loc[gap_indices, 'Close'] = np.nan
+
+    # Store the data with gaps
+    gapped_close = df['Close'].copy()
+
+    # Apply interpolation
+    df['Close'] = interpolate_data(df['Close'])
+
     df = add_advanced_features(df)
 
-    feature_cols = ['Close', 'RSI', 'MACD', 'ATR', 'MA20', 'MA50', 'BB_high', 'BB_low', 'Stoch_k', 'Stoch_d', 'OBV']
+    feature_columns = ['Close', 'RSI', 'MACD', 'ATR', 'MA20', 'MA50', 'BB_high', 'BB_low', 'Stoch_k', 'Stoch_d', 'OBV']
     scaler = RobustScaler()
-    scaled_data = scaler.fit_transform(df[feature_cols])
+    scaled_data = scaler.fit_transform(df[feature_columns])
 
     X, y = create_dataset(scaled_data, time_steps)
     split_ratio = 0.8
-    split_idx = int(len(X) * split_ratio)
-    X_train, X_test = X[:split_idx], X[split_idx:]
-    y_train, y_test = y[:split_idx], y[split_idx:]
+    split_index = int(split_ratio * len(X))
 
-    ensemble_model, model_components = create_ensemble_model(X_train.shape[1:])
-    lstm_cnn, vae, rf, xgb, gp = model_components
+    X_train, X_test = X[:split_index], X[split_index:]
+    y_train, y_test = y[:split_index], y[split_index:]
 
+    ensemble_predict, models = create_ensemble_model(input_shape=(time_steps, X.shape[2]))
+
+    lstm_cnn, vae, rf, xgb = models
     lstm_cnn.fit(X_train, y_train, epochs=50, batch_size=64, validation_split=0.2, verbose=1,
                  callbacks=[EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
 
-    vae.fit([X_train, lstm_cnn.predict(X_train)[1]], epochs=50, batch_size=64, validation_split=0.2, verbose=1,
+    features = lstm_cnn.predict(X_train)
+    vae.fit([X_train, features], epochs=50, batch_size=64, validation_split=0.2, verbose=1,
             callbacks=[EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
 
-    X_train_reshaped = X_train.reshape(X_train.shape[0], -1)
-    rf.fit(X_train_reshaped, y_train)
-    xgb.fit(X_train_reshaped, y_train)
-    gp.fit(X_train_reshaped, y_train)
+    rf.fit(X_train.reshape(X_train.shape[0], -1), y_train)
+    xgb.fit(X_train.reshape(X_train.shape[0], -1), y_train)
 
-    y_pred = ensemble_model(X_test)
+    # Predict the latest 20% of known data
+    test_predictions = []
+    for i in range(X_test.shape[0]):
+        test_predictions.append(ensemble_predict(X_test[i]))
 
-    y_test_inv = scaler.inverse_transform(np.column_stack([y_test, np.zeros((len(y_test), len(feature_cols) - 1))]))[:,
-                 0]
-    y_pred_inv = scaler.inverse_transform(np.column_stack([y_pred, np.zeros((len(y_pred), len(feature_cols) - 1))]))[:,
-                 0]
-    future_predictions = generate_future_predictions(ensemble_model, X_test[-1], future_days, scaler, len(feature_cols))
+    test_predictions = np.array(test_predictions)
 
-    historical_dates = pd.date_range(end=df.index[-1], periods=len(y_test), freq='D')
-    future_dates = pd.date_range(start=historical_dates[-1] + pd.Timedelta(days=1), periods=future_days, freq='D')
+    # Generate future predictions
+    last_input = X_test[-1]
+    future_predictions = generate_future_predictions(ensemble_predict, last_input, future_days, scaler, X.shape[2])
 
-    plt.figure(figsize=(16, 8))
-    plt.plot(historical_dates, y_test_inv, label='Actual Prices', color='blue')
-    plt.plot(historical_dates, y_pred_inv, label='Predicted Prices', color='red')
-    plt.plot(future_dates, future_predictions, label='Future Predictions', color='green')
+    # Ensure gapped_close aligns with df after interpolation
+    gapped_close_aligned = gapped_close.reindex(df.index)
 
-    plt.title(f'{symbol} Stock Price Prediction', fontsize=16)
-    plt.xlabel('Date', fontsize=12)
-    plt.ylabel('Price ($)', fontsize=12)
-    plt.legend(fontsize=10)
-    plt.grid(True, linestyle='--', alpha=0.5)
+    # Combine known data, test predictions, and future predictions
+    known_and_test_data = np.concatenate([y_train, test_predictions], axis=0)
+    known_and_test_data_unscaled = scaler.inverse_transform(known_and_test_data)
 
-    plt.gcf().autofmt_xdate()
-    plt.gca().xaxis.set_major_locator(mdates.MonthLocator())
-    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+    future_predictions_unscaled = scaler.inverse_transform(future_predictions.reshape(-1, len(feature_columns)))
 
-    plt.ylim(min(min(y_test_inv), min(y_pred_inv), min(future_predictions)) * 0.9,
-             max(max(y_test_inv), max(y_pred_inv), max(future_predictions)) * 1.1)
+    # Plotting
+    plt.figure(figsize=(14, 7))
 
-    # Optionally, use logarithmic scale for y-axis if price range is very wide
-    # plt.yscale('log')
+    # Plot known data in blue
+    plt.plot(original_dates[:len(y_train)], original_close[:len(y_train)], color='blue', label='Training Data', linewidth=2)
 
-    plt.tight_layout()
+    # Plot test predictions in orange
+    plt.plot(original_dates[len(y_train):len(y_train) + len(test_predictions)], known_and_test_data_unscaled[len(y_train):, 0], color='orange', label='Test Predictions', linestyle='--')
+
+    # Plot future predictions in purple
+    plt.plot(pd.date_range(original_dates[-1] + pd.Timedelta(days=1), periods=future_days), future_predictions_unscaled[:, 0], color='purple', label='Future Predictions', linestyle='--')
+
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.title(f'{symbol} Stock Price Prediction with Visible Interpolation')
+    plt.legend()
     plt.show()
 
-    mse = np.mean((y_test_inv - y_pred_inv) ** 2)
-    rmse = np.sqrt(mse)
-    mae = np.mean(np.abs(y_test_inv - y_pred_inv))
+    # Print some information about the interpolation
+    print(f"Number of NaN values introduced: {len(gap_indices)}")
+    print(f"Number of NaN values after interpolation: {df['Close'].isna().sum()}")
 
-    print(f"Mean Squared Error: {mse:.2f}")
-    print(f"Root Mean Squared Error: {rmse:.2f}")
-    print(f"Mean Absolute Error: {mae:.2f}")
-
+# Example usage
 if __name__ == '__main__':
     stock_market_analysis('NVDA', '2020-01-01', '2024-01-01', time_steps=60, future_days=90)

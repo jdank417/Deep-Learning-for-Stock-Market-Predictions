@@ -4,8 +4,9 @@ import yfinance as yf
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 from sklearn.preprocessing import RobustScaler
-from tensorflow.keras.models import Model
+from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.layers import Dense, LSTM, Dropout, Conv1D, MaxPooling1D, Input, Flatten, concatenate, Lambda, Reshape
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.losses import mse
@@ -165,32 +166,15 @@ def generate_future_predictions(ensemble_model, last_input, future_days, scaler,
     for _ in range(future_days):
         input_sequence = np.roll(input_sequence, -1, axis=0)
         prediction = ensemble_model(input_sequence.reshape(1, input_sequence.shape[0], num_features))
-        input_sequence[-1] = prediction  # Update the last entry in the input sequence with the prediction
-        future_predictions.append(prediction.flatten())  # Flatten the prediction and append it to future_predictions
+        input_sequence[-1] = prediction  # Use the entire prediction set
+        future_predictions.append(prediction)
 
-    future_predictions = np.array(future_predictions)
-    future_predictions = future_predictions.reshape(-1, num_features)  # Ensure correct shape for inverse_transform
-    inverse_transformed = scaler.inverse_transform(future_predictions)[:, 0]  # Inverse transform and extract first column
-    return inverse_transformed.flatten()  # Flatten to get a 1D array of predictions
-
+    future_predictions = np.array(future_predictions).reshape(-1, num_features)
+    inverse_transformed = scaler.inverse_transform(future_predictions)
+    return inverse_transformed[:, 0]
 
 def stock_market_analysis(symbol, start_date, end_date, time_steps=60, future_days=90):
     df = yf.download(symbol, start=start_date, end=end_date)
-
-    # Store original close prices and dates
-    original_close = df['Close'].copy()
-    original_dates = df.index.copy()
-
-    # Artificially introduce gaps in the data
-    gap_indices = np.random.choice(df.index[100:-100], size=20, replace=False)
-    df.loc[gap_indices, 'Close'] = np.nan
-
-    # Store the data with gaps
-    gapped_close = df['Close'].copy()
-
-    # Apply interpolation
-    df['Close'] = interpolate_data(df['Close'])
-
     df = add_advanced_features(df)
 
     feature_columns = ['Close', 'RSI', 'MACD', 'ATR', 'MA20', 'MA50', 'BB_high', 'BB_low', 'Stoch_k', 'Stoch_d', 'OBV']
@@ -217,47 +201,17 @@ def stock_market_analysis(symbol, start_date, end_date, time_steps=60, future_da
     rf.fit(X_train.reshape(X_train.shape[0], -1), y_train)
     xgb.fit(X_train.reshape(X_train.shape[0], -1), y_train)
 
-    # Predict the latest 20% of known data
-    test_predictions = []
-    for i in range(X_test.shape[0]):
-        test_predictions.append(ensemble_predict(X_test[i]))
-
-    test_predictions = np.array(test_predictions)
-
-    # Generate future predictions
     last_input = X_test[-1]
     future_predictions = generate_future_predictions(ensemble_predict, last_input, future_days, scaler, X.shape[2])
 
-    # Ensure gapped_close aligns with df after interpolation
-    gapped_close_aligned = gapped_close.reindex(df.index)
-
-    # Combine known data, test predictions, and future predictions
-    known_and_test_data = np.concatenate([y_train, test_predictions], axis=0)
-    known_and_test_data_unscaled = scaler.inverse_transform(known_and_test_data)
-
-    future_predictions_unscaled = scaler.inverse_transform(future_predictions.reshape(-1, len(feature_columns)))
-
-    # Plotting
     plt.figure(figsize=(14, 7))
-
-    # Plot known data in blue
-    plt.plot(original_dates[:len(y_train)], original_close[:len(y_train)], color='blue', label='Training Data', linewidth=2)
-
-    # Plot test predictions in orange
-    plt.plot(original_dates[len(y_train):len(y_train) + len(test_predictions)], known_and_test_data_unscaled[len(y_train):, 0], color='orange', label='Test Predictions', linestyle='--')
-
-    # Plot future predictions in purple
-    plt.plot(pd.date_range(original_dates[-1] + pd.Timedelta(days=1), periods=future_days), future_predictions_unscaled[:, 0], color='purple', label='Future Predictions', linestyle='--')
-
+    plt.plot(df.index[-len(y_test):], scaler.inverse_transform(scaled_data[-len(y_test):])[:, 0], color='blue', label='Actual Price')
+    plt.plot(pd.date_range(start=df.index[-1], periods=future_days, freq='B'), future_predictions, color='red', label='Future Predictions')
     plt.xlabel('Date')
     plt.ylabel('Price')
-    plt.title(f'{symbol} Stock Price Prediction with Visible Interpolation')
+    plt.title(f'{symbol} Stock Price Prediction')
     plt.legend()
     plt.show()
-
-    # Print some information about the interpolation
-    print(f"Number of NaN values introduced: {len(gap_indices)}")
-    print(f"Number of NaN values after interpolation: {df['Close'].isna().sum()}")
 
 # Example usage
 if __name__ == '__main__':

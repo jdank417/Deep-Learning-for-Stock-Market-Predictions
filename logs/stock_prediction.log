@@ -6895,3 +6895,16 @@
 2024-07-03 09:54:29,429 - INFO - Training VAE model
 2024-07-03 09:54:45,941 - INFO - Generating future predictions with VAE
 2024-07-03 09:54:52,531 - INFO - Plotting results
+2024-07-03 14:43:33,516 - INFO - Starting analysis for stock symbol: NVDA
+2024-07-03 14:43:33,517 - INFO - Test ratio: 0.2, Future days: 90
+2024-07-03 14:43:33,517 - INFO - Downloading stock data for NVDA
+2024-07-03 14:43:33,991 - INFO - Downloaded data shape: (3522, 6)
+2024-07-03 14:43:33,992 - INFO - Adding technical indicators
+2024-07-03 14:43:33,995 - INFO - Technical indicators added. Updated data shape: (3473, 4)
+2024-07-03 14:43:33,995 - INFO - Scaling the data
+2024-07-03 14:43:33,999 - INFO - Data scaled successfully
+2024-07-03 14:43:34,000 - INFO - Preparing dataset
+2024-07-03 14:43:34,006 - INFO - Dataset prepared. X shape: (3413, 60, 4), y shape: (3413,)
+2024-07-03 14:43:34,006 - INFO - Pre-training model on interpolation task
+2024-07-03 14:44:19,034 - INFO - Loading pre-trained weights for extrapolation task
+2024-07-03 14:44:19,554 - INFO - Fine-tuning model on extrapolation task

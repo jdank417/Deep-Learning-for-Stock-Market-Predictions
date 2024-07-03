@@ -173,6 +173,8 @@ def generate_future_predictions(ensemble_model, last_input, future_days, scaler,
     inverse_transformed = scaler.inverse_transform(future_predictions)
     return inverse_transformed[:, 0]
 
+
+
 def stock_market_analysis(symbol, start_date, end_date, time_steps=60, future_days=90):
     df = yf.download(symbol, start=start_date, end=end_date)
     df = add_advanced_features(df)
@@ -204,14 +206,32 @@ def stock_market_analysis(symbol, start_date, end_date, time_steps=60, future_da
     last_input = X_test[-1]
     future_predictions = generate_future_predictions(ensemble_predict, last_input, future_days, scaler, X.shape[2])
 
+    # Plotting the results
     plt.figure(figsize=(14, 7))
-    plt.plot(df.index[-len(y_test):], scaler.inverse_transform(scaled_data[-len(y_test):])[:, 0], color='blue', label='Actual Price')
-    plt.plot(pd.date_range(start=df.index[-1], periods=future_days, freq='B'), future_predictions, color='red', label='Future Predictions')
-    plt.xlabel('Date')
-    plt.ylabel('Price')
-    plt.title(f'{symbol} Stock Price Prediction')
+    plt.plot(df.index[-len(y_test):], scaler.inverse_transform(scaled_data[-len(y_test):])[:, 0], color='blue',
+             label='Actual Stock Price')
+    plt.plot(df.index[-len(y_test):], scaler.inverse_transform(lstm_cnn.predict(X_test))[:, 0], color='orange',
+             label='Predicted Stock Price')
+    plt.plot(pd.date_range(start=df.index[-1], periods=future_days, freq='B'), future_predictions, color='red',
+             linestyle='--', label='Future Predictions')
+
+    # Adding title and labels
+    plt.title(f'{symbol} Stock Price Prediction with CNN-LSTM')
+    plt.xlabel('Time')
+    plt.ylabel('Stock Price')
+
+    # Formatting x-axis
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    plt.gca().xaxis.set_major_locator(mdates.YearLocator())
+
+    # Adding legend
     plt.legend()
+
+    # Adding grid
+    plt.grid(True)
+
     plt.show()
+
 
 # Example usage
 if __name__ == '__main__':

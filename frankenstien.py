@@ -75,7 +75,7 @@ def create_conditional_vae(input_shape, latent_dim, condition_shape):
     inputs = Input(shape=input_shape, name='vae_input')
     condition = Input(shape=condition_shape, name='condition_input')
 
-    x = concatenate([Flatten()(inputs), condition])
+    x = concatenate([Flatten()(inputs), Flatten()(condition)])
     x = Dense(128, activation='relu')(x)
     x = Dense(64, activation='relu')(x)
 
@@ -89,7 +89,7 @@ def create_conditional_vae(input_shape, latent_dim, condition_shape):
 
     z = Lambda(sampling)([z_mean, z_log_var])
 
-    latent_inputs = concatenate([z, condition])
+    latent_inputs = concatenate([z, Flatten()(condition)])
     x = Dense(64, activation='relu')(latent_inputs)
     x = Dense(128, activation='relu')(x)
     outputs = Dense(np.prod(input_shape), activation='linear')(x)
@@ -121,7 +121,7 @@ def create_lstm_cnn_attention_encoder(lstm_units=100, conv_filters=64, conv_kern
 
 def create_ensemble_model(input_shape, latent_dim=8):
     lstm_cnn = create_lstm_cnn_attention_encoder(time_steps=input_shape[0], num_features=input_shape[1])
-    vae = create_conditional_vae(input_shape=input_shape, latent_dim=latent_dim, condition_shape=(input_shape[1],))
+    vae = create_conditional_vae(input_shape=input_shape, latent_dim=latent_dim, condition_shape=(input_shape[0] * input_shape[1],))
     rf = RandomForestRegressor(n_estimators=100, n_jobs=-1)
     xgb = XGBRegressor(n_estimators=100, n_jobs=-1)
 
@@ -131,7 +131,14 @@ def create_ensemble_model(input_shape, latent_dim=8):
             X = X.reshape(1, *X.shape)
 
         lstm_pred = lstm_cnn.predict(X)
-        vae_pred = vae.predict([X, lstm_pred])
+        lstm_pred_flatten = lstm_pred.flatten().reshape(1, -1)
+
+        # Ensure lstm_pred_flatten matches the expected condition shape
+        expected_condition_shape = input_shape[0] * input_shape[1]
+        if lstm_pred_flatten.shape[1] != expected_condition_shape:
+            lstm_pred_flatten = np.resize(lstm_pred_flatten, (1, expected_condition_shape))
+
+        vae_pred = vae.predict([X, lstm_pred_flatten])
         X_reshaped = X.reshape(X.shape[0], -1)
         rf_pred = rf.predict(X_reshaped)
         xgb_pred = xgb.predict(X_reshaped)
@@ -173,66 +180,68 @@ def generate_future_predictions(ensemble_model, last_input, future_days, scaler,
     inverse_transformed = scaler.inverse_transform(future_predictions)
     return inverse_transformed[:, 0]
 
-
-
 def stock_market_analysis(symbol, start_date, end_date, time_steps=60, future_days=90):
     df = yf.download(symbol, start=start_date, end=end_date)
     df = add_advanced_features(df)
 
-    feature_columns = ['Close', 'RSI', 'MACD', 'ATR', 'MA20', 'MA50', 'BB_high', 'BB_low', 'Stoch_k', 'Stoch_d', 'OBV']
+    feature_columns = ['Close', 'Volume', 'RSI', 'MACD', 'ATR', 'MA20', 'MA50', 'BB_high', 'BB_low', 'Stoch_k', 'Stoch_d', 'OBV']
+    data = df[feature_columns].values
     scaler = RobustScaler()
-    scaled_data = scaler.fit_transform(df[feature_columns])
+    data_scaled = scaler.fit_transform(data)
 
-    X, y = create_dataset(scaled_data, time_steps)
-    split_ratio = 0.8
-    split_index = int(split_ratio * len(X))
+    X, y = create_dataset(data_scaled, time_steps)
+    y_close_prices = df['Close'].values[time_steps:]  # Original close prices
 
-    X_train, X_test = X[:split_index], X[split_index:]
-    y_train, y_test = y[:split_index], y[split_index:]
+    ensemble_model, (lstm_cnn, vae, rf, xgb) = create_ensemble_model(input_shape=(time_steps, data.shape[1]))
 
-    ensemble_predict, models = create_ensemble_model(input_shape=(time_steps, X.shape[2]))
+    lstm_cnn.fit(X, y, epochs=50, batch_size=32, validation_split=0.2, callbacks=[EarlyStopping(patience=5)], verbose=1)
 
-    lstm_cnn, vae, rf, xgb = models
-    lstm_cnn.fit(X_train, y_train, epochs=50, batch_size=64, validation_split=0.2, verbose=1,
-                 callbacks=[EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
+    vae_conditions = X.reshape(X.shape[0], -1)  # Flatten conditions to match expected input shape
+    vae.fit([X, vae_conditions], y, epochs=50, batch_size=32, validation_split=0.2, callbacks=[EarlyStopping(patience=5)], verbose=1)
 
-    features = lstm_cnn.predict(X_train)
-    vae.fit([X_train, features], epochs=50, batch_size=64, validation_split=0.2, verbose=1,
-            callbacks=[EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
+    X_reshaped = X.reshape(X.shape[0], -1)
+    rf.fit(X_reshaped, y)
+    xgb.fit(X_reshaped, y)
 
-    rf.fit(X_train.reshape(X_train.shape[0], -1), y_train)
-    xgb.fit(X_train.reshape(X_train.shape[0], -1), y_train)
+    predicted_stock_prices = []
+    for i in range(X.shape[0]):
+        predicted = ensemble_model(X[i])
+        predicted_stock_prices.append(predicted[0])
+    predicted_stock_prices = np.array(predicted_stock_prices)
 
-    last_input = X_test[-1]
-    future_predictions = generate_future_predictions(ensemble_predict, last_input, future_days, scaler, X.shape[2])
+    predicted_stock_prices = predicted_stock_prices.reshape(-1, 1)  # Reshape to 2D array
+    zeros_array = np.zeros((predicted_stock_prices.shape[0], data.shape[1] - 1))  # Create zeros array
+    predicted_stock_prices = np.hstack((predicted_stock_prices, zeros_array))  # Concatenate
 
-    # Plotting the results
-    plt.figure(figsize=(14, 7))
-    plt.plot(df.index[-len(y_test):], scaler.inverse_transform(scaled_data[-len(y_test):])[:, 0], color='blue',
-             label='Actual Stock Price')
-    plt.plot(df.index[-len(y_test):], scaler.inverse_transform(lstm_cnn.predict(X_test))[:, 0], color='orange',
-             label='Predicted Stock Price')
-    plt.plot(pd.date_range(start=df.index[-1], periods=future_days, freq='B'), future_predictions, color='red',
-             linestyle='--', label='Future Predictions')
+    predicted_stock_prices = scaler.inverse_transform(predicted_stock_prices)  # Inverse transform
+    predicted_stock_prices = predicted_stock_prices[:, 0]  # Extracting only the predicted close prices
 
-    # Adding title and labels
-    plt.title(f'{symbol} Stock Price Prediction with CNN-LSTM')
-    plt.xlabel('Time')
-    plt.ylabel('Stock Price')
+    last_input = X[-1]
+    future_predicted_prices = generate_future_predictions(ensemble_model, last_input, future_days, scaler, data.shape[1])
 
-    # Formatting x-axis
-    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-    plt.gca().xaxis.set_major_locator(mdates.YearLocator())
+    # Remove the 'closed' parameter and calculate future dates
+    future_dates = pd.date_range(start=df.index[-1], periods=future_days + 1)[1:]  # Exclude the start date itself
+    actual_future_prices = pd.Series(future_predicted_prices, index=future_dates)
 
-    # Adding legend
-    plt.legend()
-
-    # Adding grid
-    plt.grid(True)
-
+    fig, ax = plt.subplots(figsize=(14, 7))
+    ax.plot(df.index, df['Close'], color='blue', label='Actual Stock Price')
+    ax.plot(df.index[time_steps:], predicted_stock_prices, color='orange', label='Predicted Stock Price')
+    ax.plot(actual_future_prices.index, actual_future_prices.values, 'r--', label='Future Predictions')
+    ax.set_xlabel('Time')
+    ax.set_ylabel('Stock Price')
+    ax.set_title(f'{symbol} Stock Price Prediction with CNN-LSTM')
+    ax.legend()
     plt.show()
 
+    return df, predicted_stock_prices, actual_future_prices
 
-# Example usage
-if __name__ == '__main__':
-    stock_market_analysis('NVDA', '2020-01-01', '2024-01-01', time_steps=60, future_days=90)
+
+
+# Running the function with provided dates
+symbol = 'NVDA'
+start_date = '2010-01-01'
+end_date = '2023-06-01'
+time_steps = 60
+future_days = 90
+
+stock_market_analysis(symbol, start_date, end_date, time_steps, future_days)

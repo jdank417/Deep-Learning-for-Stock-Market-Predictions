@@ -1,4 +1,5 @@
 import os
+import pickle
 import logging
 import yfinance as yf
 import numpy as np
@@ -16,6 +17,8 @@ from xgboost import XGBRegressor
 from ta.volatility import BollingerBands
 from ta.momentum import StochasticOscillator
 from ta.volume import OnBalanceVolumeIndicator
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+
 
 # Setup logging
 log_dir = 'logs'
@@ -44,6 +47,42 @@ def calculate_atr(high, low, close, window=14):
     tr3 = (low - close.shift()).abs()
     tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
     return tr.rolling(window=window).mean()
+
+def evaluate_model(y_true, y_pred):
+    mse_value = mean_squared_error(y_true, y_pred)
+    mae_value = mean_absolute_error(y_true, y_pred)
+    return mse_value, mae_value
+
+def save_model_weights(model, model_name):
+    model.save_weights(f"{model_name}_weights.h5")
+
+def save_scaler(scaler, scaler_name):
+    with open(f"{scaler_name}.pkl", "wb") as f:
+        pickle.dump(scaler, f)
+
+
+def load_model_weights(model, model_name):
+    try:
+        model.load_weights(f"{model_name}_weights.h5")
+        print(f"{model_name} weights loaded successfully.")
+    except Exception as e:
+        print(f"Error loading {model_name} weights: {e}")
+
+def load_scaler(scaler_name):
+    try:
+        with open(f"{scaler_name}.pkl", "rb") as f:
+            scaler = pickle.load(f)
+        print(f"{scaler_name} loaded successfully.")
+        return scaler
+    except Exception as e:
+        print(f"Error loading {scaler_name}: {e}")
+        return None
+
+
+def log_metrics(symbol, mse_value, mae_value):
+    logger.info(f"Evaluation Metrics for {symbol}:")
+    logger.info(f"Mean Squared Error: {mse_value}")
+    logger.info(f"Mean Absolute Error: {mae_value}")
 
 def interpolate_data(data):
     return data.interpolate(method='linear', axis=0).ffill().bfill()
@@ -181,61 +220,85 @@ def generate_future_predictions(ensemble_model, last_input, future_days, scaler,
     return inverse_transformed[:, 0]
 
 def stock_market_analysis(symbol, start_date, end_date, time_steps=60, future_days=90):
-    df = yf.download(symbol, start=start_date, end=end_date)
-    df = add_advanced_features(df)
+    try:
+        df = yf.download(symbol, start=start_date, end=end_date)
+        df = add_advanced_features(df)
 
-    feature_columns = ['Close', 'Volume', 'RSI', 'MACD', 'ATR', 'MA20', 'MA50', 'BB_high', 'BB_low', 'Stoch_k', 'Stoch_d', 'OBV']
-    data = df[feature_columns].values
-    scaler = RobustScaler()
-    data_scaled = scaler.fit_transform(data)
+        feature_columns = ['Close', 'Volume', 'RSI', 'MACD', 'ATR', 'MA20', 'MA50', 'BB_high', 'BB_low', 'Stoch_k', 'Stoch_d', 'OBV']
+        data = df[feature_columns].values
+        scaler = RobustScaler()
+        data_scaled = scaler.fit_transform(data)
 
-    X, y = create_dataset(data_scaled, time_steps)
-    y_close_prices = df['Close'].values[time_steps:]  # Original close prices
+        X, y = create_dataset(data_scaled, time_steps)
+        y_close_prices = df['Close'].values[time_steps:]  # Original close prices
 
-    ensemble_model, (lstm_cnn, vae, rf, xgb) = create_ensemble_model(input_shape=(time_steps, data.shape[1]))
+        ensemble_model, (lstm_cnn, vae, rf, xgb) = create_ensemble_model(input_shape=(time_steps, data.shape[1]))
 
-    lstm_cnn.fit(X, y, epochs=50, batch_size=32, validation_split=0.2, callbacks=[EarlyStopping(patience=5)], verbose=1)
+        # Load pre-trained weights if available
+        load_model_weights(lstm_cnn, 'lstm_cnn')
+        load_model_weights(vae, 'vae')
 
-    vae_conditions = X.reshape(X.shape[0], -1)  # Flatten conditions to match expected input shape
-    vae.fit([X, vae_conditions], y, epochs=50, batch_size=32, validation_split=0.2, callbacks=[EarlyStopping(patience=5)], verbose=1)
+        # Check if scaler exists
+        loaded_scaler = load_scaler('robust_scaler')
+        if loaded_scaler:
+            scaler = loaded_scaler
+            data_scaled = scaler.transform(data)
+            X, y = create_dataset(data_scaled, time_steps)
 
-    X_reshaped = X.reshape(X.shape[0], -1)
-    rf.fit(X_reshaped, y)
-    xgb.fit(X_reshaped, y)
+        # Train models if weights are not loaded
+        if not os.path.exists('lstm_cnn_weights.h5'):
+            lstm_cnn.fit(X, y, epochs=50, batch_size=32, validation_split=0.2, callbacks=[EarlyStopping(patience=5)], verbose=1)
+            save_model_weights(lstm_cnn, 'lstm_cnn')
 
-    predicted_stock_prices = []
-    for i in range(X.shape[0]):
-        predicted = ensemble_model(X[i])
-        predicted_stock_prices.append(predicted[0])
-    predicted_stock_prices = np.array(predicted_stock_prices)
+        if not os.path.exists('vae_weights.h5'):
+            vae_conditions = X.reshape(X.shape[0], -1)  # Flatten conditions to match expected input shape
+            vae.fit([X, vae_conditions], y, epochs=50, batch_size=32, validation_split=0.2, callbacks=[EarlyStopping(patience=5)], verbose=1)
+            save_model_weights(vae, 'vae')
 
-    predicted_stock_prices = predicted_stock_prices.reshape(-1, 1)  # Reshape to 2D array
-    zeros_array = np.zeros((predicted_stock_prices.shape[0], data.shape[1] - 1))  # Create zeros array
-    predicted_stock_prices = np.hstack((predicted_stock_prices, zeros_array))  # Concatenate
+        # Train and save scalers
+        if not loaded_scaler:
+            save_scaler(scaler, 'robust_scaler')
 
-    predicted_stock_prices = scaler.inverse_transform(predicted_stock_prices)  # Inverse transform
-    predicted_stock_prices = predicted_stock_prices[:, 0]  # Extracting only the predicted close prices
+        X_reshaped = X.reshape(X.shape[0], -1)
+        rf.fit(X_reshaped, y)
+        xgb.fit(X_reshaped, y)
 
-    last_input = X[-1]
-    future_predicted_prices = generate_future_predictions(ensemble_model, last_input, future_days, scaler, data.shape[1])
+        predicted_stock_prices = []
+        for i in range(X.shape[0]):
+            predicted = ensemble_model(X[i])
+            predicted_stock_prices.append(predicted[0])
+        predicted_stock_prices = np.array(predicted_stock_prices)
 
-    # Remove the 'closed' parameter and calculate future dates
-    future_dates = pd.date_range(start=df.index[-1], periods=future_days + 1)[1:]  # Exclude the start date itself
-    actual_future_prices = pd.Series(future_predicted_prices, index=future_dates)
+        predicted_stock_prices = predicted_stock_prices.reshape(-1, 1)  # Reshape to 2D array
+        zeros_array = np.zeros((predicted_stock_prices.shape[0], data.shape[1] - 1))  # Create zeros array
+        predicted_stock_prices = np.hstack((predicted_stock_prices, zeros_array))  # Concatenate
 
-    fig, ax = plt.subplots(figsize=(14, 7))
-    ax.plot(df.index, df['Close'], color='blue', label='Actual Stock Price')
-    ax.plot(df.index[time_steps:], predicted_stock_prices, color='orange', label='Predicted Stock Price')
-    ax.plot(actual_future_prices.index, actual_future_prices.values, 'r--', label='Future Predictions')
-    ax.set_xlabel('Time')
-    ax.set_ylabel('Stock Price')
-    ax.set_title(f'{symbol} Stock Price Prediction with CNN-LSTM')
-    ax.legend()
-    plt.show()
+        predicted_stock_prices = scaler.inverse_transform(predicted_stock_prices)  # Inverse transform
+        predicted_stock_prices = predicted_stock_prices[:, 0]  # Extracting only the predicted close prices
 
-    return df, predicted_stock_prices, actual_future_prices
+        last_input = X[-1]
+        future_predicted_prices = generate_future_predictions(ensemble_model, last_input, future_days, scaler, data.shape[1])
 
+        future_dates = pd.date_range(start=df.index[-1], periods=future_days + 1)[1:]  # Exclude the start date itself
+        actual_future_prices = pd.Series(future_predicted_prices, index=future_dates)
 
+        mse_value, mae_value = evaluate_model(y_close_prices, predicted_stock_prices)
+        log_metrics(symbol, mse_value, mae_value)
+
+        fig, ax = plt.subplots(figsize=(14, 7))
+        ax.plot(df.index, df['Close'], color='blue', label='Actual Stock Price')
+        ax.plot(df.index[time_steps:], predicted_stock_prices, color='orange', label='Predicted Stock Price')
+        ax.plot(actual_future_prices.index, actual_future_prices.values, 'r--', label='Future Predictions')
+        ax.set_xlabel('Time')
+        ax.set_ylabel('Stock Price')
+        ax.set_title(f'{symbol} Stock Price Prediction with CNN-LSTM')
+        ax.legend()
+        plt.show()
+
+        return df, predicted_stock_prices, actual_future_prices
+    except Exception as e:
+        logger.error(f"Error in stock market analysis for {symbol}: {e}")
+        raise
 
 # Running the function with provided dates
 symbol = 'NVDA'
@@ -245,3 +308,5 @@ time_steps = 60
 future_days = 90
 
 stock_market_analysis(symbol, start_date, end_date, time_steps, future_days)
+
+

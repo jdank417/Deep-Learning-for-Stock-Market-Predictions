@@ -6908,3 +6908,9 @@
 2024-07-03 14:43:34,006 - INFO - Pre-training model on interpolation task
 2024-07-03 14:44:19,034 - INFO - Loading pre-trained weights for extrapolation task
 2024-07-03 14:44:19,554 - INFO - Fine-tuning model on extrapolation task
+2024-07-08 10:21:29,584 - INFO - Evaluation Metrics for NVDA:
+2024-07-08 10:21:29,585 - INFO - Mean Squared Error: 4.2094242962773105
+2024-07-08 10:21:29,585 - INFO - Mean Absolute Error: 0.9178552619994839
+2024-07-08 10:52:22,401 - INFO - Evaluation Metrics for NVDA:
+2024-07-08 10:52:22,401 - INFO - Mean Squared Error: 4.355721839192641
+2024-07-08 10:52:22,401 - INFO - Mean Absolute Error: 0.9026743751960512

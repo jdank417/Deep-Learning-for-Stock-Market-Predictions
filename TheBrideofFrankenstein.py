@@ -190,11 +190,18 @@ def create_ensemble_model(input_shape, latent_dim=8):
 
     return ensemble_predict, lstm_cnn, vae, rf, xgb
 
-def plot_predictions(data, symbol, window):
+
+def plot_predictions(data, symbol, window, scaler):
     data['Predicted'] = np.nan
     data['Predicted'][-len(window):] = window
+
+    # Select only the columns used for scaling
+    scaled_columns = ['Open', 'High', 'Low', 'Close', 'Volume', 'RSI', 'MACD', 'ATR', 'MA20', 'MA50', 'BB_high',
+                      'BB_low', 'Stoch_k', 'Stoch_d', 'OBV']
+    data_scaled = scaler.inverse_transform(data[scaled_columns])
+
     plt.figure(figsize=(14, 7))
-    plt.plot(data.index, data['Close'], label='Actual Close Prices', color='b')
+    plt.plot(data.index, data_scaled[:, scaled_columns.index('Close')], label='Actual Close Prices', color='b')
     plt.plot(data.index, data['Predicted'], label='Predicted Close Prices', color='r')
     plt.title(f"{symbol} Stock Price Prediction")
     plt.xlabel('Date')
@@ -202,12 +209,16 @@ def plot_predictions(data, symbol, window):
     plt.legend()
     plt.show()
 
+
 def train_and_predict(symbol, start_date, end_date, prediction_days):
     data = yf.download(symbol, start=start_date, end=end_date)
     data = add_advanced_features(data)
 
+    # Select only the columns to be scaled
+    scaled_columns = ['Open', 'High', 'Low', 'Close', 'Volume', 'RSI', 'MACD', 'ATR', 'MA20', 'MA50', 'BB_high',
+                      'BB_low', 'Stoch_k', 'Stoch_d', 'OBV']
     scaler = RobustScaler()
-    scaled_data = scaler.fit_transform(data)
+    scaled_data = scaler.fit_transform(data[scaled_columns])
     save_scaler(scaler, "data_scaler")
 
     time_steps = 60
@@ -215,8 +226,8 @@ def train_and_predict(symbol, start_date, end_date, prediction_days):
     y = []
 
     for i in range(time_steps, len(scaled_data)):
-        X.append(scaled_data[i-time_steps:i])
-        y.append(scaled_data[i, 3])
+        X.append(scaled_data[i - time_steps:i])
+        y.append(scaled_data[i, scaled_columns.index('Close')])
 
     X, y = np.array(X), np.array(y)
     input_shape = X.shape[1:]
@@ -236,19 +247,21 @@ def train_and_predict(symbol, start_date, end_date, prediction_days):
     for i in range(prediction_days):
         X_last = last_sequence.reshape(1, *X.shape[1:])
         pred = ensemble_predict(X_last)
-        predictions.append(pred[0, 3])  # Store only the close price prediction
+        predictions.append(pred[0, scaled_columns.index('Close')])  # Store only the close price prediction
 
         # Reshape pred to match the dimensions of last_sequence[1:]
         pred_reshaped = pred.reshape(-1, X.shape[2])
         new_data = np.concatenate((last_sequence[1:], pred_reshaped), axis=0)
         last_sequence = new_data[-time_steps:]  # Keep only the last time_steps rows
 
+    # Inverse transform the data and predictions
     scaled_data = scaler.inverse_transform(scaled_data)
-    data['Close'] = scaled_data[:, 3]
+    data[scaled_columns] = scaled_data
 
     # Inverse transform the predictions
     predictions = np.array(predictions).reshape(-1, 1)
-    predictions = scaler.inverse_transform(np.hstack([np.zeros((len(predictions), scaled_data.shape[1]-1)), predictions]))[:, -1]
+    predictions = scaler.inverse_transform(
+        np.hstack([np.zeros((len(predictions), len(scaled_columns) - 1)), predictions]))[:, -1]
 
     prediction_series = np.zeros(len(data) + prediction_days)
     prediction_series[:len(data)] = data['Close'].values
@@ -259,7 +272,8 @@ def train_and_predict(symbol, start_date, end_date, prediction_days):
     mse_value, mae_value = evaluate_model(data['Close'].values[-prediction_days:], prediction_series[-prediction_days:])
     log_metrics(symbol, mse_value, mae_value)
 
-    plot_predictions(data, symbol, prediction_series[-prediction_days:])
+    plot_predictions(data, symbol, prediction_series[-prediction_days:], scaler)
+
 
 # Example usage
 train_and_predict('AAPL', '2015-01-01', '2022-12-31', prediction_days=30)
